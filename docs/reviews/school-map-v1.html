@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ko">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>학교 안내 이미지 v1 · 위치 대응 검토</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f3f5f1;color:#23392f;font:16px/1.6 system-ui,sans-serif}header,main{max-width:1560px;margin:auto;padding:24px}h1{font-size:clamp(24px,3vw,36px);margin:0}p{margin:8px 0 16px}.notice{border-left:4px solid #bd632c;background:#fff3df;padding:12px 16px}.controls{display:flex;flex-wrap:wrap;gap:16px;margin:16px 0}.controls label{min-height:44px;display:flex;align-items:center;gap:8px;cursor:pointer}input{width:20px;height:20px}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}article{background:white;border:1px solid #d6ddd5;border-radius:16px;overflow:hidden}h2{font-size:18px;margin:16px}.caption{font-size:14px;padding:0 16px}.map{position:relative;width:100%;background:#fff}.map img{display:block;width:100%;height:auto}.pin{position:absolute;transform:translate(-50%,-50%);white-space:nowrap;background:#173d31;color:#fff;border:2px solid white;border-radius:7px;padding:3px 7px;font-size:clamp(10px,1vw,14px);font-weight:700;box-shadow:0 1px 5px #0004}.tentative{background:#8e4516}.route{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}.route path{fill:none;stroke:#a94a1c;stroke-width:1.1;stroke-dasharray:2 1.4;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 1px white)}body.no-labels .pin{display:none}body.no-draft .draft{display:none}table{border-collapse:collapse;width:100%;background:white;margin:22px 0}th,td{padding:12px;text-align:left;border-bottom:1px solid #d6ddd5}th{background:#e6ede5}a{color:#165e49}footer{font-size:14px;color:#506056}button{font:inherit;min-height:44px;padding:4px 16px;border:1px solid #abc0af;background:white;border-radius:8px;cursor:pointer}section{overflow-x:auto}svg{overflow:visible}@media(max-width:860px){.grid{grid-template-columns:1fr}.pin{font-size:14px}header,main{padding:16px}article{max-width:600px;margin:auto;width:100%}td,th{min-width:140px}}
+</style>
+<header>
+<h1>학교 안내 이미지 · v1 검토본</h1>
+<p>원본 일러스트와 제공된 실제 학교 항공 이미지에 같은 번호를 붙여 수정본과 대응합니다. 화면의 위·아래·좌·우를 기준으로 비교하며 실측 축척이나 방위를 뜻하지 않습니다.</p>
+<div class="notice"><strong>주차 진입 동선과 본관 중앙 출입구는 가안입니다.</strong> 갈색 점선은 원본 빨간 선을 일러스트의 상대 위치로 옮긴 검토용 표시입니다. 현장 통행 폭·회전 가능 여부·정확한 입차 지점·출입구 운영을 확인해야 합니다.</div>
+<div class="controls">
+<label><input type="checkbox" id="labels" checked>건물·시설 이름 덧씌우기</label>
+<label><input type="checkbox" id="draft" checked>가안 동선·출입구 덧씌우기</label>
+<button id="plain">이미지만 보기</button>
+</div>
+<p>모든 번호·이름·점선은 웹 요소입니다. 이미지 파일에는 이름·버튼·동선이 없습니다.</p>
+</header>
+<main>
+<div class="grid">
+<article><h2>01 · 원본 일러스트</h2><p class="caption">전경 구성·화풍 기준. 주차장은 원래 생략돼 있습니다.</p><div class="map" id="original"><img src="../../materials/original/maps/school-map-4.webp" width="1024" height="1536" alt="수정 전 원본 학교 일러스트"></div></article>
+<article><h2>02 · 실제 학교 위치 참고</h2><p class="caption">제공된 주차안내 원본. 빨간 실선·파란 경계선은 원본에 포함된 표시입니다.</p><div class="map" id="actual"><img src="../../materials/original/maps/주차안내.png" width="938" height="1110" alt="학교 항공 이미지 위 빨간 주차 경로와 태양광 주차장 위치"></div></article>
+<article><h2>03 · 수정 일러스트</h2><p class="caption">운동장·강당 축소, 숲·텃밭·놀이터 생략, 정구장 왼쪽 주차장 추가.</p><div class="map" id="edited"><img src="../../public/assets/maps/school-guide-v1-1024.webp" srcset="../../public/assets/maps/school-guide-v1-768.webp 768w, ../../public/assets/maps/school-guide-v1-1024.webp 1024w" sizes="(max-width:860px) 100vw, 32vw" width="1024" height="1536" alt="왼쪽 신관, 가운데 본관, 위쪽 후관과 정구장 왼쪽 태양광 주차장이 있는 수정 학교 일러스트"></div></article>
+</div>
+<section aria-label="위치 대응표"><table>
+<thead><tr><th>대상</th><th>제공된 실제 이미지</th><th>수정본 대응</th></tr></thead>
+<tbody>
+<tr><td>1 신관</td><td>운동장 왼쪽 세로 동</td><td>왼쪽 세로 건물 유지</td></tr>
+<tr><td>2 본관</td><td>운동장 위 가운데 가로 동</td><td>가운데 긴 가로 건물 유지</td></tr>
+<tr><td>3 후관</td><td>본관 뒤 위쪽 가로 동</td><td>위쪽 가로 건물·연결 통로 유지</td></tr>
+<tr><td>4 태양광 주차장</td><td>아래쪽 흰 덮개 정구장 왼쪽, 빨간 원으로 표시한 세로 구역</td><td>정구장 왼쪽의 세로 태양광 지붕·아래 차량 추가</td></tr>
+<tr><td>5 정구장</td><td>아래 왼쪽 흰 덮개 시설</td><td>원본 표현에 맞춰 붉은 개방형 코트 유지. 실제 지붕 형태는 재현하지 않음</td></tr>
+<tr><td>6 강당</td><td>아래 오른쪽 붉은 지붕</td><td>오른쪽 아래 위치 유지, 면적 축소</td></tr>
+</tbody></table></section>
+<p>가안 동선: 아래 정문 → 정구장 오른쪽 통로 → 정구장 위쪽 → 왼쪽 태양광 아래 주차장. 주차장에서 본관까지의 보행 경로는 아직 표시하지 않았습니다.</p>
+<p><strong>남은 확인:</strong> 태양광 아래 실제 사용 가능 구획·행사 주차 허용 범위, 진입·회차·출차 방식, 본관 중앙 출입구 개방 여부와 접근성, 정구장 덮개를 그림에 표시할 필요, 축소·생략 후 건물 식별성.</p>
+<footer>검토 전용 로컬 문서 · 2026-10-19 · 배포하지 않음. 실제 학교의 모든 시설·차량 수·층수·면적을 정확히 재현한 도면이 아닙니다.<br>
+<a href="../../materials/derived/maps/school-guide-v1.png">편집 PNG</a> · <a href="../../public/assets/maps/school-guide-v1-768.webp">모바일 WebP</a> · <a href="../../public/assets/maps/school-guide-v1-1024.webp">큰 WebP</a> · <a href="../../src/data/school-map.json">웹 오버레이 좌표</a>
+</footer>
+</main>
+<script>
+const labels=['1 신관','2 본관','3 후관','4 태양광 주차장','5 정구장','6 강당'];
+const coords={original:[[15,46],[49,28],[55,12],null,[28,88],[80,81]],actual:[[28,44],[57,28],[63,14],[17,81],[31,89],[57,88]],edited:[[15,52],[50,33],[57,17],[11,78],[35,85],[82,78]]};
+function pin(map,text,point,draft=false){const el=document.createElement('span');el.className='pin'+(draft?' tentative draft':'');el.textContent=text;el.style.left=point[0]+'%';el.style.top=point[1]+'%';if(text.startsWith('4 '))el.style.transform='translate(-20%,-50%)';map.append(el)}
+for(const [id,points] of Object.entries(coords)){const map=document.getElementById(id);points.forEach((point,i)=>{if(point)pin(map,labels[i],point)});}
+const edited=document.getElementById('edited');
+pin(edited,'중앙 출입구 · 가안',[50,42],true);
+const ns='http://www.w3.org/2000/svg';const svg=document.createElementNS(ns,'svg');svg.classList.add('route','draft');svg.setAttribute('viewBox','0 0 100 100');svg.setAttribute('preserveAspectRatio','none');svg.setAttribute('aria-label','주차 진입 동선 가안');const path=document.createElementNS(ns,'path');path.setAttribute('d','M57 94 L57 69 L21 69 L20 73 L16 75');svg.append(path);edited.append(svg);
+pin(edited,'주차 진입 · 가안',[57,91],true);
+const labelControl=document.getElementById('labels'),draftControl=document.getElementById('draft');
+function update(){document.body.classList.toggle('no-labels',!labelControl.checked);document.body.classList.toggle('no-draft',!draftControl.checked)}
+labelControl.addEventListener('change',update);draftControl.addEventListener('change',update);
+document.getElementById('plain').addEventListener('click',()=>{labelControl.checked=false;draftControl.checked=false;update()});
+</script>
+</html>

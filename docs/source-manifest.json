@@ -1,0 +1,86 @@
+[
+    {
+        "originalPath":  "사용자 최초 기획안.md",
+        "currentPath":  "docs/requirements/사용자 최초 기획안.md",
+        "sha256":  "05A555E8DBA6528905680AFFA48EBE8F9959230840F7F2149ED79808028523DB",
+        "bytes":  2642,
+        "originalRetained":  false
+    },
+    {
+        "originalPath":  "school-map-4.png",
+        "currentPath":  "materials/original/maps/school-map-4.png",
+        "sha256":  "E252E8E8F9371C022C5B2D65B631431E40CD13BF0D8CB497E0FBC5FFDE395008",
+        "bytes":  3004267,
+        "originalRetained":  false
+    },
+    {
+        "originalPath":  "school-map-4.webp",
+        "currentPath":  "materials/original/maps/school-map-4.webp",
+        "sha256":  "30708443CA370DE146654DE4217B95768B1B4471E7504B12B7175B8A744B91B9",
+        "bytes":  390158,
+        "originalRetained":  false
+    },
+    {
+        "originalPath":  "주차안내.png",
+        "currentPath":  "materials/original/maps/주차안내.png",
+        "sha256":  "67632FD589737073A3965822F06806306AD51DAA0D66EA692A8C11308F70443A",
+        "bytes":  1720192,
+        "originalRetained":  false
+    },
+    {
+        "originalPath":  "안성초 도면.pdf",
+        "currentPath":  "materials/original/floor-plans/안성초 도면.pdf",
+        "sha256":  "CE5729FFA56EE6D19E179ECB709CADD5FC8A719224B00723D89E2AC65E22CF4C",
+        "bytes":  56928,
+        "originalRetained":  false
+    },
+    {
+        "originalPath":  "안성초 도면.hwp",
+        "currentPath":  "materials/original/floor-plans/안성초 도면.hwp",
+        "sha256":  "2AE086F0E05AA4A98A9FB06318D5F04DDFE009ABC2556C6827958C72E375E148",
+        "bytes":  79872,
+        "originalRetained":  false
+    },
+    {
+        "originalPath":  "2026 공개보고회 준비 수업정보(261015-2113).xlsx",
+        "currentPath":  "materials/original/curriculum/2026 공개보고회 준비 수업정보(261015-2113).xlsx",
+        "sha256":  "80AF76DA7A5919E0C63694EA43E617551D67D52B0CF3465B151F7E1E70DA2ACD",
+        "bytes":  24361,
+        "originalRetained":  false
+    },
+    {
+        "originalPath":  "2026학년도 안성초등학교 교육과정 워크숍 자료(수정).pdf",
+        "currentPath":  "materials/original/references/2026학년도 안성초등학교 교육과정 워크숍 자료(수정).pdf",
+        "sha256":  "5DCD75C2F05F0F1906923C9516C15B53FFE299E1C2F8BC730D431B90FB96D975",
+        "bytes":  73304,
+        "originalRetained":  false
+    },
+    {
+        "originalPath":  "지도안 pdf/2026 연구학교 공개보고회 수업안(3학년).pdf",
+        "currentPath":  "materials/original/lesson-plans/2026 연구학교 공개보고회 수업안(3학년).pdf",
+        "sha256":  "7F7C40A46A0FC06E196B26A1F36CE8C352BAEAF185EE8170C2D4022C12745FC4",
+        "bytes":  226888,
+        "originalRetained":  false
+    },
+    {
+        "originalPath":  "지도안 pdf/2026 연구학교 공개보고회 수업안(4학년).pdf",
+        "currentPath":  "materials/original/lesson-plans/2026 연구학교 공개보고회 수업안(4학년).pdf",
+        "sha256":  "A5DE2E33CC74D9A8C3ED944B281F0B18401AC908A8FDF92A56F9BDEFA6842D8D",
+        "bytes":  217732,
+        "originalRetained":  false
+    },
+    {
+        "originalPath":  "지도안 pdf/2026 연구학교 공개보고회 수업안(5학년).pdf",
+        "currentPath":  "materials/original/lesson-plans/2026 연구학교 공개보고회 수업안(5학년).pdf",
+        "sha256":  "B64EDA3972313A6867A19CEDE5624B508A6B8454864A9D83DEF6032E038758A7",
+        "bytes":  216383,
+        "originalRetained":  false
+    },
+    {
+        "originalPath":  "지도안 pdf/2026 연구학교 공개보고회 수업안(유치원).pdf",
+        "currentPath":  "materials/original/lesson-plans/2026 연구학교 공개보고회 수업안(유치원).pdf",
+        "sha256":  "A7E15E1EE7A5FA274214083CA090367F04CB46CCF8F262C2ECE475B684FD645B",
+        "bytes":  183478,
+        "originalRetained":  false
+    }
+]

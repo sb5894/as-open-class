@@ -1,0 +1,1740 @@
+{
+  "schemaVersion": 1,
+  "sources": {
+    "workbook": {
+      "path": "materials/original/curriculum/2026 공개보고회 준비 수업정보(261015-2113).xlsx",
+      "sha256": "80af76da7a5919e0c63694ea43e617551d67d52b0cf3465b151f7e1e70da2acd"
+    },
+    "floorPlan": {
+      "path": "materials/original/floor-plans/안성초 도면.pdf",
+      "sha256": "ce5729ffa56ee6d19e179ecb709cadd5fc8a719224b00723d89e2ac65e22cf4c"
+    },
+    "decisions": "docs/결정 기록.md"
+  },
+  "event": {
+    "name": null,
+    "date": "2026-11-11",
+    "time": null,
+    "address": null
+  },
+  "buildings": [
+    {
+      "id": "main",
+      "name": "본관",
+      "planLabel": "본관",
+      "campusPosition": "center",
+      "floors": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "id": "rear",
+      "name": "후관",
+      "planLabel": "교사 2동",
+      "campusPosition": "top",
+      "floors": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": "new",
+      "name": "신관",
+      "planLabel": "교사 3동",
+      "campusPosition": "left",
+      "floors": [
+        1,
+        2,
+        3
+      ]
+    }
+  ],
+  "spaces": [
+    {
+      "id": "classroom-6-1",
+      "name": "6-1 교실",
+      "buildingId": "main",
+      "floor": 4,
+      "kind": "classroom",
+      "planPosition": {
+        "band": "south",
+        "orderFromLeft": 1
+      },
+      "planLabel": "6-1",
+      "subdivision": null
+    },
+    {
+      "id": "classroom-6-2",
+      "name": "6-2 교실",
+      "buildingId": "main",
+      "floor": 4,
+      "kind": "classroom",
+      "planPosition": {
+        "band": "south",
+        "orderFromLeft": 2
+      },
+      "planLabel": "6-2",
+      "subdivision": null
+    },
+    {
+      "id": "classroom-6-3",
+      "name": "6-3 교실",
+      "buildingId": "main",
+      "floor": 4,
+      "kind": "classroom",
+      "planPosition": {
+        "band": "south",
+        "orderFromLeft": 3
+      },
+      "planLabel": "6-3",
+      "subdivision": null
+    },
+    {
+      "id": "classroom-6-4",
+      "name": "6-4 교실",
+      "buildingId": "main",
+      "floor": 4,
+      "kind": "classroom",
+      "planPosition": {
+        "band": "south",
+        "orderFromLeft": 4
+      },
+      "planLabel": "6-4",
+      "subdivision": null
+    },
+    {
+      "id": "classroom-6-5",
+      "name": "6-5 교실",
+      "buildingId": "main",
+      "floor": 4,
+      "kind": "classroom",
+      "planPosition": {
+        "band": "south",
+        "orderFromLeft": 5
+      },
+      "planLabel": "6-5",
+      "subdivision": null
+    },
+    {
+      "id": "classroom-5-1",
+      "name": "5-1 교실",
+      "buildingId": "main",
+      "floor": 3,
+      "kind": "classroom",
+      "planPosition": {
+        "band": "south",
+        "orderFromLeft": 1
+      },
+      "planLabel": "5-1",
+      "subdivision": null
+    },
+    {
+      "id": "classroom-5-2",
+      "name": "5-2 교실",
+      "buildingId": "main",
+      "floor": 3,
+      "kind": "classroom",
+      "planPosition": {
+        "band": "south",
+        "orderFromLeft": 2
+      },
+      "planLabel": "5-2",
+      "subdivision": null
+    },
+    {
+      "id": "classroom-5-3",
+      "name": "5-3 교실",
+      "buildingId": "main",
+      "floor": 3,
+      "kind": "classroom",
+      "planPosition": {
+        "band": "south",
+        "orderFromLeft": 3
+      },
+      "planLabel": "5-3",
+      "subdivision": null
+    },
+    {
+      "id": "classroom-5-4",
+      "name": "5-4 교실",
+      "buildingId": "main",
+      "floor": 3,
+      "kind": "classroom",
+      "planPosition": {
+        "band": "south",
+        "orderFromLeft": 4
+      },
+      "planLabel": "5-4",
+      "subdivision": null
+    },
+    {
+      "id": "classroom-5-5",
+      "name": "5-5 교실",
+      "buildingId": "main",
+      "floor": 3,
+      "kind": "classroom",
+      "planPosition": {
+        "band": "south",
+        "orderFromLeft": 5
+      },
+      "planLabel": "5-5",
+      "subdivision": null
+    },
+    {
+      "id": "classroom-4-1",
+      "name": "4-1 교실",
+      "buildingId": "rear",
+      "floor": 3,
+      "kind": "classroom",
+      "planPosition": {
+        "band": "south",
+        "orderFromLeft": 1
+      },
+      "planLabel": "4-1",
+      "subdivision": null
+    },
+    {
+      "id": "classroom-4-2",
+      "name": "4-2 교실",
+      "buildingId": "rear",
+      "floor": 3,
+      "kind": "classroom",
+      "planPosition": {
+        "band": "south",
+        "orderFromLeft": 2
+      },
+      "planLabel": "4-2",
+      "subdivision": null
+    },
+    {
+      "id": "classroom-4-3",
+      "name": "4-3 교실",
+      "buildingId": "rear",
+      "floor": 3,
+      "kind": "classroom",
+      "planPosition": {
+        "band": "south",
+        "orderFromLeft": 3
+      },
+      "planLabel": "4-3",
+      "subdivision": null
+    },
+    {
+      "id": "classroom-4-4",
+      "name": "4-4 교실",
+      "buildingId": "rear",
+      "floor": 3,
+      "kind": "classroom",
+      "planPosition": {
+        "band": "south",
+        "orderFromLeft": 4
+      },
+      "planLabel": "4-4",
+      "subdivision": null
+    },
+    {
+      "id": "classroom-4-5",
+      "name": "4-5 교실",
+      "buildingId": "rear",
+      "floor": 3,
+      "kind": "classroom",
+      "planPosition": {
+        "band": "south",
+        "orderFromLeft": 5
+      },
+      "planLabel": "4-5",
+      "subdivision": null
+    },
+    {
+      "id": "classroom-1-1",
+      "name": "1-1 교실",
+      "buildingId": "rear",
+      "floor": 2,
+      "kind": "classroom",
+      "planPosition": {
+        "band": "south",
+        "orderFromLeft": 1
+      },
+      "planLabel": "1-1",
+      "subdivision": null
+    },
+    {
+      "id": "classroom-1-2",
+      "name": "1-2 교실",
+      "buildingId": "rear",
+      "floor": 2,
+      "kind": "classroom",
+      "planPosition": {
+        "band": "south",
+        "orderFromLeft": 2
+      },
+      "planLabel": "1-2",
+      "subdivision": null
+    },
+    {
+      "id": "classroom-1-3",
+      "name": "1-3 교실",
+      "buildingId": "rear",
+      "floor": 2,
+      "kind": "classroom",
+      "planPosition": {
+        "band": "south",
+        "orderFromLeft": 3
+      },
+      "planLabel": "1-3",
+      "subdivision": null
+    },
+    {
+      "id": "classroom-3-4",
+      "name": "3-4 교실",
+      "buildingId": "new",
+      "floor": 3,
+      "kind": "classroom",
+      "planPosition": {
+        "band": "south",
+        "orderFromLeft": 1
+      },
+      "planLabel": "3-4",
+      "subdivision": null
+    },
+    {
+      "id": "classroom-3-3",
+      "name": "3-3 교실",
+      "buildingId": "new",
+      "floor": 3,
+      "kind": "classroom",
+      "planPosition": {
+        "band": "south",
+        "orderFromLeft": 2
+      },
+      "planLabel": "3-3",
+      "subdivision": null
+    },
+    {
+      "id": "classroom-3-2",
+      "name": "3-2 교실",
+      "buildingId": "new",
+      "floor": 3,
+      "kind": "classroom",
+      "planPosition": {
+        "band": "south",
+        "orderFromLeft": 3
+      },
+      "planLabel": "3-2",
+      "subdivision": null
+    },
+    {
+      "id": "classroom-3-1",
+      "name": "3-1 교실",
+      "buildingId": "new",
+      "floor": 3,
+      "kind": "classroom",
+      "planPosition": {
+        "band": "south",
+        "orderFromLeft": 4
+      },
+      "planLabel": "3-1",
+      "subdivision": null
+    },
+    {
+      "id": "classroom-2-4",
+      "name": "2-4 교실",
+      "buildingId": "new",
+      "floor": 2,
+      "kind": "classroom",
+      "planPosition": {
+        "band": "south",
+        "orderFromLeft": 1
+      },
+      "planLabel": "2-4",
+      "subdivision": null
+    },
+    {
+      "id": "classroom-2-3",
+      "name": "2-3 교실",
+      "buildingId": "new",
+      "floor": 2,
+      "kind": "classroom",
+      "planPosition": {
+        "band": "south",
+        "orderFromLeft": 2
+      },
+      "planLabel": "2-3",
+      "subdivision": null
+    },
+    {
+      "id": "classroom-2-2",
+      "name": "2-2 교실",
+      "buildingId": "new",
+      "floor": 2,
+      "kind": "classroom",
+      "planPosition": {
+        "band": "south",
+        "orderFromLeft": 3
+      },
+      "planLabel": "2-2",
+      "subdivision": null
+    },
+    {
+      "id": "classroom-2-1",
+      "name": "2-1 교실",
+      "buildingId": "new",
+      "floor": 2,
+      "kind": "classroom",
+      "planPosition": {
+        "band": "south",
+        "orderFromLeft": 4
+      },
+      "planLabel": "2-1",
+      "subdivision": null
+    },
+    {
+      "id": "english",
+      "name": "영어실",
+      "buildingId": "main",
+      "floor": 4,
+      "kind": "subject",
+      "planPosition": {
+        "band": "south",
+        "orderFromLeft": 6
+      },
+      "planLabel": "영어실",
+      "subdivision": null
+    },
+    {
+      "id": "science-1",
+      "name": "1과학실",
+      "buildingId": "main",
+      "floor": 2,
+      "kind": "subject",
+      "planPosition": {
+        "band": "south",
+        "orderFromLeft": 2
+      },
+      "planLabel": "1과학실",
+      "subdivision": null
+    },
+    {
+      "id": "science-2",
+      "name": "2과학실",
+      "buildingId": "main",
+      "floor": 2,
+      "kind": "subject",
+      "planPosition": {
+        "band": "south",
+        "orderFromLeft": 3
+      },
+      "planLabel": "2과학실",
+      "subdivision": null
+    },
+    {
+      "id": "korean-red",
+      "name": "빨강반",
+      "buildingId": "main",
+      "floor": 2,
+      "kind": "multicultural",
+      "planPosition": {
+        "band": "north",
+        "orderFromLeft": 1
+      },
+      "planLabel": "한국어교실",
+      "subdivision": {
+        "part": 1,
+        "total": 4
+      }
+    },
+    {
+      "id": "korean-instructor-1",
+      "name": "강사용 교실 1",
+      "buildingId": "main",
+      "floor": 2,
+      "kind": "staff",
+      "planPosition": {
+        "band": "north",
+        "orderFromLeft": 2
+      },
+      "planLabel": "한국어교실",
+      "subdivision": {
+        "part": 2,
+        "total": 4
+      }
+    },
+    {
+      "id": "korean-instructor-2",
+      "name": "강사용 교실 2",
+      "buildingId": "main",
+      "floor": 2,
+      "kind": "staff",
+      "planPosition": {
+        "band": "north",
+        "orderFromLeft": 3
+      },
+      "planLabel": "한국어교실",
+      "subdivision": {
+        "part": 3,
+        "total": 4
+      }
+    },
+    {
+      "id": "korean-green",
+      "name": "초록반",
+      "buildingId": "main",
+      "floor": 2,
+      "kind": "multicultural",
+      "planPosition": {
+        "band": "north",
+        "orderFromLeft": 4
+      },
+      "planLabel": "한국어교실",
+      "subdivision": {
+        "part": 4,
+        "total": 4
+      }
+    },
+    {
+      "id": "multicultural-blue",
+      "name": "파랑반",
+      "buildingId": "main",
+      "floor": 2,
+      "kind": "multicultural",
+      "planPosition": {
+        "band": "south",
+        "orderFromLeft": 1
+      },
+      "planLabel": "다문화특별학급",
+      "subdivision": null
+    },
+    {
+      "id": "kindergarten-saemmul",
+      "name": "샘물반",
+      "buildingId": "main",
+      "floor": 1,
+      "kind": "kindergarten",
+      "planPosition": {
+        "band": "south",
+        "orderFromLeft": 1
+      },
+      "planLabel": "샘물반",
+      "subdivision": null
+    },
+    {
+      "id": "kindergarten-haetsal",
+      "name": "햇살반",
+      "buildingId": "main",
+      "floor": 1,
+      "kind": "kindergarten",
+      "planPosition": {
+        "band": "south",
+        "orderFromLeft": 2
+      },
+      "planLabel": "햇살반",
+      "subdivision": null
+    },
+    {
+      "id": "kindergarten-pullip",
+      "name": "풀잎반",
+      "buildingId": "main",
+      "floor": 1,
+      "kind": "kindergarten",
+      "planPosition": {
+        "band": "south",
+        "orderFromLeft": 3
+      },
+      "planLabel": "풀잎반",
+      "subdivision": null
+    }
+  ],
+  "classes": [
+    {
+      "id": "1-1",
+      "name": "1-1",
+      "kind": "homeroom",
+      "grade": 1,
+      "homeSpaceIds": [
+        "classroom-1-1"
+      ],
+      "isPublic": true
+    },
+    {
+      "id": "1-2",
+      "name": "1-2",
+      "kind": "homeroom",
+      "grade": 1,
+      "homeSpaceIds": [
+        "classroom-1-2"
+      ],
+      "isPublic": true
+    },
+    {
+      "id": "1-3",
+      "name": "1-3",
+      "kind": "homeroom",
+      "grade": 1,
+      "homeSpaceIds": [
+        "classroom-1-3"
+      ],
+      "isPublic": true
+    },
+    {
+      "id": "2-1",
+      "name": "2-1",
+      "kind": "homeroom",
+      "grade": 2,
+      "homeSpaceIds": [
+        "classroom-2-1"
+      ],
+      "isPublic": true
+    },
+    {
+      "id": "2-2",
+      "name": "2-2",
+      "kind": "homeroom",
+      "grade": 2,
+      "homeSpaceIds": [
+        "classroom-2-2"
+      ],
+      "isPublic": true
+    },
+    {
+      "id": "2-3",
+      "name": "2-3",
+      "kind": "homeroom",
+      "grade": 2,
+      "homeSpaceIds": [
+        "classroom-2-3"
+      ],
+      "isPublic": true
+    },
+    {
+      "id": "2-4",
+      "name": "2-4",
+      "kind": "homeroom",
+      "grade": 2,
+      "homeSpaceIds": [
+        "classroom-2-4"
+      ],
+      "isPublic": true
+    },
+    {
+      "id": "3-1",
+      "name": "3-1",
+      "kind": "homeroom",
+      "grade": 3,
+      "homeSpaceIds": [
+        "classroom-3-1"
+      ],
+      "isPublic": true
+    },
+    {
+      "id": "3-2",
+      "name": "3-2",
+      "kind": "homeroom",
+      "grade": 3,
+      "homeSpaceIds": [
+        "classroom-3-2"
+      ],
+      "isPublic": true
+    },
+    {
+      "id": "3-3",
+      "name": "3-3",
+      "kind": "homeroom",
+      "grade": 3,
+      "homeSpaceIds": [
+        "classroom-3-3"
+      ],
+      "isPublic": true
+    },
+    {
+      "id": "3-4",
+      "name": "3-4",
+      "kind": "homeroom",
+      "grade": 3,
+      "homeSpaceIds": [
+        "classroom-3-4"
+      ],
+      "isPublic": true
+    },
+    {
+      "id": "4-1",
+      "name": "4-1",
+      "kind": "homeroom",
+      "grade": 4,
+      "homeSpaceIds": [
+        "classroom-4-1"
+      ],
+      "isPublic": true
+    },
+    {
+      "id": "4-2",
+      "name": "4-2",
+      "kind": "homeroom",
+      "grade": 4,
+      "homeSpaceIds": [
+        "classroom-4-2"
+      ],
+      "isPublic": true
+    },
+    {
+      "id": "4-3",
+      "name": "4-3",
+      "kind": "homeroom",
+      "grade": 4,
+      "homeSpaceIds": [
+        "classroom-4-3"
+      ],
+      "isPublic": true
+    },
+    {
+      "id": "4-4",
+      "name": "4-4",
+      "kind": "homeroom",
+      "grade": 4,
+      "homeSpaceIds": [
+        "classroom-4-4"
+      ],
+      "isPublic": true
+    },
+    {
+      "id": "4-5",
+      "name": "4-5",
+      "kind": "homeroom",
+      "grade": 4,
+      "homeSpaceIds": [
+        "classroom-4-5"
+      ],
+      "isPublic": true
+    },
+    {
+      "id": "5-1",
+      "name": "5-1",
+      "kind": "homeroom",
+      "grade": 5,
+      "homeSpaceIds": [
+        "classroom-5-1"
+      ],
+      "isPublic": false
+    },
+    {
+      "id": "5-2",
+      "name": "5-2",
+      "kind": "homeroom",
+      "grade": 5,
+      "homeSpaceIds": [
+        "classroom-5-2"
+      ],
+      "isPublic": true
+    },
+    {
+      "id": "5-3",
+      "name": "5-3",
+      "kind": "homeroom",
+      "grade": 5,
+      "homeSpaceIds": [
+        "classroom-5-3"
+      ],
+      "isPublic": true
+    },
+    {
+      "id": "5-4",
+      "name": "5-4",
+      "kind": "homeroom",
+      "grade": 5,
+      "homeSpaceIds": [
+        "classroom-5-4"
+      ],
+      "isPublic": true
+    },
+    {
+      "id": "5-5",
+      "name": "5-5",
+      "kind": "homeroom",
+      "grade": 5,
+      "homeSpaceIds": [
+        "classroom-5-5"
+      ],
+      "isPublic": true
+    },
+    {
+      "id": "6-1",
+      "name": "6-1",
+      "kind": "homeroom",
+      "grade": 6,
+      "homeSpaceIds": [
+        "classroom-6-1"
+      ],
+      "isPublic": true
+    },
+    {
+      "id": "6-2",
+      "name": "6-2",
+      "kind": "homeroom",
+      "grade": 6,
+      "homeSpaceIds": [
+        "classroom-6-2"
+      ],
+      "isPublic": true
+    },
+    {
+      "id": "6-3",
+      "name": "6-3",
+      "kind": "homeroom",
+      "grade": 6,
+      "homeSpaceIds": [
+        "classroom-6-3"
+      ],
+      "isPublic": true
+    },
+    {
+      "id": "6-4",
+      "name": "6-4",
+      "kind": "homeroom",
+      "grade": 6,
+      "homeSpaceIds": [
+        "classroom-6-4"
+      ],
+      "isPublic": true
+    },
+    {
+      "id": "6-5",
+      "name": "6-5",
+      "kind": "homeroom",
+      "grade": 6,
+      "homeSpaceIds": [
+        "classroom-6-5"
+      ],
+      "isPublic": true
+    },
+    {
+      "id": "multicultural-red",
+      "name": "다문화특별학급 1반(빨강)",
+      "kind": "multicultural",
+      "grade": null,
+      "homeSpaceIds": [
+        "korean-red"
+      ],
+      "isPublic": true
+    },
+    {
+      "id": "multicultural-green",
+      "name": "다문화특별학급 2반(초록)",
+      "kind": "multicultural",
+      "grade": null,
+      "homeSpaceIds": [
+        "korean-green"
+      ],
+      "isPublic": true
+    },
+    {
+      "id": "multicultural-blue",
+      "name": "다문화특별학급 3반(파랑)",
+      "kind": "multicultural",
+      "grade": null,
+      "homeSpaceIds": [
+        "multicultural-blue"
+      ],
+      "isPublic": true
+    },
+    {
+      "id": "kindergarten-joint",
+      "name": "유치원 공동 수업(샘물·햇살·풀잎반)",
+      "kind": "kindergarten",
+      "grade": null,
+      "homeSpaceIds": [
+        "kindergarten-saemmul",
+        "kindergarten-haetsal",
+        "kindergarten-pullip"
+      ],
+      "isPublic": false
+    }
+  ],
+  "lessons": [
+    {
+      "id": "lesson-1-1",
+      "classId": "1-1",
+      "kind": "homeroom",
+      "subject": null,
+      "spaceIds": [
+        "classroom-1-1"
+      ],
+      "locationStatus": "confirmed",
+      "gradeTheme": "놀이로 만나기",
+      "topic": null,
+      "designFocus": null,
+      "commonObservation": null,
+      "context": null,
+      "observation": null,
+      "support": null,
+      "lenses": [],
+      "lessonPlanId": null,
+      "source": {
+        "classRow": {
+          "sheet": "공개수업(학급, 전담, 특별학급)",
+          "row": 9
+        },
+        "gradeRow": {
+          "sheet": "공개수업(학년)",
+          "row": 7
+        }
+      }
+    },
+    {
+      "id": "lesson-1-2",
+      "classId": "1-2",
+      "kind": "homeroom",
+      "subject": null,
+      "spaceIds": [
+        "classroom-1-2"
+      ],
+      "locationStatus": "confirmed",
+      "gradeTheme": "놀이로 만나기",
+      "topic": null,
+      "designFocus": null,
+      "commonObservation": null,
+      "context": "적극적으로 표현하고자 하는 마음과 친구를 도와주고 싶은 마음이 강한 학급.",
+      "observation": "서로 다른 언어로 활동에 참여해보려고 노력하고, 동시에 다른 친구을 배려하고 함께 참여하는 모습.",
+      "support": null,
+      "lenses": [
+        "표현",
+        "참여",
+        "협력"
+      ],
+      "lessonPlanId": null,
+      "source": {
+        "classRow": {
+          "sheet": "공개수업(학급, 전담, 특별학급)",
+          "row": 10
+        },
+        "gradeRow": {
+          "sheet": "공개수업(학년)",
+          "row": 7
+        }
+      }
+    },
+    {
+      "id": "lesson-1-3",
+      "classId": "1-3",
+      "kind": "special",
+      "subject": "수석교사 일반",
+      "spaceIds": [
+        "classroom-1-3"
+      ],
+      "locationStatus": "confirmed",
+      "gradeTheme": null,
+      "topic": null,
+      "designFocus": null,
+      "commonObservation": null,
+      "context": null,
+      "observation": null,
+      "support": null,
+      "lenses": [],
+      "lessonPlanId": null,
+      "source": {
+        "classRow": {
+          "sheet": "공개수업(학급, 전담, 특별학급)",
+          "row": 54
+        },
+        "gradeRow": null
+      }
+    },
+    {
+      "id": "lesson-2-1",
+      "classId": "2-1",
+      "kind": "homeroom",
+      "subject": null,
+      "spaceIds": [
+        "classroom-2-1"
+      ],
+      "locationStatus": "confirmed",
+      "gradeTheme": "놀이로 만나기",
+      "topic": "놀이에 여러 나라 말 더해 함께 놀기",
+      "designFocus": "K+놀이 경험을 다른 나라 놀이로 확장해 놀이에 필요한 말을 친구에게 배우기",
+      "commonObservation": "언어가 달라도 말과 몸짓을 주고받으며 함께 어울리기",
+      "context": "한국어가 서툴러 활동과 친구 관계에 소극적인 학생이 있는 학급",
+      "observation": "자신이 잘하는 언어로 친구들에게 놀이 말을 가르쳐 주며 자신감을 얻고 수업의 중심으로 들어오는 모습",
+      "support": null,
+      "lenses": [
+        "참여",
+        "표현",
+        "강점"
+      ],
+      "lessonPlanId": null,
+      "source": {
+        "classRow": {
+          "sheet": "공개수업(학급, 전담, 특별학급)",
+          "row": 15
+        },
+        "gradeRow": {
+          "sheet": "공개수업(학년)",
+          "row": 8
+        }
+      }
+    },
+    {
+      "id": "lesson-2-2",
+      "classId": "2-2",
+      "kind": "homeroom",
+      "subject": null,
+      "spaceIds": [
+        "classroom-2-2"
+      ],
+      "locationStatus": "confirmed",
+      "gradeTheme": "놀이로 만나기",
+      "topic": "놀이에 여러 나라 말 더해 함께 놀기",
+      "designFocus": "K+놀이 경험을 다른 나라 놀이로 확장해 놀이에 필요한 말을 친구에게 배우기",
+      "commonObservation": "언어가 달라도 말과 몸짓을 주고받으며 함께 어울리기",
+      "context": "언어별 무리 형성으로 교실 내 라포 형성이 필요한 학급",
+      "observation": "이중언어를 활용한 신체놀이를 통해 언어적 경계를 허물고, 모든 학생이 동등한 주체로 어울리며 긍정적인 라포를 형성하는지 확인",
+      "support": null,
+      "lenses": [
+        "참여",
+        "협력",
+        "표현"
+      ],
+      "lessonPlanId": null,
+      "source": {
+        "classRow": {
+          "sheet": "공개수업(학급, 전담, 특별학급)",
+          "row": 16
+        },
+        "gradeRow": {
+          "sheet": "공개수업(학년)",
+          "row": 8
+        }
+      }
+    },
+    {
+      "id": "lesson-2-3",
+      "classId": "2-3",
+      "kind": "homeroom",
+      "subject": null,
+      "spaceIds": [
+        "classroom-2-3"
+      ],
+      "locationStatus": "confirmed",
+      "gradeTheme": "놀이로 만나기",
+      "topic": "놀이에 여러 나라 말 더해 함께 놀기",
+      "designFocus": "K+놀이 경험을 다른 나라 놀이로 확장해 놀이에 필요한 말을 친구에게 배우기",
+      "commonObservation": "언어가 달라도 말과 몸짓을 주고받으며 함께 어울리기",
+      "context": "한국어 능력 수준에 따라 수업 내용 및 학습 의욕 차이가 있는 학급",
+      "observation": "한국어 능력과 관계없이 다양한 언어와 몸짓을 활용해 모든 학생이 주도적으로 참여하고 서로 가르치며 함께 어울리는 모습.",
+      "support": null,
+      "lenses": [
+        "참여",
+        "표현"
+      ],
+      "lessonPlanId": null,
+      "source": {
+        "classRow": {
+          "sheet": "공개수업(학급, 전담, 특별학급)",
+          "row": 17
+        },
+        "gradeRow": {
+          "sheet": "공개수업(학년)",
+          "row": 8
+        }
+      }
+    },
+    {
+      "id": "lesson-2-4",
+      "classId": "2-4",
+      "kind": "homeroom",
+      "subject": null,
+      "spaceIds": [
+        "classroom-2-4"
+      ],
+      "locationStatus": "confirmed",
+      "gradeTheme": "놀이로 만나기",
+      "topic": "놀이에 여러 나라 말 더해 함께 놀기",
+      "designFocus": "K+놀이 경험을 다른 나라 놀이로 확장해 놀이에 필요한 말을 친구에게 배우기",
+      "commonObservation": "언어가 달라도 말과 몸짓을 주고받으며 함께 어울리기",
+      "context": "서로의 문화에 호기심을 가지고 놀이를 통한 어울림을 즐기는 학급",
+      "observation": "서로 다른 문화권의 놀이를 매개로 서로의 차이를 이해하고, 협력과 소통을 통해 조화롭게 어울리는 모습",
+      "support": null,
+      "lenses": [
+        "참여",
+        "협력",
+        "표현"
+      ],
+      "lessonPlanId": null,
+      "source": {
+        "classRow": {
+          "sheet": "공개수업(학급, 전담, 특별학급)",
+          "row": 18
+        },
+        "gradeRow": {
+          "sheet": "공개수업(학년)",
+          "row": 8
+        }
+      }
+    },
+    {
+      "id": "lesson-3-1",
+      "classId": "3-1",
+      "kind": "special",
+      "subject": "과학",
+      "spaceIds": [
+        "science-1"
+      ],
+      "locationStatus": "confirmed",
+      "gradeTheme": null,
+      "topic": null,
+      "designFocus": null,
+      "commonObservation": null,
+      "context": null,
+      "observation": null,
+      "support": null,
+      "lenses": [],
+      "lessonPlanId": null,
+      "source": {
+        "classRow": {
+          "sheet": "공개수업(학급, 전담, 특별학급)",
+          "row": 55
+        },
+        "gradeRow": null
+      }
+    },
+    {
+      "id": "lesson-3-2",
+      "classId": "3-2",
+      "kind": "homeroom",
+      "subject": null,
+      "spaceIds": [
+        "classroom-3-2"
+      ],
+      "locationStatus": "confirmed",
+      "gradeTheme": "문화로 배우기",
+      "topic": "우리 주변의 다양한 문화 조사하고 정리하기",
+      "designFocus": "카자흐스탄 조사 경험을 다른 나라 문화로 확장해 비교·탐구",
+      "commonObservation": "다름을 존중하고, 공통점을 발견해 함께 나누기",
+      "context": "한국어 이해·표현 수준 차이가 큰 학급",
+      "observation": "핵심어·그림·사진 등 다양한 방법으로 \n조사 내용을 표현하며 참여하는 모습",
+      "support": "필요 시 교실통역 지원",
+      "lenses": [
+        "발견",
+        "표현"
+      ],
+      "lessonPlanId": "grade-3",
+      "source": {
+        "classRow": {
+          "sheet": "공개수업(학급, 전담, 특별학급)",
+          "row": 23
+        },
+        "gradeRow": {
+          "sheet": "공개수업(학년)",
+          "row": 9
+        }
+      }
+    },
+    {
+      "id": "lesson-3-3",
+      "classId": "3-3",
+      "kind": "homeroom",
+      "subject": null,
+      "spaceIds": [
+        "classroom-3-3"
+      ],
+      "locationStatus": "confirmed",
+      "gradeTheme": "문화로 배우기",
+      "topic": "우리 주변의 다양한 문화 조사하고 정리하기",
+      "designFocus": "카자흐스탄 조사 경험을 다른 나라 문화로 확장해 비교·탐구",
+      "commonObservation": "다름을 존중하고, 공통점을 발견해 함께 나누기",
+      "context": "문화 경험·관심이 다양한 학급",
+      "observation": "학생의 문화 경험과 관심이\n모둠의 배움 자원으로 활용되는 모습",
+      "support": null,
+      "lenses": [
+        "발견",
+        "강점"
+      ],
+      "lessonPlanId": "grade-3",
+      "source": {
+        "classRow": {
+          "sheet": "공개수업(학급, 전담, 특별학급)",
+          "row": 24
+        },
+        "gradeRow": {
+          "sheet": "공개수업(학년)",
+          "row": 9
+        }
+      }
+    },
+    {
+      "id": "lesson-3-4",
+      "classId": "3-4",
+      "kind": "homeroom",
+      "subject": null,
+      "spaceIds": [
+        "classroom-3-4"
+      ],
+      "locationStatus": "confirmed",
+      "gradeTheme": "문화로 배우기",
+      "topic": "우리 주변의 다양한 문화 조사하고 정리하기",
+      "designFocus": "카자흐스탄 조사 경험을 다른 나라 문화로 확장해 비교·탐구",
+      "commonObservation": "다름을 존중하고, 공통점을 발견해 함께 나누기",
+      "context": "표현 방식·자신감이 다양한 학급",
+      "observation": "말·글·그림·원어 등 자신에게 맞는 방식으로\n조사 결과를 공유하는 모습",
+      "support": null,
+      "lenses": [
+        "발견",
+        "표현"
+      ],
+      "lessonPlanId": "grade-3",
+      "source": {
+        "classRow": {
+          "sheet": "공개수업(학급, 전담, 특별학급)",
+          "row": 25
+        },
+        "gradeRow": {
+          "sheet": "공개수업(학년)",
+          "row": 9
+        }
+      }
+    },
+    {
+      "id": "lesson-4-1",
+      "classId": "4-1",
+      "kind": "homeroom",
+      "subject": null,
+      "spaceIds": [
+        "classroom-4-1"
+      ],
+      "locationStatus": "confirmed",
+      "gradeTheme": "문화로 배우기",
+      "topic": "두근두근 국가유산, 어린이 작가 출판기념회",
+      "designFocus": "국가유산에 담긴 삶과 문화를 탐구하고, 서로 다른 언어-문화적 경험과 강점을 연결하여 책으로 만들고 나누는 프로젝트",
+      "commonObservation": "서로 다른 언어-문화적 경험과 강점을 활용하여 국가유산의 가치를 전하고 함께 소통하기",
+      "context": "한국어 이해 및 이중언어 활용 능력에 수준 차이가 큰 학급",
+      "observation": "이중언어 낭독과 뜻 풀이에서 언어적 강점을 발휘하고, 친구들의 이해를 돕는 모습",
+      "support": "이중언어 그림책 및 그림-핵심어-문장틀 등 학습 지원 자료 활용",
+      "lenses": [
+        "강점",
+        "협력",
+        "표현"
+      ],
+      "lessonPlanId": "grade-4",
+      "source": {
+        "classRow": {
+          "sheet": "공개수업(학급, 전담, 특별학급)",
+          "row": 30
+        },
+        "gradeRow": {
+          "sheet": "공개수업(학년)",
+          "row": 10
+        }
+      }
+    },
+    {
+      "id": "lesson-4-2",
+      "classId": "4-2",
+      "kind": "homeroom",
+      "subject": null,
+      "spaceIds": [
+        "classroom-4-2"
+      ],
+      "locationStatus": "confirmed",
+      "gradeTheme": "문화로 배우기",
+      "topic": "두근두근 국가유산, 어린이 작가 출판기념회",
+      "designFocus": "국가유산에 담긴 삶과 문화를 탐구하고, 서로 다른 언어-문화적 경험과 강점을 연결하여 책으로 만들고 나누는 프로젝트",
+      "commonObservation": "서로 다른 언어-문화적 경험과 강점을 활용하여 국가유산의 가치를 전하고 함께 소통하기",
+      "context": "한국어 해독 수준에 따라 이해 속도와 참여도에 차이가 발생하는 학급",
+      "observation": "언어적 유창함과 상관없이 모든 학생이 자신만의 속도로 텍스트의 의미를 내면화하고 소통에 참여하는 과정 참관",
+      "support": null,
+      "lenses": [
+        "참여",
+        "강점",
+        "협력"
+      ],
+      "lessonPlanId": "grade-4",
+      "source": {
+        "classRow": {
+          "sheet": "공개수업(학급, 전담, 특별학급)",
+          "row": 31
+        },
+        "gradeRow": {
+          "sheet": "공개수업(학년)",
+          "row": 10
+        }
+      }
+    },
+    {
+      "id": "lesson-4-3",
+      "classId": "4-3",
+      "kind": "homeroom",
+      "subject": null,
+      "spaceIds": [
+        "classroom-4-3"
+      ],
+      "locationStatus": "confirmed",
+      "gradeTheme": "문화로 배우기",
+      "topic": "두근두근 국가유산, 어린이 작가 출판기념회",
+      "designFocus": "국가유산에 담긴 삶과 문화를 탐구하고, 서로 다른 언어-문화적 경험과 강점을 연결하여 책으로 만들고 나누는 프로젝트",
+      "commonObservation": "서로 다른 언어-문화적 경험과 강점을 활용하여 국가유산의 가치를 전하고 함께 소통하기",
+      "context": null,
+      "observation": "모국어 자료 조사, 핵심어 번역과 검수, 작품 설명과 갤러리 안내까지, 학생이 지닌 언어와 문화 경험을 배움에 연결하기",
+      "support": null,
+      "lenses": [],
+      "lessonPlanId": "grade-4",
+      "source": {
+        "classRow": {
+          "sheet": "공개수업(학급, 전담, 특별학급)",
+          "row": 32
+        },
+        "gradeRow": {
+          "sheet": "공개수업(학년)",
+          "row": 10
+        }
+      }
+    },
+    {
+      "id": "lesson-4-4",
+      "classId": "4-4",
+      "kind": "homeroom",
+      "subject": null,
+      "spaceIds": [
+        "classroom-4-4"
+      ],
+      "locationStatus": "confirmed",
+      "gradeTheme": "문화로 배우기",
+      "topic": "두근두근 국가유산, 어린이 작가 출판기념회",
+      "designFocus": "국가유산에 담긴 삶과 문화를 탐구하고, 서로 다른 언어-문화적 경험과 강점을 연결하여 책으로 만들고 나누는 프로젝트",
+      "commonObservation": "서로 다른 언어-문화적 경험과 강점을 활용하여 국가유산의 가치를 전하고 함께 소통하기",
+      "context": "한국어 의사소통 능력의 차이로 발표에 대한 자신감과 참여 정도가 다양한 학급",
+      "observation": "다양한 언어와 시각 자료를 활용하여 모든 학생이 주도적으로 발표에 참여하는 모습",
+      "support": "핵심어와 문장틀, 그림 등 다양한 보조 자료",
+      "lenses": [
+        "참여",
+        "강점",
+        "표현"
+      ],
+      "lessonPlanId": "grade-4",
+      "source": {
+        "classRow": {
+          "sheet": "공개수업(학급, 전담, 특별학급)",
+          "row": 33
+        },
+        "gradeRow": {
+          "sheet": "공개수업(학년)",
+          "row": 10
+        }
+      }
+    },
+    {
+      "id": "lesson-4-5",
+      "classId": "4-5",
+      "kind": "special",
+      "subject": "과학",
+      "spaceIds": [
+        "science-2"
+      ],
+      "locationStatus": "confirmed",
+      "gradeTheme": null,
+      "topic": null,
+      "designFocus": null,
+      "commonObservation": null,
+      "context": "한국어 이해 및 소통 능력에 수준 차이가 큰 학급",
+      "observation": "한국과 카자흐스탄, 중국의 기후 환경 비교\n모국어 자료 조사, 이중언어 낭독",
+      "support": "활동지 번역 자료, 그림 카드 자료, 필요 시 또래 교수법",
+      "lenses": [
+        "협력",
+        "표현",
+        "발견"
+      ],
+      "lessonPlanId": null,
+      "source": {
+        "classRow": {
+          "sheet": "공개수업(학급, 전담, 특별학급)",
+          "row": 56
+        },
+        "gradeRow": null
+      }
+    },
+    {
+      "id": "lesson-5-2",
+      "classId": "5-2",
+      "kind": "homeroom",
+      "subject": null,
+      "spaceIds": [
+        "classroom-5-2"
+      ],
+      "locationStatus": "confirmed",
+      "gradeTheme": "소통으로 어울리기",
+      "topic": "가면으로 떠나는 세계 여행",
+      "designFocus": "세계 다양한 나라의 지리적·문화적 특징을 가면에 나타내고 공유하기",
+      "commonObservation": "가면에 담긴 자연환경과 문화의 의미를 설명하고, 친구의 작품을 관찰·추론하며 서로 소통하기",
+      "context": null,
+      "observation": null,
+      "support": null,
+      "lenses": [],
+      "lessonPlanId": "grade-5",
+      "source": {
+        "classRow": {
+          "sheet": "공개수업(학급, 전담, 특별학급)",
+          "row": 38
+        },
+        "gradeRow": {
+          "sheet": "공개수업(학년)",
+          "row": 11
+        }
+      }
+    },
+    {
+      "id": "lesson-5-3",
+      "classId": "5-3",
+      "kind": "homeroom",
+      "subject": null,
+      "spaceIds": [
+        "classroom-5-3"
+      ],
+      "locationStatus": "confirmed",
+      "gradeTheme": "소통으로 어울리기",
+      "topic": "가면으로 떠나는 세계 여행",
+      "designFocus": "세계 다양한 나라의 지리적·문화적 특징을 가면에 나타내고 공유하기",
+      "commonObservation": "가면에 담긴 자연환경과 문화의 의미를 설명하고, 친구의 작품을 관찰·추론하며 서로 소통하기",
+      "context": "한국어 표현이 서툴러 수업에 소극적인 러시아 이중언어 화자 2명이 있는 학급.",
+      "observation": "번역기, 친구의 도움 등을 통해 자신의 가면에 담긴 지리·문화적 특징을 표현하고, 친구들과 함께 세계 음악에 맞춰 놀이에 참여하는 모습",
+      "support": null,
+      "lenses": [
+        "참여",
+        "강점",
+        "표현"
+      ],
+      "lessonPlanId": "grade-5",
+      "source": {
+        "classRow": {
+          "sheet": "공개수업(학급, 전담, 특별학급)",
+          "row": 39
+        },
+        "gradeRow": {
+          "sheet": "공개수업(학년)",
+          "row": 11
+        }
+      }
+    },
+    {
+      "id": "lesson-5-4",
+      "classId": "5-4",
+      "kind": "homeroom",
+      "subject": null,
+      "spaceIds": [
+        "classroom-5-4"
+      ],
+      "locationStatus": "confirmed",
+      "gradeTheme": "소통으로 어울리기",
+      "topic": "가면으로 떠나는 세계 여행",
+      "designFocus": "세계 다양한 나라의 지리적·문화적 특징을 가면에 나타내고 공유하기",
+      "commonObservation": "가면에 담긴 자연환경과 문화의 의미를 설명하고, 친구의 작품을 관찰·추론하며 서로 소통하기",
+      "context": null,
+      "observation": null,
+      "support": null,
+      "lenses": [],
+      "lessonPlanId": "grade-5",
+      "source": {
+        "classRow": {
+          "sheet": "공개수업(학급, 전담, 특별학급)",
+          "row": 40
+        },
+        "gradeRow": {
+          "sheet": "공개수업(학년)",
+          "row": 11
+        }
+      }
+    },
+    {
+      "id": "lesson-5-5",
+      "classId": "5-5",
+      "kind": "homeroom",
+      "subject": null,
+      "spaceIds": [
+        "classroom-5-5"
+      ],
+      "locationStatus": "confirmed",
+      "gradeTheme": "소통으로 어울리기",
+      "topic": "가면으로 떠나는 세계 여행",
+      "designFocus": "세계 다양한 나라의 지리적·문화적 특징을 가면에 나타내고 공유하기",
+      "commonObservation": "가면에 담긴 자연환경과 문화의 의미를 설명하고, 친구의 작품을 관찰·추론하며 서로 소통하기",
+      "context": null,
+      "observation": null,
+      "support": null,
+      "lenses": [],
+      "lessonPlanId": "grade-5",
+      "source": {
+        "classRow": {
+          "sheet": "공개수업(학급, 전담, 특별학급)",
+          "row": 41
+        },
+        "gradeRow": {
+          "sheet": "공개수업(학년)",
+          "row": 11
+        }
+      }
+    },
+    {
+      "id": "lesson-6-1",
+      "classId": "6-1",
+      "kind": "special",
+      "subject": "영어",
+      "spaceIds": [
+        "english"
+      ],
+      "locationStatus": "confirmed",
+      "gradeTheme": null,
+      "topic": null,
+      "designFocus": null,
+      "commonObservation": null,
+      "context": null,
+      "observation": null,
+      "support": null,
+      "lenses": [],
+      "lessonPlanId": null,
+      "source": {
+        "classRow": {
+          "sheet": "공개수업(학급, 전담, 특별학급)",
+          "row": 57
+        },
+        "gradeRow": null
+      }
+    },
+    {
+      "id": "lesson-6-2",
+      "classId": "6-2",
+      "kind": "homeroom",
+      "subject": null,
+      "spaceIds": [
+        "classroom-6-2"
+      ],
+      "locationStatus": "confirmed",
+      "gradeTheme": "소통으로 어울리기",
+      "topic": "기후가 만든 삶, AI-3D로 만나다",
+      "designFocus": "사회과에서 시작한 질문을 실과와 미술로 표현하는 '세계 기후 생활 갤러리' 프로젝트",
+      "commonObservation": "모국어 자료 조사, 핵심어 번역과 검수, 작품 설명과 갤러리 안내까지, 학생이 지닌 언어와 문화 경험을 배움에 연결하기",
+      "context": null,
+      "observation": "모국어 자료 조사, 핵심어 번역과 검수, 작품 설명과 갤러리 안내까지, 학생이 지닌 언어와 문화 경험을 배움에 연결하기",
+      "support": null,
+      "lenses": [],
+      "lessonPlanId": null,
+      "source": {
+        "classRow": {
+          "sheet": "공개수업(학급, 전담, 특별학급)",
+          "row": 46
+        },
+        "gradeRow": {
+          "sheet": "공개수업(학년)",
+          "row": 12
+        }
+      }
+    },
+    {
+      "id": "lesson-6-3",
+      "classId": "6-3",
+      "kind": "homeroom",
+      "subject": null,
+      "spaceIds": [
+        "classroom-6-3"
+      ],
+      "locationStatus": "confirmed",
+      "gradeTheme": "소통으로 어울리기",
+      "topic": "맞혀봐, 우리의 맛! - 쇼츠 퀴즈로 오가며 즐기기",
+      "designFocus": "카자흐스탄 학생들과 일상,음악,음식 문화를 주고 받으며 서로의 문화를 이해하는 G.A.T.E 프로젝트",
+      "commonObservation": "언어가 달라도 몸짓으로 음식 문화를 전하고 그 속에서 발견된 문화를 함께 나누기",
+      "context": null,
+      "observation": null,
+      "support": null,
+      "lenses": [],
+      "lessonPlanId": null,
+      "source": {
+        "classRow": {
+          "sheet": "공개수업(학급, 전담, 특별학급)",
+          "row": 47
+        },
+        "gradeRow": {
+          "sheet": "공개수업(학년)",
+          "row": 13
+        }
+      }
+    },
+    {
+      "id": "lesson-6-4",
+      "classId": "6-4",
+      "kind": "homeroom",
+      "subject": null,
+      "spaceIds": [
+        "classroom-6-4"
+      ],
+      "locationStatus": "confirmed",
+      "gradeTheme": "소통으로 어울리기",
+      "topic": "기후가 만든 삶, AI-3D로 만나다",
+      "designFocus": "사회과에서 시작한 질문을 실과와 미술로 표현하는 '세계 기후 생활 갤러리' 프로젝트",
+      "commonObservation": "모국어 자료 조사, 핵심어 번역과 검수, 작품 설명과 갤러리 안내까지, 학생이 지닌 언어와 문화 경험을 배움에 연결하기",
+      "context": null,
+      "observation": "모국어 자료 조사, 핵심어 번역과 검수, 작품 설명과 갤러리 안내까지, 학생이 지닌 언어와 문화 경험을 배움에 연결하기",
+      "support": null,
+      "lenses": [],
+      "lessonPlanId": null,
+      "source": {
+        "classRow": {
+          "sheet": "공개수업(학급, 전담, 특별학급)",
+          "row": 48
+        },
+        "gradeRow": {
+          "sheet": "공개수업(학년)",
+          "row": 12
+        }
+      }
+    },
+    {
+      "id": "lesson-6-5",
+      "classId": "6-5",
+      "kind": "homeroom",
+      "subject": null,
+      "spaceIds": [
+        "classroom-6-5"
+      ],
+      "locationStatus": "confirmed",
+      "gradeTheme": "소통으로 어울리기",
+      "topic": "기후가 만든 삶, AI-3D로 만나다",
+      "designFocus": "사회과에서 시작한 질문을 실과와 미술로 표현하는 '세계 기후 생활 갤러리' 프로젝트",
+      "commonObservation": "모국어 자료 조사, 핵심어 번역과 검수, 작품 설명과 갤러리 안내까지, 학생이 지닌 언어와 문화 경험을 배움에 연결하기",
+      "context": null,
+      "observation": "모국어 자료 조사, 핵심어 번역과 검수, 작품 설명과 갤러리 안내까지, 학생이 지닌 언어와 문화 경험을 배움에 연결하기",
+      "support": null,
+      "lenses": [],
+      "lessonPlanId": null,
+      "source": {
+        "classRow": {
+          "sheet": "공개수업(학급, 전담, 특별학급)",
+          "row": 49
+        },
+        "gradeRow": {
+          "sheet": "공개수업(학년)",
+          "row": 12
+        }
+      }
+    },
+    {
+      "id": "lesson-multicultural-red",
+      "classId": "multicultural-red",
+      "kind": "multicultural",
+      "subject": null,
+      "spaceIds": [
+        "korean-red"
+      ],
+      "locationStatus": "confirmed",
+      "gradeTheme": null,
+      "topic": null,
+      "designFocus": null,
+      "commonObservation": null,
+      "context": null,
+      "observation": "한국어 표현에 어려움이 있는 다문화 학생들이",
+      "support": null,
+      "lenses": [
+        "참여",
+        "강점",
+        "표현"
+      ],
+      "lessonPlanId": null,
+      "source": {
+        "classRow": {
+          "sheet": "공개수업(학급, 전담, 특별학급)",
+          "row": 62
+        },
+        "gradeRow": null
+      }
+    },
+    {
+      "id": "lesson-multicultural-green",
+      "classId": "multicultural-green",
+      "kind": "multicultural",
+      "subject": null,
+      "spaceIds": [
+        "korean-green"
+      ],
+      "locationStatus": "confirmed",
+      "gradeTheme": null,
+      "topic": null,
+      "designFocus": null,
+      "commonObservation": null,
+      "context": "문장으로 원만하게 말하나 쓰는 것을 어려워하는 학급",
+      "observation": "자신의 생각을 문장틀에 맞추어 쓰기",
+      "support": null,
+      "lenses": [
+        "참여",
+        "강점",
+        "표현"
+      ],
+      "lessonPlanId": null,
+      "source": {
+        "classRow": {
+          "sheet": "공개수업(학급, 전담, 특별학급)",
+          "row": 63
+        },
+        "gradeRow": null
+      }
+    },
+    {
+      "id": "lesson-multicultural-blue",
+      "classId": "multicultural-blue",
+      "kind": "multicultural",
+      "subject": null,
+      "spaceIds": [
+        "multicultural-blue"
+      ],
+      "locationStatus": "confirmed",
+      "gradeTheme": null,
+      "topic": null,
+      "designFocus": null,
+      "commonObservation": null,
+      "context": null,
+      "observation": null,
+      "support": null,
+      "lenses": [],
+      "lessonPlanId": null,
+      "source": {
+        "classRow": {
+          "sheet": "공개수업(학급, 전담, 특별학급)",
+          "row": 64
+        },
+        "gradeRow": null
+      }
+    }
+  ],
+  "lessonPlans": [
+    {
+      "id": "grade-3",
+      "url": "/pdfs/grade-3.pdf",
+      "source": {
+        "path": "materials/original/lesson-plans/2026 연구학교 공개보고회 수업안(3학년).pdf",
+        "sha256": "7f7c40a46a0fc06e196b26a1f36ce8c352baeaf185ee8170c2d4022c12745fc4"
+      }
+    },
+    {
+      "id": "grade-4",
+      "url": "/pdfs/grade-4.pdf",
+      "source": {
+        "path": "materials/original/lesson-plans/2026 연구학교 공개보고회 수업안(4학년).pdf",
+        "sha256": "a5de2e33cc74d9a8c3ed944b281f0b18401ac908a8fdf92a56f9bdefa6842d8d"
+      }
+    },
+    {
+      "id": "grade-5",
+      "url": "/pdfs/grade-5.pdf",
+      "source": {
+        "path": "materials/original/lesson-plans/2026 연구학교 공개보고회 수업안(5학년).pdf",
+        "sha256": "b64eda3972313a6867a19cede5624b508a6b8454864a9d83def6032e038758a7"
+      }
+    }
+  ],
+  "excludedClasses": [
+    {
+      "classId": "5-1",
+      "reason": "체육 — 행사 운영 관계로 비공개"
+    },
+    {
+      "classId": "kindergarten-joint",
+      "reason": "2026-10-19 사용자 결정으로 유치원 공개수업 제외"
+    }
+  ]
+}
