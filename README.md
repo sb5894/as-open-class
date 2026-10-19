@@ -12,6 +12,10 @@
 
 ## 현재 준비된 것
 
+**정식 사이트: https://as-open-class.web.app/** · [신청하기](https://as-open-class.web.app/register) · [학교 둘러보기](https://as-open-class.web.app/guide). 2026-10-20 사용자 요청으로 정식 Hosting 배포와 배포본 두 브라우저 검증을 완료했다. 임시 채널과 달리 이 주소에는 만료일이 없다.
+
+**GitHub:** https://github.com/sb5894/as-open-class (`main`). 소스·문서·선별 웹 자료를 저장하며 비밀 설정·원본 자료·node_modules·빌드 결과는 Git에서 제외한다. 새 PC에서는 `npm.cmd ci` 후 README의 Firebase/로컬 환경 설정을 따른다.
+
 `1차피드백(1019).pdf`와 후속 답변의 행사 소개·공유 일정표·등록 장소·직위·선택 문의·필수 개인정보 동의를 반영하고 임시 링크와 신청 함수를 배포했다. 검토 주소는 https://as-open-class--mobile-review-mmhal97i.web.app/ 이며 2026-10-27 00:07 KST 만료다. 타입/빌드·단위 76개·모바일 모의 36개와 배포본 두 브라우저 검토를 마쳤다. **시트 F1/J1/K1 헤더 갱신은 Chrome 연결 대기 중이다.** [최신 진행 현황](docs/진행%20현황.md)과 [피드백 검토표](docs/reviews/1차피드백-1019-검토.md)를 따른다.
 
 후속 지도 수정도 Firebase 검토 채널에 반영했다: 확정된 주차·출입구, 회색 진입로·작은 놀이터 v2, 클릭 가능한 건물 라벨 구분, 대표 수업 제거. localhost 5173/4173의 외부 통신 차단을 해소해 실제 Firebase 입력 검증 연결을 확인했다. 정상 신청·시트 저장을 새로 시험하지는 않았다. 신청 함수도 갱신했다. 새 행부터 한국 날짜·시·분으로 저장되며 기존 행은 변경하지 않는다.
