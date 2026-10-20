@@ -8,16 +8,23 @@ test('model-two reference images and invitation emphasis remain readable on mobi
   await expect(page.locator('#event > p strong')).toHaveText('「상호문화적 (만남·배움·어울림) 이중언어 교육 프로그램 운영을 통한 미래 핵심역량 함양」');
   await expect(page.locator('.model-two h2')).toHaveText('만남·배움·어울림이란?');
   expect(await page.locator('.event-schedule').evaluate(node => node.nextElementSibling?.classList.contains('model-two'))).toBe(true);
-  await page.locator('.model-two').scrollIntoViewIfNeeded();
+  const modelLink = page.getByRole('link', { name: '만남·배움·어울림', exact: true });
+  await expect(modelLink).toHaveCSS('color', 'rgb(24, 91, 170)');
+  await expect(modelLink).toHaveCSS('text-decoration-line', 'underline');
+  await modelLink.tap();
+  await expect(page).toHaveURL(/#model-two$/);
+  await expect(page.locator('#model-two h2')).toBeInViewport();
+  await expect(page.locator('.model-two-table thead th')).toHaveText(['원리', '한눈에 보면', '참관자가 볼 장면']);
   for (const [name, summary, scene] of [
     ['만남', '차이를 알아차리고 관계 시작', '낯선 언어·문화에 관심을 갖고 질문하기'],
     ['배움', '서로의 언어·경험으로 이해 넓히기', '비교·탐구하며 경험을 배움에 활용하기'],
     ['어울림', '서로의 강점을 연결해 함께 만들기', '역할을 나누고 공동의 결과 만들기'],
   ]) {
-    const step = page.getByRole('article', { name, exact: true });
+    const step = page.getByRole('row', { name, exact: true });
     await step.scrollIntoViewIfNeeded();
-    await expect(step.locator('dd')).toHaveText([summary, scene]);
+    await expect(step.locator('td')).toHaveText([summary, scene]);
     await expect.poll(() => step.locator('img').evaluate(node => (node as HTMLImageElement).naturalWidth)).toBe(183);
+    expect((await step.locator('img').boundingBox())!.width).toBeLessThanOrEqual(64);
   }
   for (const width of [320, 390, 430]) {
     await page.setViewportSize({ width, height: 740 });
@@ -73,12 +80,20 @@ test('new main-building facilities keep their placement, purpose and labels on m
     await page.goto('/guide');
     const auditorium = page.locator('.map-auditorium-label');
     await expect(auditorium).toHaveText('시청각실\n공개보고회장');
+    const exhibition = page.locator('.map-exhibition-label');
+    await expect(exhibition).toHaveText('소모임실\n자료 전시');
+    await expect(auditorium).toHaveCSS('font-size', '11px');
+    await expect(exhibition).toHaveCSS('background-color', 'rgb(222, 208, 255)');
     await expect(page.locator('.map-entrance-label')).toHaveText('등록 장소:\n본관 1층 중앙현관');
     const labelBounds = (await auditorium.boundingBox())!;
     const entrance = (await page.locator('.map-entrance-label').boundingBox())!;
     expect(labelBounds.x + labelBounds.width <= entrance.x || labelBounds.y + labelBounds.height <= entrance.y || entrance.y + entrance.height <= labelBounds.y).toBe(true);
+    const exhibitBounds = (await exhibition.boundingBox())!;
+    expect(labelBounds.y + labelBounds.height).toBeLessThan(exhibitBounds.y);
+    expect(exhibitBounds.y + exhibitBounds.height).toBeLessThan(entrance.y);
     await auditorium.tap();
     await expect(page).toHaveURL(/\/guide\/main\/4$/);
+    await expect(page.locator('#floor-4 .plan-event-space')).toHaveCount(2);
     expect(await page.locator('#floor-4 .plan-event-space').evaluateAll(nodes => nodes.map(node => [...node.querySelectorAll('.room-purpose')].map(span => span.textContent).join('').replace(/\s/g, '')))).toEqual(['자료전시', '공개보고회장']);
     const center = await rect('#floor-3 .plan-language-center rect');
     const five2 = await rect('[data-space-id="classroom-5-2"] rect');

@@ -26,7 +26,9 @@ function invitation(main: HTMLElement) {
   hero.append(actions);
   const intro = card('행사 소개'); intro.id = 'event';
   const research = el('p');
-  research.append(document.createTextNode('안성초등학교는 '), el('strong', '「상호문화적 (만남·배움·어울림) 이중언어 교육 프로그램 운영을 통한 미래 핵심역량 함양」'), document.createTextNode('을 주제로 정책연구학교를 운영하고 있습니다.'));
+  const theme = el('strong');
+  theme.append(document.createTextNode('「상호문화적 ('), link('만남·배움·어울림', '#model-two', 'model-two-link'), document.createTextNode(') 이중언어 교육 프로그램 운영을 통한 미래 핵심역량 함양」'));
+  research.append(document.createTextNode('안성초등학교는 '), theme, document.createTextNode('을 주제로 정책연구학교를 운영하고 있습니다.'));
   const facts = el('ul', undefined, 'event-facts note');
   for (const [text, bold] of [
     ['일시: 2026. 11. 11.(수) 12:50~16:00', true],

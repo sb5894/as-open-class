@@ -172,7 +172,9 @@ function mountResponsivePlan(region: HTMLElement, plan: FloorPlan, selected?: st
       let rx=x(room.x), rw=x(room.x+room.width)-rx;
       const ry=roomY(room),rh=room.kind==='stairs'?facilityHeight:y(room.y+room.height)-ry;
       if(korean.includes(room)) {
-        const start=x(korean[0].x),end=x(korean[korean.length-1].x+korean[korean.length-1].width);
+        const upperStair = rooms.find(item => item.kind === 'stairs' && item.y === 30)!;
+        const start = (x(elevator.x) + x(elevator.x + elevator.width)) / 2 + Math.max(28, x(elevator.x + elevator.width) - x(elevator.x)) / 2;
+        const end = (x(upperStair.x) + x(upperStair.x + upperStair.width)) / 2 - Math.max(18, x(upperStair.x + upperStair.width) - x(upperStair.x)) / 2;
         rw=(end-start)/korean.length;rx=start+korean.indexOf(room)*rw;
       } else if(!room.spaceId && room.kind!=='room' && room.y<166) {
         const minimum=room.kind==='elevator'?28:18;

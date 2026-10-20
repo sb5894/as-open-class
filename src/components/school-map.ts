@@ -33,7 +33,8 @@ export function createSchoolMap() {
     if(building) node.setAttribute('aria-label',place.label);
   }
   label('등록 장소:\n본관 1층 중앙현관', positions.entrance.point, 'map-entrance-label');
-  label('시청각실\n공개보고회장', [35, 32], 'map-auditorium-label', '/guide/main/4');
+  label('시청각실\n공개보고회장', [35, 24], 'map-event-label map-auditorium-label', '/guide/main/4');
+  label('소모임실\n자료 전시', [35, 34], 'map-event-label map-exhibition-label', '/guide/main/4');
   label('교직원 전용\n주차장', [16, 83], 'school-map-static map-staff-label');
   const ns = 'http://www.w3.org/2000/svg';
   const route = document.createElementNS(ns, 'svg');

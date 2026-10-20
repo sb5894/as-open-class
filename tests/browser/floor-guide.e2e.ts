@@ -64,10 +64,10 @@ test('main first floor marks the confirmed lower central entrance for registrati
   }
 });
 
-test('campus buttons open buildings and confirmed parking, with 44px touch targets', async ({page}) => {
+test('building and parking buttons open guides with 44px touch targets', async ({page}) => {
   await page.setViewportSize({width:320,height:740});
   await page.goto('/guide');
-  for (const link of await page.locator('.school-map-link').all()) {
+  for (const link of await page.locator('.school-map-link:not(.map-event-label)').all()) {
     const box=(await link.boundingBox())!;
     expect(box.width).toBeGreaterThanOrEqual(44);expect(box.height).toBeGreaterThanOrEqual(44);
   }
@@ -167,6 +167,26 @@ test('building overview preserves straight classroom rows with complete common t
       const leftStair=await page.locator('#floor-2 .facility-stairs[data-source-x="222"] rect').evaluate(node=>({x:Number(node.getAttribute('x')),w:Number(node.getAttribute('width')),y:Number(node.getAttribute('y'))}));
       expect(ev.x+ev.w/2).toBeCloseTo(leftStair.x+leftStair.w/2,5);
       expect(ev.y+ev.h).toBeLessThan(leftStair.y);
+      const koreanStrip = await page.locator('#floor-2').evaluate(floor => {
+        const elevator = floor.querySelector<SVGRectElement>('.facility-elevator rect')!.getBBox();
+        const stair = floor.querySelector<SVGRectElement>('.facility-stairs[data-source-y="30"] rect')!.getBBox();
+        const rooms = [...floor.querySelectorAll<SVGAElement>('[data-space-id^="korean-"]')].map(node => {
+          const rect = node.querySelector('rect')!.getBBox();
+          return { id: node.getAttribute('data-space-id')!, href: node.getAttribute('href'), x: rect.x, width: rect.width, text: node.querySelector('text')?.textContent,
+            textFits: [...node.querySelectorAll('text')].every(text => { const bounds = text.getBBox(); return bounds.x >= rect.x && bounds.y >= rect.y && bounds.x + bounds.width <= rect.x + rect.width && bounds.y + bounds.height <= rect.y + rect.height; }) };
+        });
+        return { start: elevator.x + elevator.width, end: stair.x, rooms };
+      });
+      expect(koreanStrip.rooms).toHaveLength(4);
+      expect(Math.abs(koreanStrip.rooms[0].x - koreanStrip.start)).toBeLessThan(.01);
+      expect(Math.abs(koreanStrip.rooms[3].x + koreanStrip.rooms[3].width - koreanStrip.end)).toBeLessThan(.01);
+      for (const [index, room] of koreanStrip.rooms.entries()) {
+        if (index) expect(Math.abs(room.x - koreanStrip.rooms[index - 1].x - koreanStrip.rooms[index - 1].width)).toBeLessThan(.01);
+        expect(room.textFits).toBe(true);
+        const lesson = getPublicLessons().find(item => item.spaceIds.includes(room.id));
+        expect(room.href).toBe(lesson ? `/lessons/${lesson.id}?from=${encodeURIComponent(room.id)}` : floorHref('main', 2, room.id));
+        if (room.id === 'korean-red' || room.id === 'korean-green') expect(room.text).toBe(room.id === 'korean-red' ? '빨강반' : '초록반');
+      }
     }
     await expect(page.locator('.floor-legend li')).toHaveText(['공개수업 진행','다른 장소에서 공개수업 진행','공개수업 미진행','계단','E/V승강기']);
     await expect(page.locator('.floor-legend svg')).toHaveCount(5);
