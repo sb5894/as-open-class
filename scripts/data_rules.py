@@ -38,11 +38,10 @@ PDF_RULES = {
     "grade-3": {"file": "2026 연구학교 공개보고회 수업안(3학년).pdf", "classes": ["3-2", "3-3", "3-4"]},
     "grade-4": {"file": "2026 연구학교 공개보고회 수업안(4학년).pdf", "classes": ["4-1", "4-2", "4-3", "4-4"]},
     "grade-5": {"file": "2026 연구학교 공개보고회 수업안(5학년).pdf", "classes": ["5-2", "5-3", "5-4", "5-5"]},
-    "kindergarten": {"file": "2026 연구학교 공개보고회 수업안(유치원).pdf", "classes": ["kindergarten-joint"]},
 }
 
 LENSES = {"참여", "강점", "협력", "표현", "발견"}
-PRIVATE_CLASSES = {"5-1": "체육 — 행사 운영 관계로 비공개", "kindergarten-joint": "2026-10-19 사용자 결정으로 유치원 공개수업 제외"}
+PRIVATE_CLASSES = {"5-1": "체육 — 행사 운영 관계로 비공개"}
 
 
 def spatial_data():
@@ -75,13 +74,13 @@ def spatial_data():
     for info in MULTICULTURAL.values():
         classes.append({"id": info["id"], "name": info["name"], "kind": "multicultural", "grade": None,
                         "homeSpaceIds": [info["roomId"]], "isPublic": True})
-    kindergarten_spaces = []
     for order, (key, name) in enumerate([("saemmul", "샘물반"), ("haetsal", "햇살반"), ("pullip", "풀잎반")], 1):
         room_id = "kindergarten-" + key
-        kindergarten_spaces.append(room_id)
         room(room_id, name, "main", 1, "south", order, "kindergarten")
+    # Public guide uses one user-confirmed kindergarten room; source spaces above remain intact.
+    room("kindergarten-public", "유치원", "main", 1, "south", 4, "kindergarten")
     classes.append({"id": "kindergarten-joint", "name": "유치원 공동 수업(샘물·햇살·풀잎반)",
-                    "kind": "kindergarten", "grade": None, "homeSpaceIds": kindergarten_spaces, "isPublic": "kindergarten-joint" not in PRIVATE_CLASSES})
+                    "kind": "kindergarten", "grade": None, "homeSpaceIds": ["kindergarten-public"], "isPublic": True})
     classes.sort(key=lambda item: (
         {"homeroom": 0, "multicultural": 1, "kindergarten": 2}[item["kind"]],
         item["grade"] or 0,

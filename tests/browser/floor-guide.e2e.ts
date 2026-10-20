@@ -18,11 +18,12 @@ test('main first floor marks the confirmed lower central entrance for registrati
   await expect(marker).toContainText('등록');
   await expect(floor.locator('.facility-stairs')).toHaveCount(3);
   await expect(floor.locator('.facility-elevator .room-name')).toHaveText('E/V');
-  await expect(floor.locator('.room-name')).toHaveText(['활동실', '놀이마루', '등록현관', '보건실', '행정실', '유치원활동실', 'E/V', '1컴퓨터실']);
+  await expect(floor.locator('.room-name')).toHaveText(['활동실', '놀이마루', '등록현관', '보건실', '행정실', 'E/V', '1컴퓨터실', '유치원']);
   await expect(floor.locator('.facility-toilet')).toHaveCount(0);
   await expect(floor).not.toContainText('서고');
-  await expect(floor.locator('a[href^="/lessons/"], a[data-space-id]')).toHaveCount(0);
-  await expect(floor.locator('.text-placeholder, .pdf-placeholder')).toHaveCount(0);
+  await expect(floor.locator('svg a[data-space-id="kindergarten-public"]')).toHaveCount(1);
+  await expect(floor.locator('svg a:not([data-space-id="kindergarten-public"])')).toHaveCount(0);
+  await expect(floor.locator('.floor-topic p')).toHaveText('자료 업로드 예정입니다.');
   for (const width of [320, 390, 430]) {
     await page.setViewportSize({ width, height: 740 });
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
@@ -85,7 +86,7 @@ test('campus buttons open buildings and confirmed parking, with 44px touch targe
   await expect(page.locator('main')).toContainText('본관 1층 중앙현관');
 });
 
-test('all 28 public lessons open from their actual SVG rooms and return to the selected floor', async ({page}) => {
+test('all 29 public lessons open from their actual SVG rooms and return to the selected floor', async ({page}) => {
   test.setTimeout(120000);
   const pdfRequests: string[] = [];
   page.on('request',request=>{if (/\/pdfs\/.*\.pdf/.test(request.url())) pdfRequests.push(request.url());});
@@ -156,7 +157,7 @@ test('building overview preserves straight classroom rows with complete common t
     expect(new Set(tabs.map(item=>item.height)).size).toBe(1);
     const teachingFloors = page.locator('.building-floor:not([data-floor="1"])');
     await expect(teachingFloors.locator('.facility-toilet, .facility-entrance, .facility-outdoor')).toHaveCount(0);
-    await expect(teachingFloors.locator('g.facility-room')).toHaveCount(building==='main'?2:0);
+    await expect(teachingFloors.locator('g.facility-room')).toHaveCount(building==='main'?5:0);
     if(building==='main') {
       const offices=page.locator('#floor-2 g.facility-room text');
       await expect(offices).toHaveText(['자치실','교무실']);
@@ -251,8 +252,9 @@ test('building overview preserves straight classroom rows with complete common t
   await expect(page.locator('.building-floor')).toHaveCount(4);
   await page.screenshot({path:`test-results/${test.info().project.name}-building-overview.png`,fullPage:true});
   await page.goto('/register');
-  await expect(page.locator('.lesson-choice')).toHaveCount(13);
-  await expect(page.locator('form')).not.toContainText('유치원');
+  await expect(page.locator('.lesson-choice')).toHaveCount(14);
+  await expect(page.locator('.lesson-choice strong').last()).toHaveText('유치원');
   await page.goto('/lessons/lesson-kindergarten-joint');
-  await expect(page.getByRole('heading',{level:1})).toHaveText('페이지를 찾을 수 없습니다.');
+  await expect(page.getByRole('heading',{level:1})).toHaveText('자료 업로드 예정입니다.');
+  await expect(page.locator('.pdf-placeholder')).toHaveText('자료 업로드 예정');
 });

@@ -210,7 +210,7 @@ def validate_catalog(data):
         if class_id in SPECIAL_LESSONS and (lesson["source"]["gradeRow"] is not None
                                             or (plan_id is not None and plan_id != f"special-{class_id}")):
             raise ValueError(f"별도 수업에 공통 자료를 연결했습니다: {class_id}")
-        if lesson["locationStatus"] != ("provisional" if class_id == "kindergarten-joint" else "confirmed"):
+        if lesson["locationStatus"] != "confirmed":
             raise ValueError(f"장소 확인 상태 오류: {class_id}")
     expected = {key for key, item in classes.items() if item["isPublic"]}
     if set(lesson_classes) != expected or len(lesson_classes) != len(expected):
@@ -262,7 +262,7 @@ def convert(workbook_path):
             "kind": "special" if special else school_class["kind"],
             "subject": special["subject"] if special else None,
             "spaceIds": [special["roomId"]] if special else school_class["homeSpaceIds"],
-            "locationStatus": "provisional" if school_class["kind"] == "kindergarten" else "confirmed",
+            "locationStatus": "confirmed",
             **{key: grade_topic[key] if grade_topic else None for key in TEXT_FIELDS[:4]},
             **{key: row[key] if row else None for key in ("context", "observation", "support")},
             "lenses": row["lenses"] if row else [],
@@ -293,11 +293,11 @@ def reports(data, missing_files):
     plans = {item["id"]: item for item in data["lessonPlans"]}
     review = ["# 수업·장소·지도안 연결표", "", "자동 생성 문서입니다. `npm.cmd run data:convert`로 갱신합니다.", "",
               f"기준 엑셀: `{data['sources']['workbook']['path']}`", "",
-              f"공개수업 {len(data['lessons'])}개. 학급과 실제 장소를 따로 관리합니다. 유치원은 사용자 결정으로 제외합니다.", "",
+              f"공개수업 {len(data['lessons'])}개. 학급과 실제 장소를 따로 관리합니다. 유치원 공동 수업은 본관 1층 유치원으로 안내합니다.", "",
               "| 수업 ID | 학급·수업 | 수업 주제 | 실제 참관 장소 | 장소 상태 | 지도안 | 엑셀 근거 |", "|---|---|---|---|---|---|---|"]
     missing = ["# 누락 자료와 확인할 사항", "", "자동 생성 문서입니다. 데이터의 미제공 텍스트·PDF는 `null`, 작성된 렌즈가 없으면 `[]`입니다.", "",
                "화면에서는 `src/components/placeholders.ts`를 사용합니다. 아래 ‘미제공’은 검토표용 표현입니다.", "",
-               "- 행사 세부 시간. 정식 행사명·주소는 사용자 확정 설정 `src/data/event.ts`와 결정 기록을 따름.", "- 유치원은 사용자 결정으로 공개수업에서 제외. 원본과 공간 기록은 보존.",
+               "- 행사 세부 시간. 정식 행사명·주소는 사용자 확정 설정 `src/data/event.ts`와 결정 기록을 따름.", "- 유치원 공동 수업을 공개하며 새 텍스트·PDF 제공 전까지 기존 유치원 PDF를 연결하지 않음. 원본과 공간 기록은 보존.",
                "- 주차 진입 경로와 본관 중앙 출입구 현장 확인(가안).", "",
                "## 수업별 미제공 항목", "", "설계·공통 참관 포인트는 일반 학년 공통 수업에만 적용합니다. 별도·다문화·유치원에는 억지로 요구하지 않습니다.", "",
                "| 학급·수업 | 미제공 항목 |", "|---|---|"]

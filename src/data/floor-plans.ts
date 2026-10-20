@@ -49,6 +49,8 @@ function plan(buildingId: string, floor: number, corridor: [number, number] = [5
   p.box(281,303,'현관',40,80); p.box(303,334,'당직실',40,80);
   p.row(436, [[470,'세면대'],[503,'유치원\n연구실'],[537,'주방']],40,80);
   p.box(126,151,'엘리베이터',70,50);
+  // Aggregate public kindergarten marker; the three original classroom records remain above.
+  p.box(503,537,'유치원',120,180,'kindergarten-public');
 }
 {
   const p = plan('rear', 3, [57,502]);
@@ -124,7 +126,7 @@ export function getFloorTopics(plan: FloorPlan) {
     let group = groups.get(key);
     if (!group) {
       const multipleTopics = lesson.kind === 'homeroom' && new Set(lessons.filter(item=>item.kind==='homeroom' && catalog.classes.find(entry=>entry.id===item.classId)?.grade===schoolClass.grade).map(item=>item.topic)).size > 1;
-      group = { label: lesson.kind === 'homeroom' ? `${schoolClass.grade}학년${multipleTopics ? '' : ' 공개수업'}` : lesson.kind === 'multicultural' ? '다문화특별학급' : `${lesson.classId} ${lesson.subject ?? ''}`.trim(), topic: lesson.topic, lessonIds: [], classIds: [] };
+      group = { label: lesson.kind === 'homeroom' ? `${schoolClass.grade}학년${multipleTopics ? '' : ' 공개수업'}` : lesson.kind === 'multicultural' ? '다문화특별학급' : lesson.kind === 'kindergarten' ? '유치원' : `${lesson.classId} ${lesson.subject ?? ''}`.trim(), topic: lesson.topic, lessonIds: [], classIds: [] };
       groups.set(key, group);
     }
     group.lessonIds.push(lesson.id); group.classIds.push(lesson.classId);

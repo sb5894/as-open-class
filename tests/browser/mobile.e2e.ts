@@ -17,7 +17,7 @@ test('feedback schedule is shared and disclosure is independent of required cons
     await page.setViewportSize({ width, height: 740 });
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   }
-  await page.getByRole('link', { name: '참관 신청', exact: true }).tap();
+  await page.getByRole('link', { name: '참관 신청하기', exact: true }).tap();
   expect(await page.locator('.event-schedule table').innerText()).toBe(schedule);
   await expect(page.locator('#event')).toHaveCount(0);
   await expect(page.getByLabel('담당 학년·교과', { exact: true })).toHaveCount(0);
@@ -62,7 +62,7 @@ test('confirmed school map loads only on guide and route toggles on a narrow scr
   const image = page.locator('.school-map img');
   await expect(image).toBeVisible();
   await expect.poll(() => image.evaluate(node => (node as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
-  await expect(page.locator('.map-entrance-label')).toHaveText('등록 장소\n본관 1층 중앙현관');
+  await expect(page.locator('.map-entrance-label')).toHaveText('등록 장소:\n본관 1층 중앙현관');
   await expect(page.locator('.map-help')).toHaveCount(0);
   await expect(page.locator('main')).not.toContainText(/이름을 누르면|수업을 만나러 가는 길|정문 → 회색 진입로/);
   expect((await page.locator('.map-route-control').boundingBox())!.y).toBeGreaterThanOrEqual((await page.locator('.school-map-frame').boundingBox())!.y+(await page.locator('.school-map-frame').boundingBox())!.height);
@@ -102,7 +102,7 @@ test('invitation, guide, direct refresh, history and on-demand PDF controls', as
   await page.goto('/');
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('2026 안성초등학교 정책연구학교 공개보고회 참관 신청');
   await expect(page.locator('.brand')).toHaveText('안성초 공개보고회');
-  await expect(page.locator('.actions a')).toHaveText(['보고회 둘러보기', '참관 신청']);
+  await expect(page.locator('.actions a')).toHaveText(['보고회 둘러보기', '참관 신청하기']);
   await expect(page.getByRole('link', { name: '행사 소개', exact: true })).toHaveCount(0);
   await expect(page.locator('#event')).toContainText('그동안의 연구 성과와 교육과정 운영 사례를 공유하는 공개보고회에 교육 관계자 여러분을 초대합니다.');
   await expect(page.locator('#event')).toContainText('일시: 2026. 11. 11.(수) 12:50~16:00');
@@ -162,8 +162,8 @@ test('registration validates choices, locks during submission and keeps inputs o
   await page.locator('.preference-disclosure summary').tap();
   const checks = page.locator('.lesson-choice input'); await checks.nth(1).tap(); await checks.nth(2).tap();
   await expect(checks.nth(3)).toBeDisabled();
-  expect(await checks.count()).toBe(13);
-  await expect(page.locator('.lesson-choice strong')).toHaveText(['수석교사 · 1-3', '1학년', '2학년', '3학년', '4학년', '5학년', '6학년', '다문화특별학급 1반 (빨강)', '다문화특별학급 2반 (초록)', '다문화특별학급 3반 (파랑)', '과학 전담 · 3-1', '과학 전담 · 4-5', '영어 전담 · 6-1']);
+  expect(await checks.count()).toBe(14);
+  await expect(page.locator('.lesson-choice strong')).toHaveText(['수석교사 · 1-3', '1학년', '2학년', '3학년', '4학년', '5학년', '6학년', '다문화특별학급 1반 (빨강)', '다문화특별학급 2반 (초록)', '다문화특별학급 3반 (파랑)', '과학 전담 · 3-1', '과학 전담 · 4-5', '영어 전담 · 6-1', '유치원']);
   await page.locator('fieldset').nth(1).screenshot({ path: `test-results/${test.info().project.name}-interest-options.png` });
   await expect(page.locator('legend').nth(1)).toHaveText('관심있는 수업 (선택, 최대 2개)');
   await expect(page.locator('main')).not.toContainText('희망 수업');

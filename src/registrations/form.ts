@@ -6,7 +6,7 @@ import { createRegistrationSubmission } from './client';
 import { createEventSchedule } from '../components/event-schedule';
 
 export function mountRegistration(main: HTMLElement) {
-  main.append(el('h1', '참관 신청'), createEventSchedule());
+  main.append(el('h1', '참관 신청'), el('p', '신청 기한: 2026. 10. 28.(수) 16:00까지', 'note registration-deadline'), createEventSchedule());
   const form = el('form', undefined, 'card');
   form.noValidate = true;
   const fields = el('fieldset'); fields.append(el('legend', '신청자 정보'));
@@ -40,13 +40,13 @@ export function mountRegistration(main: HTMLElement) {
     if (!input) return false;
     input.focus({ preventScroll: true }); input.scrollIntoView({ block: 'center' }); return true;
   }
-  const choices = el('fieldset'); choices.append(el('legend', '관심있는 수업 (선택, 최대 2개)'));
+  const choices = el('fieldset', undefined, 'registration-preferences'); choices.append(el('legend', '관심있는 수업 (선택, 최대 2개)'));
   const help = el('p', '수요조사를 위한 문항이며, 공개보고회에서는 전체 수업을 자유롭게 참관 가능합니다.', 'note preference-help');
   help.id = 'preference-help'; choices.setAttribute('aria-describedby', help.id); choices.append(help);
   const count = el('p', '선택 0 / 2', 'note'); count.id = 'preference-count'; count.setAttribute('aria-live', 'polite'); choices.append(count);
   const disclosure = el('details', undefined, 'preference-disclosure');
   const toggle = el('summary', '수업 목록 보기 · 선택 0/2');
-  const selectionSummary = el('p', '선택한 수업 없음', 'note'); selectionSummary.setAttribute('aria-live', 'polite');
+  const selectionSummary = el('p', '선택한 수업: 없음', 'note'); selectionSummary.setAttribute('aria-live', 'polite');
   disclosure.append(toggle); choices.append(selectionSummary, disclosure);
   const checks: HTMLInputElement[] = [];
   const lessons = getPublicLessons();
@@ -57,7 +57,7 @@ export function mountRegistration(main: HTMLElement) {
     const text = el('span'); text.append(el('strong', option.label), createMaterialText(topics.length ? topics.join(' / ') : null));
     label.append(input, text); disclosure.append(label);
   }
-  const additional = el('fieldset'); additional.append(el('legend', '문의 및 개인정보 동의'));
+  const additional = el('fieldset', undefined, 'registration-additional'); additional.append(el('legend', '문의 및 개인정보 동의'));
   const questionField = el('div', undefined, 'field');
   const questionLabel = el('label', '연구학교 운영과 관련하여 궁금한 점이 있으신가요? (선택)');
   const question = el('textarea'); question.id = 'registration-question'; question.name = 'question'; question.maxLength = 2000; question.rows = 4;
@@ -129,7 +129,7 @@ export function mountRegistration(main: HTMLElement) {
     const selected = checks.filter(item => item.checked).length;
     count.textContent = `선택 ${selected} / 2${selected === 2 ? ' — 최대 2개까지 선택할 수 있어요. 바꾸려면 선택한 수업을 먼저 해제하세요.' : ''}`;
     updateDisclosure();
-    selectionSummary.textContent = selected ? `선택한 수업: ${interestOptions.filter(option => checks.some(item => item.checked && item.value === option.id)).map(option => option.label).join(' / ')}` : '선택한 수업 없음';
+    selectionSummary.textContent = selected ? `선택한 수업: ${interestOptions.filter(option => checks.some(item => item.checked && item.value === option.id)).map(option => option.label).join(' / ')}` : '선택한 수업: 없음';
     checks.forEach(item => { item.disabled = selected >= 2 && !item.checked; });
   }));
   function updateDisclosure() {

@@ -35,7 +35,7 @@ describe('floor-plan coverage and source placement', () => {
       expect(matches[0].room.height).toBeGreaterThanOrEqual(44);
     }
   });
-  it('makes all 28 public lessons reachable in building overviews and shares exactly the registration lesson set', () => {
+  it('makes all 29 public lessons reachable in building overviews and shares exactly the registration lesson set', () => {
     const publicIds = getPublicLessons().map(lesson => lesson.id).sort();
     const mapped = new Set(catalog.buildings.flatMap(building=>getBuildingFloorPlans(building.id)).flatMap(plan => plan.rooms.flatMap(room => room.spaceId ? getLessonsAtSpace(room.spaceId).map(lesson => lesson.id) : [])));
     expect([...mapped].sort()).toEqual(publicIds);

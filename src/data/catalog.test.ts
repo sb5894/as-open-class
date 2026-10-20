@@ -2,10 +2,10 @@ import { describe, expect, it } from "vitest";
 import { catalog, getLessonPlan, getLessonsAtSpace, getPublicLessons, getRelocatedLessonsFromSpace } from "./catalog";
 
 describe("guide and preference data use the same public lessons", () => {
-  it("includes 28 lessons and three multicultural classes; kindergarten is excluded", () => {
+  it("includes 29 lessons, three multicultural classes and one kindergarten lesson", () => {
     const lessons = getPublicLessons();
-    expect(lessons).toHaveLength(28);
-    expect(lessons.filter(item => item.kind === "kindergarten")).toHaveLength(0);
+    expect(lessons).toHaveLength(29);
+    expect(lessons.filter(item => item.kind === "kindergarten")).toHaveLength(1);
     expect(lessons.filter(item => item.kind === "multicultural")).toHaveLength(3);
     expect(lessons.some(item => item.classId === "5-1")).toBe(false);
     expect(getLessonsAtSpace("classroom-5-1")).toEqual([]);
@@ -29,11 +29,22 @@ describe("guide and preference data use the same public lessons", () => {
     expect(getRelocatedLessonsFromSpace("classroom-1-3")).toEqual([]);
   });
 
-  it("retains kindergarten space records without public lessons or PDF targets", () => {
+  it("preserves source kindergarten rooms and opens one confirmed room with missing materials", () => {
     for (const id of ["kindergarten-saemmul", "kindergarten-haetsal", "kindergarten-pullip"]) {
       expect(getLessonsAtSpace(id)).toEqual([]);
+      expect(getRelocatedLessonsFromSpace(id)).toEqual([]);
+      expect(catalog.spaces.some(space => space.id === id)).toBe(true);
     }
-    expect(catalog.classes.find(item=>item.id==='kindergarten-joint')?.isPublic).toBe(false);
+    expect(catalog.classes.find(item=>item.id==='kindergarten-joint')?.isPublic).toBe(true);
+    const lessons = getLessonsAtSpace('kindergarten-public');
+    expect(lessons).toHaveLength(1);
+    const lesson = lessons[0];
+    expect(lesson.classId).toBe('kindergarten-joint');
+    expect(lesson.locationStatus).toBe('confirmed');
+    for (const key of ['topic', 'context', 'observation', 'support', 'lessonPlanId'] as const) expect(lesson[key]).toBeNull();
+    expect(lesson.lenses).toEqual([]);
+    expect(getLessonPlan(lesson)).toBeNull();
+    expect(catalog.spaces.find(space => space.id === 'kindergarten-public')).toMatchObject({name:'유치원', buildingId:'main', floor:1});
     expect(catalog.lessonPlans.some(item=>item.id==='kindergarten')).toBe(false);
   });
 

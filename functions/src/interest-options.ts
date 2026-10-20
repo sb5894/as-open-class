@@ -26,4 +26,5 @@ export const interestOptions: InterestOption[] = [
   individual('lesson-3-1', '과학 전담 · 3-1'),
   individual('lesson-4-5', '과학 전담 · 4-5'),
   individual('lesson-6-1', '영어 전담 · 6-1'),
+  individual('lesson-kindergarten-joint', '유치원'),
 ];

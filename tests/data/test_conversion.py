@@ -47,11 +47,12 @@ class ConversionTests(unittest.TestCase):
             normalize_class(46000)  # Unformatted numeric cells must not be guessed.
 
     def test_real_source_counts_and_private_class(self):
-        self.assertEqual(len(self.lessons), 28)
-        self.assertEqual(len(self.data["spaces"]), 37)
+        self.assertEqual(len(self.lessons), 29)
+        self.assertEqual(len(self.data["spaces"]), 38)
         self.assertNotIn("5-1", self.lessons)
         self.assertFalse(self.classes["5-1"]["isPublic"])
         self.assertEqual(self.data["excludedClasses"][0]["classId"], "5-1")
+        self.assertEqual(len(self.data["excludedClasses"]), 1)
         expected_floors = {1: ("rear", 2), 2: ("new", 2), 3: ("new", 3),
                            4: ("rear", 3), 5: ("main", 3), 6: ("main", 4)}
         for school_class in self.classes.values():
@@ -98,7 +99,7 @@ class ConversionTests(unittest.TestCase):
         for room_id in ("classroom-6-2", "classroom-6-3", "kindergarten-pullip"):
             self.assertEqual(self.spaces[room_id]["planPosition"]["band"], "south")
 
-    def test_multicultural_order_and_kindergarten_excluded_preserving_original_spaces(self):
+    def test_multicultural_order_and_kindergarten_public_preserving_original_spaces(self):
         north = sorted((room for room in self.spaces.values() if room["buildingId"] == "main" and room["floor"] == 2
                         and room["planPosition"]["band"] == "north"), key=lambda room: room["planPosition"]["orderFromLeft"])
         self.assertEqual([room["id"] for room in north], ["korean-red", "korean-instructor-1", "korean-instructor-2", "korean-green"])
@@ -107,9 +108,17 @@ class ConversionTests(unittest.TestCase):
         self.assertEqual(self.lessons["multicultural-blue"]["spaceIds"], ["multicultural-blue"])
         self.assertEqual(self.spaces["multicultural-blue"]["planLabel"], "다문화특별학급")
         self.assertFalse(any("instructor" in room for item in self.lessons.values() for room in item["spaceIds"]))
-        self.assertNotIn("kindergarten-joint", self.lessons)
-        self.assertFalse(self.classes["kindergarten-joint"]["isPublic"])
-        self.assertEqual([self.spaces[room]["name"] for room in self.classes["kindergarten-joint"]["homeSpaceIds"]], ["샘물반", "햇살반", "풀잎반"])
+        self.assertTrue(self.classes["kindergarten-joint"]["isPublic"])
+        self.assertEqual([self.spaces['kindergarten-' + key]["name"] for key in ('saemmul', 'haetsal', 'pullip')], ["샘물반", "햇살반", "풀잎반"])
+        self.assertEqual(self.classes["kindergarten-joint"]["homeSpaceIds"], ["kindergarten-public"])
+        lesson = self.lessons["kindergarten-joint"]
+        self.assertEqual(lesson["spaceIds"], ["kindergarten-public"])
+        self.assertEqual(lesson["locationStatus"], "confirmed")
+        self.assertEqual(self.spaces["kindergarten-public"]["name"], "유치원")
+        self.assertEqual(self.spaces["kindergarten-public"]["floor"], 1)
+        for field in ("gradeTheme", "topic", "designFocus", "commonObservation", "context", "observation", "support", "lessonPlanId"):
+            self.assertIsNone(lesson[field])
+        self.assertEqual(lesson["lenses"], [])
         self.assertNotIn("public/pdfs/kindergarten.pdf", self.pdfs)
 
     def test_no_invented_text_or_lenses_and_preserve_partial_text(self):
@@ -187,7 +196,7 @@ class ConversionTests(unittest.TestCase):
             next(item for item in data["lessons"] if item["classId"] == class_id)[field] = wrong
             with self.subTest(class_id=class_id, field=field), self.assertRaises(ValueError):
                 validate_catalog(data)
-        for private_class in ("5-1", "kindergarten-joint"):
+        for private_class in ("5-1",):
             data = deepcopy(self.data)
             data["lessons"][0]["classId"] = private_class
             with self.assertRaises(ValueError):

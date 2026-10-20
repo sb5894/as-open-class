@@ -546,6 +546,19 @@
       },
       "planLabel": "풀잎반",
       "subdivision": null
+    },
+    {
+      "id": "kindergarten-public",
+      "name": "유치원",
+      "buildingId": "main",
+      "floor": 1,
+      "kind": "kindergarten",
+      "planPosition": {
+        "band": "south",
+        "orderFromLeft": 4
+      },
+      "planLabel": "유치원",
+      "subdivision": null
     }
   ],
   "classes": [
@@ -845,11 +858,9 @@
       "kind": "kindergarten",
       "grade": null,
       "homeSpaceIds": [
-        "kindergarten-saemmul",
-        "kindergarten-haetsal",
-        "kindergarten-pullip"
+        "kindergarten-public"
       ],
-      "isPublic": false
+      "isPublic": true
     }
   ],
   "lessons": [
@@ -1699,6 +1710,29 @@
         },
         "gradeRow": null
       }
+    },
+    {
+      "id": "lesson-kindergarten-joint",
+      "classId": "kindergarten-joint",
+      "kind": "kindergarten",
+      "subject": null,
+      "spaceIds": [
+        "kindergarten-public"
+      ],
+      "locationStatus": "confirmed",
+      "gradeTheme": null,
+      "topic": null,
+      "designFocus": null,
+      "commonObservation": null,
+      "context": null,
+      "observation": null,
+      "support": null,
+      "lenses": [],
+      "lessonPlanId": null,
+      "source": {
+        "classRow": null,
+        "gradeRow": null
+      }
     }
   ],
   "lessonPlans": [
@@ -1731,10 +1765,6 @@
     {
       "classId": "5-1",
       "reason": "체육 — 행사 운영 관계로 비공개"
-    },
-    {
-      "classId": "kindergarten-joint",
-      "reason": "2026-10-19 사용자 결정으로 유치원 공개수업 제외"
     }
   ]
 }

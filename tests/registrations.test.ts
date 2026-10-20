@@ -41,8 +41,10 @@ describe("registration validation uses the converted public lessons", () => {
   it('groups every public lesson once, keeping senior and subject teachers outside grades', () => {
     expect(interestOptions.map(option => option.label).slice(0, 7)).toEqual(['수석교사 · 1-3', '1학년', '2학년', '3학년', '4학년', '5학년', '6학년']);
     const ids = interestOptions.flatMap(option => option.lessonIds);
-    expect(ids).toHaveLength(28);
-    expect(new Set(ids).size).toBe(28);
+    expect(ids).toHaveLength(29);
+    expect(new Set(ids).size).toBe(29);
+    expect(interestOptions).toHaveLength(14);
+    expect(interestOptions.at(-1)).toMatchObject({id:'lesson-kindergarten-joint', label:'유치원'});
     expect([...ids].sort()).toEqual(publicLessons.map(lesson => lesson.id).sort());
     expect(interestOptions.find(option => option.id === 'grade-1')!.lessonIds).toEqual(['lesson-1-1', 'lesson-1-2']);
     expect(interestOptions.find(option => option.id === 'grade-5')!.lessonIds).not.toContain('lesson-5-1');
@@ -59,14 +61,15 @@ describe("registration validation uses the converted public lessons", () => {
     for (const lessonIds of [['grade-7'], ['grade-1', 'grade-1'], ['grade-1', 'grade-2', 'grade-3']]) expect(validateRegistration({ ...valid, lessonIds }).valid).toBe(false);
     expect(registrationRow({ ...record, lessonIds: ['grade-4', 'lesson-1-3'] })[7]).toBe('lesson-1-3 / grade-4');
   });
-  it("matches the guide list including special and multicultural lessons, excluding kindergarten", () => {
+  it("matches the guide list including special, multicultural and kindergarten lessons", () => {
     expect(publicLessons.map(item => item.id)).toEqual(getPublicLessons(catalog).map(item => item.id));
-    expect(publicLessons).toHaveLength(28);
+    expect(publicLessons).toHaveLength(29);
     for (const id of ["lesson-1-3", "lesson-3-1", "lesson-4-5", "lesson-6-1", "lesson-multicultural-red"]) {
       expect(validateRegistration({ ...valid, lessonIds: [id] }).valid).toBe(true);
     }
-    expect(interestOptions.some(option=>option.id==='lesson-kindergarten-joint')).toBe(false);
-    expect(validateRegistration({ ...valid, lessonIds:['lesson-kindergarten-joint'] }).valid).toBe(false);
+    expect(interestOptions.some(option=>option.id==='lesson-kindergarten-joint')).toBe(true);
+    expect(validateRegistration({ ...valid, lessonIds:['lesson-kindergarten-joint'] }).valid).toBe(true);
+    expect(registrationRow({...record, lessonIds:['lesson-kindergarten-joint']})[8]).toBe('유치원 공동 수업(샘물·햇살·풀잎반)');
   });
 
   it.each(["city", "school", "assignment", "name"])("rejects missing, blank and non-text %s", key => {

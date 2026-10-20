@@ -9,6 +9,7 @@ import { createSchoolMap } from './components/school-map';
 import { mountFloorGuide, mountParkingGuide } from './components/floor-guide';
 import { spaceHref } from './data/floor-plans';
 import { createEventSchedule } from './components/event-schedule';
+import { createModelTwo } from './components/model-two';
 
 function card(title: string) {
   const node = el('section', undefined, 'card'); node.append(el('h2', title)); return node;
@@ -21,17 +22,23 @@ function invitation(main: HTMLElement) {
   const hero = el('header', undefined, 'hero');
   hero.append(el('p', '2026. 11. 11. 수요일', 'eyebrow'), el('h1', '2026 안성초등학교 정책연구학교 공개보고회 참관 신청'));
   const actions = el('div', undefined, 'actions');
-  actions.append(link('보고회 둘러보기', '/guide', 'button secondary'), link('참관 신청', '/register'));
+  actions.append(link('보고회 둘러보기', '/guide', 'button secondary'), link('참관 신청하기', '/register'));
   hero.append(actions);
   const intro = card('행사 소개'); intro.id = 'event';
-  intro.append(el('p', '안성초등학교는 「상호문화적 (만남·배움·어울림) 이중언어 교육 프로그램 운영을 통한 미래 핵심역량 함양」을 주제로 정책연구학교를 운영하고 있습니다.'),
-    el('p', '그동안의 연구 성과와 교육과정 운영 사례를 공유하는 공개보고회에 교육 관계자 여러분을 초대합니다.'),
-    el('p', '일시: 2026. 11. 11.(수) 12:50~16:00', 'note'),
-    el('p', '장소: 안성초등학교 (등록: 본관 1층 중앙현관)', 'note'),
-    el('p', '내용: 공개수업 → 전체보고 → 사후협의', 'note'),
-    el('p', '신청 기한: 2026. 10. 28.(수) 16:00까지', 'note'),
+  const research = el('p');
+  research.append(document.createTextNode('안성초등학교는 '), el('strong', '「상호문화적 (만남·배움·어울림) 이중언어 교육 프로그램 운영을 통한 미래 핵심역량 함양」'), document.createTextNode('을 주제로 정책연구학교를 운영하고 있습니다.'));
+  const facts = el('ul', undefined, 'event-facts note');
+  for (const [text, bold] of [
+    ['일시: 2026. 11. 11.(수) 12:50~16:00', true],
+    ['장소: 안성초등학교 (등록: 본관 1층 중앙현관)', false],
+    ['내용: 공개수업 → 전체보고 → 사후협의', false],
+    ['신청 기한: 2026. 10. 28.(수) 16:00까지', true],
+  ] as const) {
+    const item = el('li'); item.append(bold ? el('strong', text) : document.createTextNode(text)); facts.append(item);
+  }
+  intro.append(research, el('p', '그동안의 연구 성과와 교육과정 운영 사례를 공유하는 공개보고회에 교육 관계자 여러분을 초대합니다.'), facts,
     el('p', '※ 참석 신청을 해주신 분의 소속 기관으로 출장 협조 공문을 보내 드릴 예정입니다.', 'note'));
-  main.append(hero, intro, createEventSchedule());
+  main.append(hero, intro, createEventSchedule(), createModelTwo());
 }
 function guide(main: HTMLElement) {
   main.classList.add('page-guide');
