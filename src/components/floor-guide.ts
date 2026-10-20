@@ -99,6 +99,8 @@ function mountResponsivePlan(region: HTMLElement, plan: FloorPlan, selected?: st
   const korean = rooms.filter(room=>room.spaceId?.startsWith('korean-'));
   const passage = plan.buildingId === 'rear' && plan.floor === 2
     ? { x: (280-26)*3, width: (443-280)*3, minimum: 36 } : undefined;
+  const blueGap = plan.buildingId === 'main' && plan.floor === 2
+    ? { x: (325-26)*3, width: (413-325)*3, minimum: 14 } : undefined;
   const measure = document.createElement('canvas').getContext('2d')!;
   const elevator = rooms.find(room=>room.kind==='elevator')!;
   const facilityHeight = y(elevator.y+elevator.height)-y(elevator.y);
@@ -126,6 +128,7 @@ function mountResponsivePlan(region: HTMLElement, plan: FloorPlan, selected?: st
     const reserved = rooms.filter(room=>(!equalClassrooms || (!room.spaceId && room.y>=166)) && !(plan.buildingId==='main' && plan.floor===2 && room.label==='교장실'))
       .map(room=>({x:room.x,width:room.width,minimum:room.spaceId?17:room.kind==='elevator'?28:room.kind==='stairs'?18:44}));
     if (passage) reserved.push(passage);
+    if (blueGap) reserved.push(blueGap);
     const spans = edges.slice(0,-1).map((left,index)=>{
       const right = edges[index+1], middle = (left+right)/2;
       const classroom = rooms.find(room=>room.spaceId && room.x <= middle && middle < room.x + room.width);
@@ -150,6 +153,11 @@ function mountResponsivePlan(region: HTMLElement, plan: FloorPlan, selected?: st
     svg.append(svgEl('rect',{x:x((left-26)*3),y:y(120),width:x((right-26)*3)-x((left-26)*3),height:y(166)-y(120),class:'plan-corridor'}));
     const corridor=svgEl('text',{x:(x((left-26)*3)+x((right-26)*3))/2,y:100,'text-anchor':'middle','font-size':12});
     corridor.textContent='복도';svg.append(corridor);
+    if (blueGap) {
+      const blank = svgEl('g', { class: 'plan-room plan-closed plan-unlabelled', 'aria-hidden': 'true' });
+      blank.append(svgEl('rect', { x: x(blueGap.x), y: y(166), width: x(blueGap.x + blueGap.width) - x(blueGap.x), height: y(300) - y(166) }));
+      svg.append(blank);
+    }
     if (passage) {
       const label=svgEl('text',{x:(x(passage.x)+x(passage.x+passage.width))/2,y:137,'text-anchor':'middle','font-size':13,class:'plan-passage'});
       for(const [index,line] of ['본관','통로'].entries()) { const span=svgEl('tspan',{x:label.getAttribute('x')!,dy:index?16:0});span.textContent=line;label.append(span); }
