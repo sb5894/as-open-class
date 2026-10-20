@@ -157,10 +157,18 @@ test('building overview preserves straight classroom rows with complete common t
     expect(new Set(tabs.map(item=>item.height)).size).toBe(1);
     const teachingFloors = page.locator('.building-floor:not([data-floor="1"])');
     await expect(teachingFloors.locator('.facility-toilet, .facility-entrance, .facility-outdoor')).toHaveCount(0);
-    await expect(teachingFloors.locator('g.facility-room')).toHaveCount(building==='main'?5:0);
+    await expect(teachingFloors.locator('g.facility-room')).toHaveCount(building==='main'?6:0);
     if(building==='main') {
       const offices=page.locator('#floor-2 g.facility-room text');
-      await expect(offices).toHaveText(['자치실','교무실']);
+      await expect(offices).toHaveText(['자치실','교무실','교장실']);
+      const officePlacement = await page.locator('#floor-2').evaluate(floor => {
+        const offices = [...floor.querySelectorAll<SVGGElement>('g.facility-room')].slice(1);
+        const [staff, principal] = offices.map(node => node.querySelector('rect')!.getBBox());
+        const blue = floor.querySelector<SVGRectElement>('[data-space-id="multicultural-blue"] rect')!.getBBox();
+        return { contiguous: Math.abs(staff.x + staff.width - principal.x) < .01 && Math.abs(principal.x + principal.width - blue.x) < .01,
+          textFits: offices.every(node => { const r = node.querySelector('rect')!.getBBox(); return [...node.querySelectorAll('text')].every(text => { const b = text.getBBox(); return b.x >= r.x && b.x + b.width <= r.x + r.width && b.y >= r.y && b.y + b.height <= r.y + r.height; }); }) };
+      });
+      expect(officePlacement).toEqual({ contiguous: true, textFits: true });
       const ev=await page.locator('#floor-2 .facility-elevator rect').evaluate(node=>({x:Number(node.getAttribute('x')),w:Number(node.getAttribute('width')),y:Number(node.getAttribute('y')),h:Number(node.getAttribute('height'))}));
       const leftStair=await page.locator('#floor-2 .facility-stairs[data-source-x="222"] rect').evaluate(node=>({x:Number(node.getAttribute('x')),w:Number(node.getAttribute('width')),y:Number(node.getAttribute('y'))}));
       expect(ev.x+ev.w/2).toBeCloseTo(leftStair.x+leftStair.w/2,5);

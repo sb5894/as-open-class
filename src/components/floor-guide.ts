@@ -81,7 +81,7 @@ export function createSpacePanel(spaceId: string) {
 }
 function mountResponsivePlan(region: HTMLElement, plan: FloorPlan, selected?: string) {
   const rooms = plan.rooms.filter(room => room.spaceId || room.kind === 'stairs' || room.kind === 'elevator'
-    || (plan.buildingId === 'main' && plan.floor === 2 && ['교무실','회의실'].includes(room.label))
+    || (plan.buildingId === 'main' && plan.floor === 2 && ['교무실','교장실','회의실'].includes(room.label))
     || (plan.buildingId === 'main' && plan.floor === 3 && room.label === '이중언어\n센터')
     || (plan.buildingId === 'main' && plan.floor === 4 && ['공간드림\n(소모임실)', '시청각실'].includes(room.label)))
     .map(room=>{
@@ -123,7 +123,7 @@ function mountResponsivePlan(region: HTMLElement, plan: FloorPlan, selected?: st
       ...rooms.flatMap(room => [room.x, room.x + room.width]),
       ...(passage ? [passage.x, passage.x + passage.width] : []),
     ])].sort((a,b)=>a-b);
-    const reserved = rooms.filter(room=>!equalClassrooms || (!room.spaceId && room.y>=166))
+    const reserved = rooms.filter(room=>(!equalClassrooms || (!room.spaceId && room.y>=166)) && !(plan.buildingId==='main' && plan.floor===2 && room.label==='교장실'))
       .map(room=>({x:room.x,width:room.width,minimum:room.spaceId?17:room.kind==='elevator'?28:room.kind==='stairs'?18:44}));
     if (passage) reserved.push(passage);
     const spans = edges.slice(0,-1).map((left,index)=>{
@@ -171,6 +171,12 @@ function mountResponsivePlan(region: HTMLElement, plan: FloorPlan, selected?: st
       const title=svgEl('title',{});title.textContent=accessible;node.append(title);
       let rx=x(room.x), rw=x(room.x+room.width)-rx;
       const ry=roomY(room),rh=room.kind==='stairs'?facilityHeight:y(room.y+room.height)-ry;
+      if (plan.buildingId === 'main' && plan.floor === 2 && ['교무실', '교장실'].includes(room.label)) {
+        const office = rooms.find(item => item.label === '교무실')!;
+        const officeLeft = x(office.x), officeWidth = (x(office.x + office.width) - officeLeft) * .8;
+        if (room.label === '교무실') rw = officeWidth;
+        else { rx = officeLeft + officeWidth; rw = x(room.x + room.width) - rx; }
+      }
       if(korean.includes(room)) {
         const upperStair = rooms.find(item => item.kind === 'stairs' && item.y === 30)!;
         const start = (x(elevator.x) + x(elevator.x + elevator.width)) / 2 + Math.max(28, x(elevator.x + elevator.width) - x(elevator.x)) / 2;
