@@ -1,0 +1,250 @@
+[
+  {
+    "engine": "chromium",
+    "width": 320,
+    "markupUnchanged": true,
+    "overflow": false,
+    "hero": "rgb(36, 88, 75)",
+    "dockButton": "rgb(36, 88, 75)",
+    "deadline": "rgb(36, 88, 75)",
+    "legacyBackground": "rgb(244, 245, 239)",
+    "imagesOkay": true,
+    "fontFamilies": [
+      "\"Noto Sans KR\", sans-serif"
+    ],
+    "tabs": [
+      {
+        "text": "신청하기",
+        "href": "https://as-open-class.web.app/register",
+        "height": 44
+      },
+      {
+        "text": "둘러보기",
+        "href": "https://as-open-class.web.app/guide",
+        "height": 44
+      }
+    ],
+    "copyDisplay": [
+      "block",
+      "block"
+    ],
+    "errors": []
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "markupUnchanged": true,
+    "overflow": false,
+    "hero": "rgb(36, 88, 75)",
+    "dockButton": "rgb(36, 88, 75)",
+    "deadline": "rgb(36, 88, 75)",
+    "legacyBackground": "rgb(244, 245, 239)",
+    "imagesOkay": true,
+    "fontFamilies": [
+      "\"Noto Sans KR\", sans-serif"
+    ],
+    "tabs": [
+      {
+        "text": "신청하기",
+        "href": "https://as-open-class.web.app/register",
+        "height": 44
+      },
+      {
+        "text": "둘러보기",
+        "href": "https://as-open-class.web.app/guide",
+        "height": 44
+      }
+    ],
+    "copyDisplay": [
+      "block",
+      "block"
+    ],
+    "errors": []
+  },
+  {
+    "engine": "chromium",
+    "width": 430,
+    "markupUnchanged": true,
+    "overflow": false,
+    "hero": "rgb(36, 88, 75)",
+    "dockButton": "rgb(36, 88, 75)",
+    "deadline": "rgb(36, 88, 75)",
+    "legacyBackground": "rgb(244, 245, 239)",
+    "imagesOkay": true,
+    "fontFamilies": [
+      "\"Noto Sans KR\", sans-serif"
+    ],
+    "tabs": [
+      {
+        "text": "신청하기",
+        "href": "https://as-open-class.web.app/register",
+        "height": 44
+      },
+      {
+        "text": "둘러보기",
+        "href": "https://as-open-class.web.app/guide",
+        "height": 44
+      }
+    ],
+    "copyDisplay": [
+      "block",
+      "block"
+    ],
+    "errors": []
+  },
+  {
+    "engine": "chromium",
+    "width": 1440,
+    "markupUnchanged": true,
+    "overflow": false,
+    "hero": "rgb(36, 88, 75)",
+    "dockButton": "rgb(36, 88, 75)",
+    "deadline": "rgb(36, 88, 75)",
+    "legacyBackground": "rgb(244, 245, 239)",
+    "imagesOkay": true,
+    "fontFamilies": [
+      "\"Noto Sans KR\", sans-serif"
+    ],
+    "tabs": [
+      {
+        "text": "신청하기",
+        "href": "https://as-open-class.web.app/register",
+        "height": 44
+      },
+      {
+        "text": "둘러보기",
+        "href": "https://as-open-class.web.app/guide",
+        "height": 44
+      }
+    ],
+    "copyDisplay": [
+      "block",
+      "block"
+    ],
+    "errors": []
+  },
+  {
+    "engine": "webkit",
+    "width": 320,
+    "markupUnchanged": true,
+    "overflow": false,
+    "hero": "rgb(36, 88, 75)",
+    "dockButton": "rgb(36, 88, 75)",
+    "deadline": "rgb(36, 88, 75)",
+    "legacyBackground": "rgb(244, 245, 239)",
+    "imagesOkay": true,
+    "fontFamilies": [
+      "Noto Sans KR, sans-serif"
+    ],
+    "tabs": [
+      {
+        "text": "신청하기",
+        "href": "https://as-open-class.web.app/register",
+        "height": 44
+      },
+      {
+        "text": "둘러보기",
+        "href": "https://as-open-class.web.app/guide",
+        "height": 44
+      }
+    ],
+    "copyDisplay": [
+      "block",
+      "block"
+    ],
+    "errors": []
+  },
+  {
+    "engine": "webkit",
+    "width": 390,
+    "markupUnchanged": true,
+    "overflow": false,
+    "hero": "rgb(36, 88, 75)",
+    "dockButton": "rgb(36, 88, 75)",
+    "deadline": "rgb(36, 88, 75)",
+    "legacyBackground": "rgb(244, 245, 239)",
+    "imagesOkay": true,
+    "fontFamilies": [
+      "Noto Sans KR, sans-serif"
+    ],
+    "tabs": [
+      {
+        "text": "신청하기",
+        "href": "https://as-open-class.web.app/register",
+        "height": 44
+      },
+      {
+        "text": "둘러보기",
+        "href": "https://as-open-class.web.app/guide",
+        "height": 44
+      }
+    ],
+    "copyDisplay": [
+      "block",
+      "block"
+    ],
+    "errors": []
+  },
+  {
+    "engine": "webkit",
+    "width": 430,
+    "markupUnchanged": true,
+    "overflow": false,
+    "hero": "rgb(36, 88, 75)",
+    "dockButton": "rgb(36, 88, 75)",
+    "deadline": "rgb(36, 88, 75)",
+    "legacyBackground": "rgb(244, 245, 239)",
+    "imagesOkay": true,
+    "fontFamilies": [
+      "Noto Sans KR, sans-serif"
+    ],
+    "tabs": [
+      {
+        "text": "신청하기",
+        "href": "https://as-open-class.web.app/register",
+        "height": 44
+      },
+      {
+        "text": "둘러보기",
+        "href": "https://as-open-class.web.app/guide",
+        "height": 44
+      }
+    ],
+    "copyDisplay": [
+      "block",
+      "block"
+    ],
+    "errors": []
+  },
+  {
+    "engine": "webkit",
+    "width": 1440,
+    "markupUnchanged": true,
+    "overflow": false,
+    "hero": "rgb(36, 88, 75)",
+    "dockButton": "rgb(36, 88, 75)",
+    "deadline": "rgb(36, 88, 75)",
+    "legacyBackground": "rgb(244, 245, 239)",
+    "imagesOkay": true,
+    "fontFamilies": [
+      "Noto Sans KR, sans-serif"
+    ],
+    "tabs": [
+      {
+        "text": "신청하기",
+        "href": "https://as-open-class.web.app/register",
+        "height": 44
+      },
+      {
+        "text": "둘러보기",
+        "href": "https://as-open-class.web.app/guide",
+        "height": 44
+      }
+    ],
+    "copyDisplay": [
+      "block",
+      "block"
+    ],
+    "errors": []
+  }
+]

@@ -5,6 +5,7 @@
 - Work in this repository: C:\Users\user\Projects\as-open-class.
 - Before implementing a task, read README.md, 개발 계획.md, docs/결정 기록.md, and docs/진행 현황.md.
 - For the current task, read the corresponding step in 작업 순서와 모델별 요청문.md.
+- For design work, read docs/디자인 방향 및 인수인계.md and its current reference HTML. Preserve the selected direction and specified invitation wording; do not restart from discarded design experiments.
 - Latest explicit user instructions override these documents. Confirm material conflicts rather than silently choosing.
 - Use the existing TypeScript/Vite/Firebase structure. Do not recreate the project or introduce a framework without a concrete requirement.
 
