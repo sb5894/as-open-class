@@ -19,7 +19,8 @@ import unittest
 
 import openpyxl
 
-from data_rules import LENSES, MULTICULTURAL, PDF_RULES, PRIVATE_CLASSES, SPECIAL_LESSONS, spatial_data
+from data_rules import (LENSES, MULTICULTURAL, PDF_RULES, PRIVATE_CLASSES, SPECIAL_LESSONS,
+                        WORKBOOK_MISSING_CLASSES, WORKBOOK_SPECIAL_CLASSES, spatial_data)
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_WORKBOOK = ROOT / "materials/original/curriculum/2026 공개보고회 준비 수업정보(261015-2113).xlsx"
@@ -145,7 +146,7 @@ def read_class_rows(sheet):
             class_id = info["id"]
         else:
             class_id = normalize_class(raw)
-            if (class_id in SPECIAL_LESSONS) != (section == "special"):
+            if (class_id in WORKBOOK_SPECIAL_CLASSES) != (section == "special"):
                 raise ValueError(f"별도 수업 구분이 결정 기록과 다릅니다: {class_id} (행 {row})")
         if class_id in rows:
             raise ValueError(f"학급 행이 중복됩니다: {class_id}")
@@ -228,7 +229,7 @@ def convert(workbook_path):
     finally:
         workbook.close()
     spatial = spatial_data()
-    expected = {item["id"] for item in spatial["classes"] if item["isPublic"] and item["id"] != "kindergarten-joint"}
+    expected = {item["id"] for item in spatial["classes"] if item["id"] not in WORKBOOK_MISSING_CLASSES}
     if set(class_rows) != expected:
         raise ValueError(f"학급 목록이 공간 규칙과 다릅니다. 누락={sorted(expected-set(class_rows))}, 추가={sorted(set(class_rows)-expected)}")
     lesson_plans, pdf_files, plan_by_class = [], {}, {}
@@ -316,11 +317,11 @@ def reports(data, missing_files):
         absent = [FIELD_NAMES[key] for key in relevant if lesson[key] is None or lesson[key] == []]
         if absent:
             missing.append(f"| {md(title)} | {', '.join(absent)} |")
-    review += ["", "## 공간 연결 유의사항", "", "- 3-1 원래 교실: 신관 3층 → 실제 수업: 본관 2층 1과학실.",
+    review += ["", "## 공간 연결 유의사항", "", "- 5-1 도덕 원래 교실: 본관 3층 → 실제 수업: 본관 2층 1과학실.",
                "- 4-5 원래 교실: 후관 3층 → 실제 수업: 본관 2층 2과학실.",
                "- 6-1 원래 교실: 본관 4층 → 실제 수업: 같은 층 영어실.", "- 1-3 수석교사 수업: 후관 2층 1-3 교실.",
                "- 한국어교실 북쪽 공간: 왼쪽부터 빨강반 / 강사용 1 / 강사용 2 / 초록반. 파랑반은 교장실 옆 남쪽 공간.",
-               "- 5-1과 강사용 교실 2개는 공개수업 및 희망 수업 대상에서 제외.",
+               "- 3-1 체육과 강사용 교실 2개는 공개수업 및 희망 수업 대상에서 제외.",
                "- 공간 순서는 도면에서 추출한 상대 순서이며 실측 좌표가 아님. 계단·승강기·화장실과 전체 SVG는 6단계 범위.", ""]
     missing += ["", "## 원문을 보존하며 확인할 내용", ""]
     by_class = {lesson["classId"]: lesson for lesson in data["lessons"]}
@@ -341,9 +342,9 @@ def reports(data, missing_files):
     missing += ["", "## 원본 PDF와 결정 기록의 대조 — 작성자 확인 필요", "",
                 "아래는 2026-10-16에 제공된 PDF를 직접 확인한 기록이다. 새 PDF가 오면 다시 확인한다. 데이터/PDF 연결 규칙은 결정 기록을 유지하며 원문을 자동 교체하지 않는다.", "",
                 "- 4학년 PDF 1쪽의 4-3 고유 문구: ‘한국어 설명과 러시아어 표현의 역할을 나누어 서로의 설명을 보완한다’. 엑셀 C32와의 차이를 작성자가 확인해야 하며, PDF 문구로 엑셀을 자동 덮어쓰지 않음.",
-                "- 3학년 PDF 1쪽에는 3-1의 언어·문화 경험 활용 계획이 있음. 결정 기록/엑셀에서는 3-1 과학이 별도 수업임.",
+                "- 3학년 PDF 1쪽에는 3-1의 언어·문화 경험 활용 계획이 있음. 현재 사용자 결정으로 3-1 체육은 비공개이며 원본 PDF는 변경하지 않음.",
                 "- 4학년 PDF 1쪽에는 4-5의 표현 지원 계획이 있음. 결정 기록/엑셀에서는 4-5 과학이 별도 수업임.",
-                "- 5학년 PDF 2쪽에는 5-1의 학급 설명이 있음. 결정 기록/엑셀에서는 5-1 체육이 비공개임.",
+                "- 5학년 PDF 2쪽에는 5-1의 학급 설명이 있음. 현재 5-1 도덕은 본관 2층 1과학실의 별도 공개수업이며 기존 5학년 PDF를 연결하지 않음.",
                 "- 유치원 PDF에 주제 항목이 있어도 사용자 결정 전에는 사이트 수업 주제를 채우지 않음."]
     if missing_files:
         missing += ["", "## 기존 연결 규칙의 파일 누락", ""] + [f"- {name}" for name in missing_files]

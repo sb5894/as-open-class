@@ -76,7 +76,7 @@ export function createSpacePanel(spaceId: string) {
   const panel = el('section', undefined, 'card space-panel'); panel.id = 'space-detail';
   panel.tabIndex = -1;
   panel.append(link('← 층별 안내도', floorHref(space.buildingId, space.floor), 'text-link'), el('h2', space.name));
-  panel.append(el('p', spaceId === 'classroom-5-1' ? '5-1은 비공개 수업입니다.' : '강사용 교실입니다. 공개수업을 연결하지 않습니다.', 'note'));
+  panel.append(el('p', spaceId === 'classroom-3-1' ? '3-1 체육은 비공개 수업입니다.' : '강사용 교실입니다. 공개수업을 연결하지 않습니다.', 'note'));
   return panel;
 }
 function mountResponsivePlan(region: HTMLElement, plan: FloorPlan, selected?: string) {
@@ -153,9 +153,10 @@ function mountResponsivePlan(region: HTMLElement, plan: FloorPlan, selected?: st
     svg.append(svgEl('rect',{x:x((left-26)*3),y:y(120),width:x((right-26)*3)-x((left-26)*3),height:y(166)-y(120),class:'plan-corridor'}));
     const corridor=svgEl('text',{x:(x((left-26)*3)+x((right-26)*3))/2,y:100,'text-anchor':'middle','font-size':12});
     corridor.textContent='복도';svg.append(corridor);
-    if (blueGap) {
+    const blankSpaces = blueGap ? [blueGap, { x: (117-26)*3, width: (172-117)*3 }] : [];
+    for (const space of blankSpaces) {
       const blank = svgEl('g', { class: 'plan-room plan-closed plan-unlabelled', 'aria-hidden': 'true' });
-      blank.append(svgEl('rect', { x: x(blueGap.x), y: y(166), width: x(blueGap.x + blueGap.width) - x(blueGap.x), height: y(300) - y(166) }));
+      blank.append(svgEl('rect', { x: x(space.x), y: y(166), width: x(space.x + space.width) - x(space.x), height: y(300) - y(166) }));
       svg.append(blank);
     }
     if (passage) {
@@ -178,7 +179,8 @@ function mountResponsivePlan(region: HTMLElement, plan: FloorPlan, selected?: st
       if(room.spaceId)node.setAttribute('aria-label',accessible);
       const title=svgEl('title',{});title.textContent=accessible;node.append(title);
       let rx=x(room.x), rw=x(room.x+room.width)-rx;
-      const ry=roomY(room),rh=room.kind==='stairs'?facilityHeight:y(room.y+room.height)-ry;
+      const ry = plan.buildingId === 'main' && plan.floor === 2 && room.spaceId === 'science-2' ? y(120) : roomY(room);
+      const rh=room.kind==='stairs'?facilityHeight:y(room.y+room.height)-ry;
       if (plan.buildingId === 'main' && plan.floor === 2 && ['교무실', '교장실'].includes(room.label)) {
         const office = rooms.find(item => item.label === '교무실')!;
         const officeLeft = x(office.x), officeWidth = (x(office.x + office.width) - officeLeft) * .8;

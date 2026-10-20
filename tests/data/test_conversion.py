@@ -49,9 +49,11 @@ class ConversionTests(unittest.TestCase):
     def test_real_source_counts_and_private_class(self):
         self.assertEqual(len(self.lessons), 29)
         self.assertEqual(len(self.data["spaces"]), 38)
-        self.assertNotIn("5-1", self.lessons)
-        self.assertFalse(self.classes["5-1"]["isPublic"])
-        self.assertEqual(self.data["excludedClasses"][0]["classId"], "5-1")
+        self.assertNotIn("3-1", self.lessons)
+        self.assertFalse(self.classes["3-1"]["isPublic"])
+        self.assertTrue(self.classes["5-1"]["isPublic"])
+        self.assertEqual(self.data["excludedClasses"][0]["classId"], "3-1")
+        self.assertIn("체육", self.data["excludedClasses"][0]["reason"])
         self.assertEqual(len(self.data["excludedClasses"]), 1)
         expected_floors = {1: ("rear", 2), 2: ("new", 2), 3: ("new", 3),
                            4: ("rear", 3), 5: ("main", 3), 6: ("main", 4)}
@@ -61,7 +63,7 @@ class ConversionTests(unittest.TestCase):
                 self.assertEqual((room["buildingId"], room["floor"]), expected_floors[school_class["grade"]])
 
     def test_special_rooms_and_separate_pdf_absence(self):
-        expected = {"1-3": ("classroom-1-3", "rear", 2), "3-1": ("science-1", "main", 2),
+        expected = {"1-3": ("classroom-1-3", "rear", 2), "5-1": ("science-1", "main", 2),
                     "4-5": ("science-2", "main", 2), "6-1": ("english", "main", 4)}
         for class_id, (room_id, building, floor) in expected.items():
             with self.subTest(class_id=class_id):
@@ -74,6 +76,18 @@ class ConversionTests(unittest.TestCase):
                 self.assertIsNone(lesson["designFocus"])
         self.assertEqual(self.classes["3-1"]["homeSpaceIds"], ["classroom-3-1"])
         self.assertEqual(self.spaces["classroom-3-1"]["buildingId"], "new")
+
+    def test_new_moral_lesson_does_not_reuse_prior_science_or_grade_materials(self):
+        lesson = self.lessons["5-1"]
+        self.assertEqual(lesson["subject"], "도덕")
+        self.assertEqual(lesson["kind"], "special")
+        self.assertEqual(lesson["spaceIds"], ["science-1"])
+        self.assertEqual(self.classes["5-1"]["homeSpaceIds"], ["classroom-5-1"])
+        for field in ("gradeTheme", "topic", "designFocus", "commonObservation", "context", "observation", "support", "lessonPlanId"):
+            self.assertIsNone(lesson[field])
+        self.assertEqual(lesson["lenses"], [])
+        self.assertEqual(lesson["source"], {"classRow": None, "gradeRow": None})
+        self.assertEqual(lesson["locationStatus"], "confirmed")
 
     def test_grade_six_topics_and_date_target(self):
         for class_id in ("6-2", "6-4", "6-5"):
@@ -187,16 +201,16 @@ class ConversionTests(unittest.TestCase):
                 self.with_edited_copy(edit)
 
     def test_validation_rejects_wrong_location_private_class_and_pdf(self):
-        for class_id, field, wrong in [("3-1", "spaceIds", ["classroom-3-1"]),
+        for class_id, field, wrong in [("5-1", "spaceIds", ["classroom-5-1"]),
                                        ("4-5", "spaceIds", ["science-1"]),
                                        ("6-1", "spaceIds", ["classroom-6-1"]),
                                        ("multicultural-red", "spaceIds", ["korean-instructor-1"]),
-                                       ("3-1", "lessonPlanId", "grade-3")]:
+                                       ("5-1", "lessonPlanId", "grade-5")]:
             data = deepcopy(self.data)
             next(item for item in data["lessons"] if item["classId"] == class_id)[field] = wrong
             with self.subTest(class_id=class_id, field=field), self.assertRaises(ValueError):
                 validate_catalog(data)
-        for private_class in ("5-1",):
+        for private_class in ("3-1",):
             data = deepcopy(self.data)
             data["lessons"][0]["classId"] = private_class
             with self.assertRaises(ValueError):

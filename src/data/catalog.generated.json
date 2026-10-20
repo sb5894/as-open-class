@@ -640,7 +640,7 @@
       "homeSpaceIds": [
         "classroom-3-1"
       ],
-      "isPublic": true
+      "isPublic": false
     },
     {
       "id": "3-2",
@@ -730,7 +730,7 @@
       "homeSpaceIds": [
         "classroom-5-1"
       ],
-      "isPublic": false
+      "isPublic": true
     },
     {
       "id": "5-2",
@@ -1084,32 +1084,6 @@
       }
     },
     {
-      "id": "lesson-3-1",
-      "classId": "3-1",
-      "kind": "special",
-      "subject": "과학",
-      "spaceIds": [
-        "science-1"
-      ],
-      "locationStatus": "confirmed",
-      "gradeTheme": null,
-      "topic": null,
-      "designFocus": null,
-      "commonObservation": null,
-      "context": null,
-      "observation": null,
-      "support": null,
-      "lenses": [],
-      "lessonPlanId": null,
-      "source": {
-        "classRow": {
-          "sheet": "공개수업(학급, 전담, 특별학급)",
-          "row": 55
-        },
-        "gradeRow": null
-      }
-    },
-    {
       "id": "lesson-3-2",
       "classId": "3-2",
       "kind": "homeroom",
@@ -1360,6 +1334,29 @@
           "sheet": "공개수업(학급, 전담, 특별학급)",
           "row": 56
         },
+        "gradeRow": null
+      }
+    },
+    {
+      "id": "lesson-5-1",
+      "classId": "5-1",
+      "kind": "special",
+      "subject": "도덕",
+      "spaceIds": [
+        "science-1"
+      ],
+      "locationStatus": "confirmed",
+      "gradeTheme": null,
+      "topic": null,
+      "designFocus": null,
+      "commonObservation": null,
+      "context": null,
+      "observation": null,
+      "support": null,
+      "lenses": [],
+      "lessonPlanId": null,
+      "source": {
+        "classRow": null,
         "gradeRow": null
       }
     },
@@ -1763,8 +1760,8 @@
   ],
   "excludedClasses": [
     {
-      "classId": "5-1",
-      "reason": "체육 — 행사 운영 관계로 비공개"
+      "classId": "3-1",
+      "reason": "체육 — 비공개"
     }
   ]
 }

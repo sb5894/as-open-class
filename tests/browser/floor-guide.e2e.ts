@@ -115,7 +115,7 @@ test('all 29 public lessons open from their actual SVG rooms and return to the s
 });
 
 test('relocated classrooms lead to the real rooms; closed and general spaces do not show missing material placeholders', async ({page}) => {
-  for (const [origin,actual] of [['classroom-3-1','science-1'],['classroom-4-5','science-2'],['classroom-6-1','english']]) {
+  for (const [origin,actual] of [['classroom-5-1','science-1'],['classroom-4-5','science-2'],['classroom-6-1','english']]) {
     const space=catalog.spaces.find(item=>item.id===origin)!;
     const lesson=getPublicLessons().find(item=>item.spaceIds.includes(actual))!;
     const actualSpace=catalog.spaces.find(item=>item.id===actual)!;
@@ -133,10 +133,10 @@ test('relocated classrooms lead to the real rooms; closed and general spaces do 
     await expect(page.locator('.space-panel')).toHaveCount(0);
     await expect(page.locator(`.plan-selected[data-space-id="${origin}"]`)).toBeVisible();
   }
-  for (const id of ['classroom-5-1','korean-instructor-1','korean-instructor-2']) {
+  for (const id of ['classroom-3-1','korean-instructor-1','korean-instructor-2']) {
     const space=catalog.spaces.find(item=>item.id===id)!;
     await page.goto(floorHref(space.buildingId,space.floor,id));
-    await expect(page.locator('.space-panel')).toContainText(id==='classroom-5-1'?'비공개':'강사용');
+    await expect(page.locator('.space-panel')).toContainText(id==='classroom-3-1'?'3-1 체육은 비공개':'강사용');
     await expect(page.locator('.space-panel .text-placeholder, .space-panel .pdf-placeholder')).toHaveCount(0);
     await expect(page.locator('.space-panel a[href^="/lessons/"]')).toHaveCount(0);
   }
@@ -169,6 +169,16 @@ test('building overview preserves straight classroom rows with complete common t
           textFits: offices.every(node => { const r = node.querySelector('rect')!.getBBox(); return [...node.querySelectorAll('text')].every(text => { const b = text.getBBox(); return b.x >= r.x && b.x + b.width <= r.x + r.width && b.y >= r.y && b.y + b.height <= r.y + r.height; }); }) };
       });
       expect(officePlacement).toEqual({ contiguous: true, textFits: true });
+      const additions = await page.locator('#floor-2').evaluate(floor => {
+        const science1 = floor.querySelector<SVGRectElement>('[data-space-id="science-1"] rect')!.getBBox();
+        const science2 = floor.querySelector<SVGRectElement>('[data-space-id="science-2"] rect')!.getBBox();
+        const corridor = floor.querySelector<SVGRectElement>('.plan-corridor')!.getBBox();
+        const blanks = [...floor.querySelectorAll<SVGRectElement>('.plan-unlabelled rect')].map(node => node.getBBox());
+        const autonomy = [...floor.querySelectorAll<SVGGElement>('g.facility-room')].find(node => node.querySelector('text')?.textContent === '자치실')!.querySelector('rect')!.getBBox();
+        return { extended: science2.y === corridor.y && science2.y + science2.height === science1.y + science1.height,
+          blanks: blanks.length, leftBlock: blanks.some(rect => Math.abs(rect.x + rect.width - autonomy.x) < .01 && rect.width > 0) };
+      });
+      expect(additions).toEqual({ extended: true, blanks: 2, leftBlock: true });
       const ev=await page.locator('#floor-2 .facility-elevator rect').evaluate(node=>({x:Number(node.getAttribute('x')),w:Number(node.getAttribute('width')),y:Number(node.getAttribute('y')),h:Number(node.getAttribute('height'))}));
       const leftStair=await page.locator('#floor-2 .facility-stairs[data-source-x="222"] rect').evaluate(node=>({x:Number(node.getAttribute('x')),w:Number(node.getAttribute('width')),y:Number(node.getAttribute('y'))}));
       expect(ev.x+ev.w/2).toBeCloseTo(leftStair.x+leftStair.w/2,5);
@@ -245,7 +255,7 @@ test('building overview preserves straight classroom rows with complete common t
       const elevatorHeight=await region.locator('.facility-elevator rect').evaluate(node=>Number(node.getAttribute('height')));
       for(const stair of await region.locator('.facility-stairs rect').all()) expect(await stair.evaluate(node=>Number(node.getAttribute('height')))).toBeCloseTo(elevatorHeight,5);
       expect(await region.evaluate(node=>node.scrollWidth<=node.clientWidth)).toBe(true);
-      const cells=await region.locator('.plan-room[data-source-y="166"] rect').evaluateAll(nodes=>nodes.map(node=>({x:Number(node.getAttribute('x')),y:Number(node.getAttribute('y'))})));
+      const cells=await region.locator('.plan-room[data-source-y="166"]:not([data-space-id="science-2"]) rect').evaluateAll(nodes=>nodes.map(node=>({x:Number(node.getAttribute('x')),y:Number(node.getAttribute('y'))})));
       expect(new Set(cells.map(cell=>cell.y)).size).toBeLessThanOrEqual(1);
       const svg=(await region.locator('svg').boundingBox())!;
       const strip=region.locator('..').locator('.floor-topics');

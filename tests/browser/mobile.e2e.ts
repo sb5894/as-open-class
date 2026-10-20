@@ -163,11 +163,11 @@ test('registration validates choices, locks during submission and keeps inputs o
   const checks = page.locator('.lesson-choice input'); await checks.nth(1).tap(); await checks.nth(2).tap();
   await expect(checks.nth(3)).toBeDisabled();
   expect(await checks.count()).toBe(14);
-  await expect(page.locator('.lesson-choice strong')).toHaveText(['수석교사 · 1-3', '1학년', '2학년', '3학년', '4학년', '5학년', '6학년', '다문화특별학급 1반 (빨강)', '다문화특별학급 2반 (초록)', '다문화특별학급 3반 (파랑)', '과학 전담 · 3-1', '과학 전담 · 4-5', '영어 전담 · 6-1', '유치원']);
+  await expect(page.locator('.lesson-choice strong')).toHaveText(['수석교사 · 1-3', '1학년', '2학년', '3학년', '4학년', '5학년', '6학년', '다문화특별학급 1반 (빨강)', '다문화특별학급 2반 (초록)', '다문화특별학급 3반 (파랑)', '5-1 도덕', '과학 전담 · 4-5', '영어 전담 · 6-1', '유치원']);
   await page.locator('fieldset').nth(1).screenshot({ path: `test-results/${test.info().project.name}-interest-options.png` });
   await expect(page.locator('legend').nth(1)).toHaveText('관심있는 수업 (선택, 최대 2개)');
   await expect(page.locator('main')).not.toContainText('희망 수업');
-  await expect(page.locator('form')).not.toContainText('5-1');
+  await expect(page.locator('form')).not.toContainText('3-1');
   await expect(page.locator('form')).not.toContainText('본관 2층 1과학실');
   await page.getByRole('button', { name: '신청 제출' }).tap();
   await expect(page.getByRole('button', { name: '저장 중…' })).toBeDisabled();

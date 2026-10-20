@@ -20,7 +20,8 @@ describe('floor-plan coverage and source placement', () => {
     const ids=catalog.buildings.flatMap(building=>getBuildingFloorPlans(building.id)).flatMap(plan=>getFloorTopics(plan).flatMap(group=>group.lessonIds));
     expect(ids.sort()).toEqual(getPublicLessons().map(lesson=>lesson.id).sort());
     expect(getFloorTopics(getFloorPlan('new',3)!).flatMap(group=>group.classIds)).not.toContain('3-1');
-    expect(getFloorTopics(getFloorPlan('main',2)!).flatMap(group=>group.classIds)).toContain('3-1');
+    expect(getFloorTopics(getFloorPlan('main',2)!).flatMap(group=>group.classIds)).toContain('5-1');
+    expect(getFloorTopics(getFloorPlan('main',3)!).flatMap(group=>group.classIds)).not.toContain('5-1');
     expect(getFloorTopics(getFloorPlan('rear',1)!)).toEqual([]);
   });
   it('covers all ten catalog floors and every room exactly once at its actual building/floor', () => {
@@ -81,11 +82,11 @@ describe('floor-plan coverage and source placement', () => {
     expect(getFloorPlan('new',2)!.rooms.filter(room=>room.kind==='stairs')).toHaveLength(4);
   });
   it('keeps non-public rooms and relocated origins distinct from missing public materials', () => {
-    for (const id of ['classroom-5-1','korean-instructor-1','korean-instructor-2']) {
+    for (const id of ['classroom-3-1','korean-instructor-1','korean-instructor-2']) {
       expect(roomStatus(id)).toBe('closed'); expect(getLessonsAtSpace(id)).toEqual([]);
     }
     expect(roomStatus()).toBe('general');
-    for (const [origin, actual, classId] of [['classroom-3-1','science-1','3-1'],['classroom-4-5','science-2','4-5'],['classroom-6-1','english','6-1']]) {
+    for (const [origin, actual, classId] of [['classroom-5-1','science-1','5-1'],['classroom-4-5','science-2','4-5'],['classroom-6-1','english','6-1']]) {
       expect(roomStatus(origin)).toBe('relocated');
       expect(getRelocatedLessonsFromSpace(origin)[0].spaceIds).toEqual([actual]);
       expect(getLessonsAtSpace(actual)[0].classId).toBe(classId);

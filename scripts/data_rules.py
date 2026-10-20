@@ -10,7 +10,7 @@ BUILDINGS = [
     {"id": "new", "name": "신관", "planLabel": "교사 3동", "campusPosition": "left", "floors": [1, 2, 3]},
 ]
 
-# Only classrooms relevant to this event (including origin rooms and 5-1).
+# Only classrooms relevant to this event (including origin and non-public rooms).
 CLASSROOM_ROWS = [
     ("main", 4, ["6-1", "6-2", "6-3", "6-4", "6-5"]),
     ("main", 3, ["5-1", "5-2", "5-3", "5-4", "5-5"]),
@@ -22,7 +22,7 @@ CLASSROOM_ROWS = [
 
 SPECIAL_LESSONS = {
     "1-3": {"subject": "수석교사 일반", "roomId": "classroom-1-3"},
-    "3-1": {"subject": "과학", "roomId": "science-1"},
+    "5-1": {"subject": "도덕", "roomId": "science-1"},
     "4-5": {"subject": "과학", "roomId": "science-2"},
     "6-1": {"subject": "영어", "roomId": "english"},
 }
@@ -41,7 +41,11 @@ PDF_RULES = {
 }
 
 LENSES = {"참여", "강점", "협력", "표현", "발견"}
-PRIVATE_CLASSES = {"5-1": "체육 — 행사 운영 관계로 비공개"}
+PRIVATE_CLASSES = {"3-1": "체육 — 비공개"}
+
+# Preserve validation of the unchanged 261015 workbook before applying later decisions.
+WORKBOOK_SPECIAL_CLASSES = {"1-3", "3-1", "4-5", "6-1"}
+WORKBOOK_MISSING_CLASSES = {"5-1", "kindergarten-joint"}
 
 
 def spatial_data():

@@ -4,7 +4,7 @@ import { createRegistrationApi, publicLessons, registrationRow, validateRegistra
 import { appendRegistration, readSheetsConfig, sheetRange, type AppendRequest } from "../functions/src/sheets";
 import { interestOptions } from '../functions/src/interest-options';
 
-const valid = { city: "안성시", school: "시험학교", assignment: "교사", name: "시험교사", lessonIds: ["lesson-3-1"], isTest: true, consent: true, question: "" };
+const valid = { city: "안성시", school: "시험학교", assignment: "교사", name: "시험교사", lessonIds: ["lesson-5-1"], isTest: true, consent: true, question: "" };
 const req = (body: unknown = valid): ApiRequest => ({ method: "POST", path: "/api/registrations", contentType: "application/json; charset=utf-8", body, bodyBytes: 300 });
 const record: RegistrationRecord = { ...valid, registrationId: "test-uuid", submittedAt: "2026-10-16T00:00:00.000Z" };
 const config = { spreadsheetId: "test_sheet_id", tabName: "시험'신청" };
@@ -12,7 +12,7 @@ const ack = { data: { spreadsheetId: config.spreadsheetId, updates: { updatedRow
 
 describe("registration validation uses the converted public lessons", () => {
   it('omits locations from sheet preferences while retaining class and subject names', () => {
-    for (const [id, label] of [['lesson-1-1', '1-1'], ['lesson-1-3', '1-3 수석교사 일반'], ['lesson-3-1', '3-1 과학'], ['lesson-4-5', '4-5 과학'], ['lesson-6-1', '6-1 영어'], ['grade-3', '3학년']]) {
+    for (const [id, label] of [['lesson-1-1', '1-1'], ['lesson-1-3', '1-3 수석교사 일반'], ['lesson-5-1', '5-1 도덕'], ['lesson-4-5', '4-5 과학'], ['lesson-6-1', '6-1 영어'], ['grade-3', '3학년']]) {
       const row = registrationRow({ ...record, lessonIds: [id] });
       expect(row[7]).toBe(id);
       expect(row[8]).toBe(label);
@@ -38,7 +38,7 @@ describe("registration validation uses the converted public lessons", () => {
     expect(result.valid).toBe(false);
     if (!result.valid) expect(result.fieldErrors.question).toBeTruthy();
   });
-  it('groups every public lesson once, keeping senior and subject teachers outside grades', () => {
+  it('groups every public lesson once, keeping senior and individual subject lessons outside grades', () => {
     expect(interestOptions.map(option => option.label).slice(0, 7)).toEqual(['수석교사 · 1-3', '1학년', '2학년', '3학년', '4학년', '5학년', '6학년']);
     const ids = interestOptions.flatMap(option => option.lessonIds);
     expect(ids).toHaveLength(29);
@@ -48,7 +48,10 @@ describe("registration validation uses the converted public lessons", () => {
     expect([...ids].sort()).toEqual(publicLessons.map(lesson => lesson.id).sort());
     expect(interestOptions.find(option => option.id === 'grade-1')!.lessonIds).toEqual(['lesson-1-1', 'lesson-1-2']);
     expect(interestOptions.find(option => option.id === 'grade-5')!.lessonIds).not.toContain('lesson-5-1');
-    for (const id of ['lesson-3-1', 'lesson-4-5', 'lesson-6-1']) {
+    expect(interestOptions.find(option => option.id === 'grade-3')!.lessonIds).not.toContain('lesson-3-1');
+    expect(ids).not.toContain('lesson-3-1');
+    expect(interestOptions.find(option => option.id === 'lesson-5-1')).toEqual({ id: 'lesson-5-1', label: '5-1 도덕', lessonIds: ['lesson-5-1'] });
+    for (const id of ['lesson-5-1', 'lesson-4-5', 'lesson-6-1']) {
       expect(interestOptions.findIndex(option => option.id === id)).toBeGreaterThan(6);
       expect(interestOptions.filter(option => option.id.startsWith('grade-')).flatMap(option => option.lessonIds)).not.toContain(id);
     }
@@ -64,7 +67,8 @@ describe("registration validation uses the converted public lessons", () => {
   it("matches the guide list including special, multicultural and kindergarten lessons", () => {
     expect(publicLessons.map(item => item.id)).toEqual(getPublicLessons(catalog).map(item => item.id));
     expect(publicLessons).toHaveLength(29);
-    for (const id of ["lesson-1-3", "lesson-3-1", "lesson-4-5", "lesson-6-1", "lesson-multicultural-red"]) {
+    expect(validateRegistration({ ...valid, lessonIds: ['lesson-3-1'] }).valid).toBe(false);
+    for (const id of ["lesson-1-3", "lesson-5-1", "lesson-4-5", "lesson-6-1", "lesson-multicultural-red"]) {
       expect(validateRegistration({ ...valid, lessonIds: [id] }).valid).toBe(true);
     }
     expect(interestOptions.some(option=>option.id==='lesson-kindergarten-joint')).toBe(true);
@@ -80,19 +84,19 @@ describe("registration validation uses the converted public lessons", () => {
     }
   });
 
-  it.each([undefined, ["lesson-1-1", "lesson-1-2", "lesson-1-3"], ["lesson-3-1", "lesson-3-1"],
-    ["lesson-5-1"], ["korean-instructor-1"], ["unknown"], [5], "lesson-3-1", null].map(lessonIds => ({ lessonIds })))("rejects invalid preference input $lessonIds", ({ lessonIds }) => {
+  it.each([undefined, ["lesson-1-1", "lesson-1-2", "lesson-1-3"], ["lesson-5-1", "lesson-5-1"],
+    ["lesson-3-1"], ["korean-instructor-1"], ["unknown"], [5], "lesson-5-1", null].map(lessonIds => ({ lessonIds })))("rejects invalid preference input $lessonIds", ({ lessonIds }) => {
     expect(validateRegistration({ ...valid, lessonIds }).valid).toBe(false);
   });
 
-  it.each([[], ["lesson-3-1"], ["lesson-3-1", "lesson-4-5"]].map(lessonIds => ({ lessonIds })))("accepts zero, one or two preferences $lessonIds", ({ lessonIds }) => {
+  it.each([[], ["lesson-5-1"], ["lesson-5-1", "lesson-4-5"]].map(lessonIds => ({ lessonIds })))("accepts zero, one or two preferences $lessonIds", ({ lessonIds }) => {
     const result = validateRegistration({ ...valid, lessonIds });
     expect(result.valid).toBe(true);
     if (result.valid) expect(result.value.lessonIds).toEqual(lessonIds);
   });
 
   it("trims fields and accepts one or two distinct lessons without changing literal formula text", () => {
-    const result = validateRegistration({ ...valid, city: " 안성시 ", name: '=HYPERLINK("x")', lessonIds: ["lesson-3-1", "lesson-4-5"] });
+    const result = validateRegistration({ ...valid, city: " 안성시 ", name: '=HYPERLINK("x")', lessonIds: ["lesson-5-1", "lesson-4-5"] });
     expect(result.valid).toBe(true);
     if (result.valid) {
       expect(result.value.city).toBe("안성시");
@@ -147,7 +151,7 @@ describe("API response reflects storage, never a mock fallback", () => {
   it("rejects invalid input without attempting storage", async () => {
     const append = vi.fn(async () => {});
     const api = createRegistrationApi({ isConfigured: () => true, append });
-    expect((await api(req({ ...valid, lessonIds: ["lesson-5-1"] }))).status).toBe(400);
+    expect((await api(req({ ...valid, lessonIds: ["lesson-3-1"] }))).status).toBe(400);
     expect(append).not.toHaveBeenCalled();
   });
 
@@ -200,13 +204,13 @@ describe("Sheets append adapter", () => {
     expect(options.data.values).toHaveLength(1);
     expect(options.data.values[0][2]).toBe("시험");
     expect(options.data.values[0][6]).toBe('=HYPERLINK("x")');
-    expect(options.data.values[0][8]).toBe("3-1 과학");
+    expect(options.data.values[0][8]).toBe("5-1 도덕");
     expect(options.data.values[0].slice(9)).toEqual(['동의', '=HYPERLINK("x")\n문의\t내용']);
   });
 
   it("uses a canonical preference order without assigning ranks", () => {
-    const a = registrationRow({ ...record, lessonIds: ["lesson-4-5", "lesson-3-1"] });
-    const b = registrationRow({ ...record, lessonIds: ["lesson-3-1", "lesson-4-5"] });
+    const a = registrationRow({ ...record, lessonIds: ["lesson-4-5", "lesson-5-1"] });
+    const b = registrationRow({ ...record, lessonIds: ["lesson-5-1", "lesson-4-5"] });
     expect(a).toEqual(b);
     expect(registrationRow({ ...record, isTest: false })[2]).toBe("실제");
   });

@@ -7,14 +7,15 @@ describe("guide and preference data use the same public lessons", () => {
     expect(lessons).toHaveLength(29);
     expect(lessons.filter(item => item.kind === "kindergarten")).toHaveLength(1);
     expect(lessons.filter(item => item.kind === "multicultural")).toHaveLength(3);
-    expect(lessons.some(item => item.classId === "5-1")).toBe(false);
-    expect(getLessonsAtSpace("classroom-5-1")).toEqual([]);
+    expect(lessons.some(item => item.classId === "3-1")).toBe(false);
+    expect(getLessonsAtSpace("classroom-3-1")).toEqual([]);
+    expect(getRelocatedLessonsFromSpace("classroom-3-1")).toEqual([]);
     expect(getLessonsAtSpace("korean-instructor-1")).toEqual([]);
     expect(getLessonsAtSpace("korean-instructor-2")).toEqual([]);
   });
 
   it.each([
-    ["3-1", "classroom-3-1", "science-1"],
+    ["5-1", "classroom-5-1", "science-1"],
     ["4-5", "classroom-4-5", "science-2"],
     ["6-1", "classroom-6-1", "english"],
   ])("routes %s from its origin classroom to its actual room", (classId, origin, actual) => {
@@ -49,13 +50,21 @@ describe("guide and preference data use the same public lessons", () => {
   });
 
   it("provides no PDF request target for missing separate plans", () => {
-    for (const classId of ["1-3", "3-1", "4-5", "6-1"]) {
+    for (const classId of ["1-3", "5-1", "4-5", "6-1"]) {
       const lesson = catalog.lessons.find(item => item.classId === classId)!;
       expect(lesson.lessonPlanId).toBeNull();
       expect(getLessonPlan(lesson)).toBeNull();
     }
     const regular = catalog.lessons.find(item => item.classId === "3-2")!;
     expect(getLessonPlan(regular)?.url).toBe("/pdfs/grade-3.pdf");
+  });
+
+  it('keeps the new moral lesson separate from old science and grade-wide materials', () => {
+    const lesson = getLessonsAtSpace('science-1')[0];
+    expect(lesson).toMatchObject({id:'lesson-5-1', subject:'도덕', kind:'special', spaceIds:['science-1']});
+    for (const key of ['gradeTheme', 'topic', 'designFocus', 'commonObservation', 'context', 'observation', 'support', 'lessonPlanId'] as const) expect(lesson[key]).toBeNull();
+    expect(lesson.lenses).toEqual([]);
+    expect(lesson.source).toEqual({classRow:null, gradeRow:null});
   });
 
   it("keeps missing values separate from presentation wording", () => {
