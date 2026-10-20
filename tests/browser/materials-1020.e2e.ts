@@ -41,3 +41,27 @@ test('grade focus stays visible for separate lessons and is absent for non-grade
     await expect(page.locator('h1')).toHaveText('여러 나라 말과 몸짓으로 인사하며 알뜰 시장 놀이하기');
   }
 });
+
+test('class-specific titles and optional sections follow the latest display instructions', async ({ page }) => {
+  for (const [id, topic] of [['lesson-multicultural-red', '우리 반을 글과 그림으로 소개하기'], ['lesson-multicultural-blue', '자신의 경험을 그림일기로 표현하기'], ['lesson-kindergarten-joint', '함께 가을 열매를 수확하는 협동 게임.']]) {
+    await page.goto(`/lessons/${id}`);
+    await expect(page.locator('h1')).toHaveText(topic);
+  }
+  await expect(page.locator('main h3')).toHaveText(['수업 주제']);
+  await expect(page.locator('.lens-group, .text-placeholder')).toHaveCount(0);
+  await page.goto('/lessons/lesson-1-2');
+  await expect(page.getByRole('heading', { name: '학급 맥락', exact: true })).toBeVisible();
+  await expect(page.getByRole('heading', { name: '지원인력·환경', exact: true })).toHaveCount(0);
+  await page.goto('/lessons/lesson-6-1');
+  const context = await page.getByRole('heading', { name: '학급 맥락', exact: true }).evaluate(node => node.nextElementSibling?.textContent);
+  expect(context).not.toMatch(/[\r\n]/);
+  expect(context).toContain('있는 학급');
+  await expect(page.getByRole('heading', { name: '지원인력·환경', exact: true })).toBeVisible();
+  await page.goto('/guide/main/2');
+  for (const id of ['multicultural-red', 'multicultural-green', 'multicultural-blue']) {
+    const lesson = catalog.lessons.find(item => item.classId === id)!;
+    const group = page.locator(`.floor-topic[data-lesson-ids="${lesson.id}"]`);
+    await expect(group.locator('h3')).toHaveText(catalog.classes.find(item => item.id === id)!.name);
+    await expect(group.locator('p')).toHaveText(lesson.topic ?? '자료 업로드 예정입니다.');
+  }
+});

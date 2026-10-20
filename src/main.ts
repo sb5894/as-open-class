@@ -61,9 +61,11 @@ async function detail(main: HTMLElement, lesson: Lesson, current: number) {
   }
   const info = card('수업 이야기');
   for (const [label, value] of [['수업 주제', lesson.topic], ['학급 맥락', lesson.context], ['참관 포인트', lesson.observation], ['지원인력·환경', lesson.support]]) {
+    if (lesson.kind === 'kindergarten' && label !== '수업 주제') continue;
+    if (label === '지원인력·환경' && !value?.trim()) continue;
     info.append(el('h3', label!), createMaterialText(value ?? null));
   }
-  info.append(el('h3', '중점 렌즈'), createLenses(lesson.lenses));
+  if (lesson.kind !== 'kindergarten') info.append(el('h3', '중점 렌즈'), createLenses(lesson.lenses));
   const pdf = card('수업 지도안'); main.append(info, pdf);
   const plan = getLessonPlan(lesson);
   if (!plan) { pdf.append(createPdfPlaceholder()); return; }
@@ -77,7 +79,7 @@ async function detail(main: HTMLElement, lesson: Lesson, current: number) {
     } catch {
       if (current !== version) return;
       const retry = el('button', '다시 시도'); retry.onclick = () => { void load(); };
-      const original = link('원본 PDF 새 탭에서 열기', plan!.url, 'text-link'); original.target = '_blank'; original.rel = 'noopener';
+      const original = link('PDF 새 탭에서 열기', plan!.url, 'button secondary'); original.target = '_blank'; original.rel = 'noopener';
       slot.replaceChildren(el('p', 'PDF 도구를 불러오지 못했습니다.', 'error'), retry, original);
     }
   }

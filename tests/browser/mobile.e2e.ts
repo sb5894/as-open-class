@@ -123,12 +123,12 @@ test('invitation, guide, direct refresh, history and on-demand PDF controls', as
   await expect(page.locator('.location')).toHaveText('📍 신관 3층 3-2 교실');
   await expect(page.locator('.lesson-grade-focus')).toHaveText('3~4학년 중점: 문화로 배우기');
   for (const name of ['학년 공통 주제', '수업 설계', '공통 참관 포인트']) await expect(page.getByRole('heading', { name, exact: true })).toHaveCount(0);
-  await expect(page.locator('canvas')).toHaveAttribute('aria-label', '수업 지도안 1페이지');
+  await expect(page.locator('.pdf-page canvas').first()).toHaveAttribute('aria-label', '수업 지도안 1페이지');
   await expect(page.getByRole('button', { name: '다음 페이지' })).toBeEnabled();
   await expect(page.getByRole('button', { name: '이전 페이지' })).toHaveText('<');
   await expect(page.getByRole('button', { name: '다음 페이지' })).toHaveText('>');
   await page.getByRole('button', { name: '다음 페이지' }).tap();
-  await expect(page.locator('canvas')).toHaveAttribute('aria-label', '수업 지도안 2페이지');
+  await expect(page.locator('.pdf-page canvas').nth(1)).toBeInViewport();
   await expect(page.getByRole('button', { name: '확대', exact: true })).toBeEnabled();
   await page.getByRole('button', { name: '확대', exact: true }).tap();
   await expect(page.locator('.pdf-toolbar')).toContainText('125%');
@@ -136,7 +136,7 @@ test('invitation, guide, direct refresh, history and on-demand PDF controls', as
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await page.screenshot({ path: `test-results/${test.info().project.name}-detail.png`, fullPage: true });
   await page.reload();
-  await expect(page.locator('canvas')).toHaveAttribute('aria-label', '수업 지도안 1페이지');
+  await expect(page.locator('.pdf-page canvas').first()).toHaveAttribute('aria-label', '수업 지도안 1페이지');
   await page.goBack(); await expect(page).toHaveURL(/\/guide\/new$/);
   await page.goBack(); await expect(page).toHaveURL(/\/guide$/);
   await page.goBack(); await expect(page).toHaveURL(/\/$/);
@@ -284,7 +284,7 @@ test('no lesson preference submits through the real server handler with a test s
   await page.getByRole('link', { name: '보고회 둘러보기' }).tap();
   await page.getByRole('link', { name: '신관', exact: true }).tap();
   await page.locator('svg a[data-space-id="classroom-3-2"]').tap();
-  await expect(page.locator('canvas')).toHaveAttribute('aria-label', '수업 지도안 1페이지');
+  await expect(page.locator('.pdf-page canvas').first()).toHaveAttribute('aria-label', '수업 지도안 1페이지');
 });
 
 test('lens buttons reveal the supplied descriptions on touch and dismiss with Escape', async ({ page }) => {
@@ -322,7 +322,7 @@ test.describe('desktop lens interaction', () => {
   });
 });
 
-test('PDFs render pixels, change pages and zoom when modern Promise APIs are absent', async ({ page }) => {
+test('PDFs render continuous pages, scroll and zoom when modern Promise APIs are absent', async ({ page, browserName }) => {
   test.setTimeout(120000);
   await page.addInitScript(()=>{
     (Promise as unknown as {withResolvers:unknown}).withResolvers=undefined;
@@ -338,21 +338,74 @@ test('PDFs render pixels, change pages and zoom when modern Promise APIs are abs
   });
   for(const id of ['lesson-3-2','lesson-4-1','lesson-5-2']) {
     await page.goto(`/lessons/${id}`);
-    const canvas=page.locator('.pdf-scroll canvas');
+    const canvas=page.locator('.pdf-page canvas').first();
     await expect(page.getByRole('button',{name:'다음 페이지',exact:true})).toBeEnabled({timeout:30000});
+    await canvas.scrollIntoViewIfNeeded();
+    await expect(canvas).toHaveAttribute('data-rendered','true');
     await expect.poll(()=>canvas.evaluate(node=>{
       const c=node as HTMLCanvasElement;
       const data=c.getContext('2d')!.getImageData(0,0,c.width,c.height).data;
       for(let i=0;i<data.length;i+=16) if(data[i+3] && data[i]+data[i+1]+data[i+2]<600) return true;
       return false;
     })).toBe(true);
-    await page.getByRole('button',{name:'다음 페이지',exact:true}).tap();
-    await expect(canvas).toHaveAttribute('aria-label','수업 지도안 2페이지');
+    const pages=page.locator('.pdf-page');
+    expect(await pages.count()).toBeGreaterThan(1);
+    expect(await page.locator('.pdf-viewer').evaluate(node=>node.scrollHeight <= node.clientHeight + 1)).toBe(true);
+    const top=await page.evaluate(()=>scrollY);
+    if (browserName === 'chromium') {
+      const session=await page.context().newCDPSession(page);
+      await session.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:200,y:600}]});
+      for (const y of [500,400,300,200]) await session.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:200,y}]});
+      await session.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
+      await session.detach();
+    } else {
+      // Mobile WebKit has no automation wheel/swipe API; verify document scrolling directly.
+      await page.evaluate(()=>window.scrollBy(0,400));
+    }
+    await expect.poll(()=>page.evaluate(()=>scrollY)).toBeGreaterThan(top);
+    const last=pages.last().locator('canvas');
+    await last.scrollIntoViewIfNeeded();
+    await expect(last).toHaveAttribute('data-rendered','true');
+    await expect.poll(()=>last.evaluate(node=>{
+      const c=node as HTMLCanvasElement, data=c.getContext('2d')!.getImageData(0,0,c.width,c.height).data;
+      for(let i=0;i<data.length;i+=16) if(data[i+3] && data[i]+data[i+1]+data[i+2]<600) return true;
+      return false;
+    })).toBe(true);
+    const original=page.getByRole('link',{name:'PDF 새 탭에서 열기',exact:true});
+    await expect(original).toBeVisible(); await expect(original).toHaveAttribute('target','_blank');
+    await expect(original).toHaveAttribute('rel','noopener');
+    await expect(original).toHaveAttribute('href',`/pdfs/grade-${id.split('-')[1]}.pdf`);
     await expect(page.getByRole('button',{name:'확대',exact:true})).toBeEnabled();
     const width=await canvas.evaluate(node=>node.style.width);
-    await page.getByRole('button',{name:'확대',exact:true}).tap();
+    await page.getByRole('button',{name:'확대',exact:true}).click();
     await expect.poll(()=>canvas.evaluate(node=>node.style.width)).not.toBe(width);
+    expect(await pages.first().evaluate(node=>node.scrollWidth > node.clientWidth)).toBe(true);
+    await pages.first().evaluate(node=>{node.scrollLeft=40;});
+    expect(await pages.first().evaluate(node=>node.scrollLeft)).toBeGreaterThan(0);
     await expect(page.locator('.pdf-viewer-slot .error')).toHaveCount(0);
+  }
+});
+
+test('continuous PDF controls keep page tops clear on narrow screens and cancel work on navigation', async ({ page }) => {
+  const errors: string[] = []; page.on('pageerror', error => errors.push(error.message));
+  for (const width of [320, 390, 430]) {
+    await page.setViewportSize({width,height:740});
+    await page.goto('/lessons/lesson-3-2');
+    const toolbar=page.locator('.pdf-toolbar'), second=page.locator('.pdf-page').nth(1);
+    await page.getByRole('button',{name:'다음 페이지',exact:true}).click();
+    await expect(second.locator('canvas')).toHaveAttribute('data-rendered','true');
+    await expect.poll(async()=>{
+      const bar=(await toolbar.boundingBox())!, bounds=(await second.boundingBox())!;
+      return bounds.y >= bar.y + bar.height + 14;
+    }).toBe(true);
+    expect(await page.evaluate(()=>document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    for (let count=0;count<3;count++) await page.getByRole('button',{name:'확대',exact:true}).click();
+    await expect(toolbar).toContainText('175%');
+    await expect(second.locator('canvas')).toHaveAttribute('data-rendered','true');
+    await expect(page.locator('.pdf-viewer .error')).toHaveCount(0);
+    await page.getByRole('link',{name:'안성초 공개보고회',exact:true}).click();
+    await expect(page).toHaveURL(/\/$/);
+    expect(errors).toEqual([]);
   }
 });
 
@@ -361,11 +414,12 @@ test('provided PDF failure has retry and original link', async ({ page }) => {
   await page.route('**/pdfs/grade-3.pdf', async route => { attempts++; await route.fulfill({ status: 503, body: 'unavailable' }); });
   await page.goto('/lessons/lesson-3-2');
   await expect(page.getByText('지도안을 불러오지 못했습니다.', { exact: false })).toBeVisible();
-  await expect(page.getByRole('link', { name: '원본 PDF 새 탭에서 열기' })).toHaveAttribute('href', '/pdfs/grade-3.pdf');
+  await expect(page.getByRole('link', { name: 'PDF 새 탭에서 열기' })).toHaveAttribute('href', '/pdfs/grade-3.pdf');
+  await expect(page.getByRole('link', { name: 'PDF 새 탭에서 열기' })).toHaveAttribute('target', '_blank');
   expect(attempts).toBe(1);
   await page.unroute('**/pdfs/grade-3.pdf');
   await page.getByRole('button', { name: '다시 시도' }).tap();
-  await expect(page.locator('canvas')).toHaveAttribute('aria-label', '수업 지도안 1페이지');
+  await expect(page.locator('.pdf-page canvas').first()).toHaveAttribute('aria-label', '수업 지도안 1페이지');
 });
 
 test('missing materials use shared text and viewer-sized gray placeholder without PDF requests', async ({ page }) => {
@@ -380,7 +434,7 @@ test('missing materials use shared text and viewer-sized gray placeholder withou
   expect(await page.locator('.pdf-placeholder').evaluate(node => node.clientHeight)).toBeGreaterThanOrEqual(350);
   expect(await page.locator('.pdf-placeholder').evaluate(node => getComputedStyle(node).backgroundColor)).toBe('rgb(233, 236, 240)');
   expect(requests.some(url => /pdf-viewer|pdfjs|\.pdf(?:\?|$)/.test(url))).toBe(false);
-  await expect(page.getByRole('link', { name: /原本|원본 PDF/ })).toHaveCount(0);
+  await expect(page.getByRole('link', { name: /PDF 새 탭에서 열기/ })).toHaveCount(0);
 });
 
 test('local API proxy reaches the deployed server validation without saving a row', async ({ request }) => {

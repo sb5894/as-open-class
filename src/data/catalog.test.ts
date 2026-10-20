@@ -42,7 +42,8 @@ describe("guide and preference data use the same public lessons", () => {
     const lesson = lessons[0];
     expect(lesson.classId).toBe('kindergarten-joint');
     expect(lesson.locationStatus).toBe('confirmed');
-    for (const key of ['topic', 'context', 'observation', 'support'] as const) expect(lesson[key]).toBeNull();
+    expect(lesson.topic).toBe('함께 가을 열매를 수확하는 협동 게임.');
+    for (const key of ['context', 'observation', 'support'] as const) expect(lesson[key]).toBeNull();
     expect(lesson.lenses).toEqual([]);
     expect(getLessonPlan(lesson)?.url).toBe('/pdfs/kindergarten.pdf');
     expect(catalog.spaces.find(space => space.id === 'kindergarten-public')).toMatchObject({name:'유치원', buildingId:'main', floor:1});
@@ -96,6 +97,13 @@ describe("guide and preference data use the same public lessons", () => {
   it("keeps missing values separate from presentation wording", () => {
     expect(catalog.lessons.find(item => item.classId === "1-3")?.topic).toBeNull();
     expect(JSON.stringify(catalog)).not.toContain("자료 업로드 예정");
+  });
+
+  it('uses the exact user topics per class and keeps the English class context on one line', () => {
+    expect(catalog.lessons.find(lesson => lesson.classId === 'multicultural-red')?.topic).toBe('우리 반을 글과 그림으로 소개하기');
+    expect(catalog.lessons.find(lesson => lesson.classId === 'multicultural-blue')?.topic).toBe('자신의 경험을 그림일기로 표현하기');
+    expect(catalog.lessons.find(lesson => lesson.classId === 'multicultural-green')?.topic).toBeNull();
+    expect(catalog.lessons.find(lesson => lesson.classId === '6-1')?.context).toBe('다문화 학생은 없으나 영어 과제 수행의 실력 차이가 있는 학급');
   });
 
   it('uses the new first-grade common text without applying it to separate lessons', () => {

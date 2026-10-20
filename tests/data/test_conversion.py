@@ -143,7 +143,7 @@ class ConversionTests(unittest.TestCase):
         self.assertEqual(lesson["locationStatus"], "confirmed")
         self.assertEqual(self.spaces["kindergarten-public"]["name"], "유치원")
         self.assertEqual(self.spaces["kindergarten-public"]["floor"], 1)
-        for field in ("gradeTheme", "topic", "designFocus", "commonObservation", "context", "observation", "support"):
+        for field in ("gradeTheme", "designFocus", "commonObservation", "context", "observation", "support"):
             self.assertIsNone(lesson[field])
         self.assertEqual(lesson["lenses"], [])
         self.assertEqual(lesson["lessonPlanId"], "kindergarten")
@@ -155,7 +155,7 @@ class ConversionTests(unittest.TestCase):
         self.assertEqual(self.lessons["2-3"]["lenses"], ["참여", "표현"])
         self.assertEqual(self.lessons["4-3"]["lenses"], ["참여", "표현"])
         self.assertEqual(self.lessons["multicultural-red"]["observation"], "학생이 자신의 강점을 활용해 소개할 내용을 구체화하고, 그림·핵심 낱말·한국어 문장을 연결하여 생각을 표현하는 모습")
-        self.assertIsNone(self.lessons["multicultural-blue"]["topic"])
+        self.assertEqual(self.lessons["multicultural-blue"]["topic"], "자신의 경험을 그림일기로 표현하기")
 
     def test_supplement_uses_exact_class_text_without_touching_unrelated_topics_pdf_or_locations(self):
         expected_rows = {"1-1": 9, "4-3": 32, "5-1": 55, "5-2": 38, "5-4": 40, "5-5": 41,
@@ -182,12 +182,28 @@ class ConversionTests(unittest.TestCase):
                 self.assertEqual(lesson["source"]["supplementalClassRow"]["row"], row)
                 for field, column in (("context", "B"), ("observation", "C"), ("support", "G")):
                     value = sheet[f"{column}{row}"].value
-                    self.assertEqual(lesson[field], value.strip() if value else prior[field])
+                    expected = value.strip() if value else prior[field]
+                    if class_id == "6-1" and field == "context" and expected:
+                        expected = " ".join(expected.splitlines()).replace("  ", " ")
+                    self.assertEqual(lesson[field], expected)
                 self.assertEqual(lesson["lenses"], [sheet[f"{col}{row}"].value for col in "DEF" if sheet[f"{col}{row}"].value] or prior["lenses"])
             self.assertNotEqual(self.lessons["multicultural-red"]["observation"], baseline["multicultural-red"]["observation"])
             self.assertEqual(self.data["sources"]["supplementalWorkbook"]["sha256"], self.supplement_hash)
         finally:
             workbook.close()
+
+    def test_explicit_user_topics_and_single_line_context_preserve_other_materials(self):
+        for class_id, topic in {
+            "multicultural-red": "우리 반을 글과 그림으로 소개하기",
+            "multicultural-blue": "자신의 경험을 그림일기로 표현하기",
+            "kindergarten-joint": "함께 가을 열매를 수확하는 협동 게임.",
+        }.items():
+            self.assertEqual(self.lessons[class_id]["topic"], topic)
+        self.assertIsNone(self.lessons["multicultural-green"]["topic"])
+        self.assertEqual(self.lessons["6-1"]["context"], "다문화 학생은 없으나 영어 과제 수행의 실력 차이가 있는 학급")
+        for field in ("context", "observation", "support"):
+            self.assertIsNone(self.lessons["kindergarten-joint"][field])
+        self.assertEqual(self.lessons["kindergarten-joint"]["lenses"], [])
 
     def test_supplement_grade_one_text_applies_only_to_ordinary_lessons(self):
         workbook = openpyxl.load_workbook(SUPPLEMENT_WORKBOOK, data_only=False)

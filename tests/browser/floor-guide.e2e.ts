@@ -23,7 +23,7 @@ test('main first floor marks the confirmed lower central entrance for registrati
   await expect(floor).not.toContainText('서고');
   await expect(floor.locator('svg a[data-space-id="kindergarten-public"]')).toHaveCount(1);
   await expect(floor.locator('svg a:not([data-space-id="kindergarten-public"])')).toHaveCount(0);
-  await expect(floor.locator('.floor-topic p')).toHaveText('자료 업로드 예정입니다.');
+  await expect(floor.locator('.floor-topic p')).toHaveText('함께 가을 열매를 수확하는 협동 게임.');
   for (const width of [320, 390, 430]) {
     await page.setViewportSize({ width, height: 740 });
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
@@ -100,10 +100,10 @@ test('all 29 public lessons open from their actual SVG rooms and return to the s
     await expect(page.locator('h1')).toHaveText(lesson.topic??'자료 업로드 예정입니다.');
     if (!lesson.lessonPlanId) {
       await expect(page.locator('.pdf-placeholder')).toHaveText('자료 업로드 예정');
-      await expect(page.getByRole('link',{name:'원본 PDF 새 탭에서 열기'})).toHaveCount(0);
+      await expect(page.getByRole('link',{name:'PDF 새 탭에서 열기'})).toHaveCount(0);
       expect(pdfRequests.length).toBe(before);
     } else {
-      await expect(page.locator('canvas')).toHaveAttribute('aria-label','수업 지도안 1페이지');
+      await expect(page.locator('canvas').first()).toHaveAttribute('aria-label','수업 지도안 1페이지');
       const plan = catalog.lessonPlans.find(item=>item.id===lesson.lessonPlanId)!;
       expect(pdfRequests.slice(before).some(url=>new URL(url).pathname===plan.url)).toBe(true);
     }
@@ -293,6 +293,6 @@ test('building overview preserves straight classroom rows with complete common t
   await expect(page.locator('.lesson-choice')).toHaveCount(14);
   await expect(page.locator('.lesson-choice strong').last()).toHaveText('유치원');
   await page.goto('/lessons/lesson-kindergarten-joint');
-  await expect(page.getByRole('heading',{level:1})).toHaveText('자료 업로드 예정입니다.');
-  await expect(page.locator('canvas')).toHaveAttribute('aria-label', '수업 지도안 1페이지');
+  await expect(page.getByRole('heading',{level:1})).toHaveText('함께 가을 열매를 수확하는 협동 게임.');
+  await expect(page.locator('canvas').first()).toHaveAttribute('aria-label', '수업 지도안 1페이지');
 });

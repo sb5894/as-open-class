@@ -122,11 +122,11 @@ export function getFloorTopics(plan: FloorPlan) {
   const lessons = [...new Map(plan.rooms.flatMap(room => room.spaceId ? getLessonsAtSpace(room.spaceId).map(lesson => [lesson.id, lesson] as const) : [])).values()];
   for (const lesson of lessons) {
     const schoolClass = catalog.classes.find(item => item.id === lesson.classId)!;
-    const key = lesson.kind === 'homeroom' ? `grade-${schoolClass.grade}:${lesson.topic}` : lesson.kind === 'multicultural' ? `multicultural:${lesson.topic}` : lesson.id;
+    const key = lesson.kind === 'homeroom' ? `grade-${schoolClass.grade}:${lesson.topic}` : lesson.id;
     let group = groups.get(key);
     if (!group) {
       const multipleTopics = lesson.kind === 'homeroom' && new Set(lessons.filter(item=>item.kind==='homeroom' && catalog.classes.find(entry=>entry.id===item.classId)?.grade===schoolClass.grade).map(item=>item.topic)).size > 1;
-      group = { label: lesson.kind === 'homeroom' ? `${schoolClass.grade}학년${multipleTopics ? '' : ' 공개수업'}` : lesson.kind === 'multicultural' ? '다문화특별학급' : lesson.kind === 'kindergarten' ? '유치원' : `${lesson.classId} ${lesson.subject ?? ''}`.trim(), topic: lesson.topic, lessonIds: [], classIds: [] };
+      group = { label: lesson.kind === 'homeroom' ? `${schoolClass.grade}학년${multipleTopics ? '' : ' 공개수업'}` : lesson.kind === 'multicultural' ? schoolClass.name : lesson.kind === 'kindergarten' ? '유치원' : `${lesson.classId} ${lesson.subject ?? ''}`.trim(), topic: lesson.topic, lessonIds: [], classIds: [] };
       groups.set(key, group);
     }
     group.lessonIds.push(lesson.id); group.classIds.push(lesson.classId);

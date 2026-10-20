@@ -19,7 +19,7 @@ import unittest
 
 import openpyxl
 
-from data_rules import (LENSES, MULTICULTURAL, PDF_RULES, PRIVATE_CLASSES, SPECIAL_LESSONS,
+from data_rules import (LENSES, MULTICULTURAL, PDF_RULES, PRIVATE_CLASSES, SPECIAL_LESSONS, TEXT_OVERRIDES,
                         WORKBOOK_MISSING_CLASSES, WORKBOOK_SPECIAL_CLASSES, spatial_data)
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -308,6 +308,10 @@ def convert(workbook_path, supplement_workbook=SUPPLEMENT_WORKBOOK):
                     changed.append(field)
             if changed:
                 lesson["source"]["supplementalClassRow"] = {**row["source"], "fields": changed}
+    for lesson in lessons:
+        lesson.update(TEXT_OVERRIDES.get(lesson["classId"], {}))
+        if lesson["classId"] == "6-1" and lesson["context"]:
+            lesson["context"] = re.sub(r"\s*\n\s*", " ", lesson["context"])
     data = {"schemaVersion": 1, "sources": sources,
             "event": {"name": None, "date": "2026-11-11", "time": None, "address": None},
             **spatial, "lessons": lessons, "lessonPlans": lesson_plans,

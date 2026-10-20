@@ -50,6 +50,13 @@ PDF_RULES = {
 LENSES = {"참여", "강점", "협력", "표현", "발견"}
 PRIVATE_CLASSES = {"3-1": "체육 — 비공개"}
 
+# Explicit user wording; never propagate a multicultural class topic to other classes.
+TEXT_OVERRIDES = {
+    "multicultural-red": {"topic": "우리 반을 글과 그림으로 소개하기"},
+    "multicultural-blue": {"topic": "자신의 경험을 그림일기로 표현하기"},
+    "kindergarten-joint": {"topic": "함께 가을 열매를 수확하는 협동 게임."},
+}
+
 # Preserve validation of the unchanged 261015 workbook before applying later decisions.
 WORKBOOK_SPECIAL_CLASSES = {"1-3", "3-1", "4-5", "6-1"}
 WORKBOOK_MISSING_CLASSES = {"5-1", "kindergarten-joint"}

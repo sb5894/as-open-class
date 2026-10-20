@@ -24,6 +24,13 @@ describe('floor-plan coverage and source placement', () => {
     expect(getFloorTopics(getFloorPlan('main',3)!).flatMap(group=>group.classIds)).not.toContain('5-1');
     expect(getFloorTopics(getFloorPlan('rear',1)!)).toEqual([]);
   });
+  it('keeps the three multicultural class topics separate instead of sharing user wording', () => {
+    const groups = getFloorTopics(getFloorPlan('main', 2)!).filter(group => group.classIds.some(id => id.startsWith('multicultural-')));
+    expect(groups).toHaveLength(3);
+    for (const [classId, topic] of [['multicultural-red', '우리 반을 글과 그림으로 소개하기'], ['multicultural-green', null], ['multicultural-blue', '자신의 경험을 그림일기로 표현하기']] as const) {
+      expect(groups.find(group => group.classIds.includes(classId))).toMatchObject({label:catalog.classes.find(item => item.id === classId)!.name, classIds:[classId], topic});
+    }
+  });
   it('covers all ten catalog floors and every room exactly once at its actual building/floor', () => {
     expect(floorPlans).toHaveLength(10);
     for (const building of catalog.buildings) for (const floor of building.floors) expect(getFloorPlan(building.id, floor)).toBeDefined();

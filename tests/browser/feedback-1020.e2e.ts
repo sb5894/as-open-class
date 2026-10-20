@@ -76,8 +76,8 @@ test('kindergarten selection reaches the server and opens its supplied PDF', asy
   const kindergarten = page.locator('#floor-1 svg a[data-space-id="kindergarten-public"]');
   await kindergarten.tap();
   await expect(page.locator('.location')).toHaveText('📍 본관 1층 유치원');
-  await expect(page.locator('canvas')).toHaveAttribute('aria-label', '수업 지도안 1페이지');
-  await expect(page.locator('main .text-placeholder')).toContainText(['자료 업로드 예정입니다.', '자료 업로드 예정입니다.', '자료 업로드 예정입니다.', '자료 업로드 예정입니다.']);
+  await expect(page.locator('canvas').first()).toHaveAttribute('aria-label', '수업 지도안 1페이지');
+  await expect(page.locator('main .text-placeholder')).toHaveCount(0);
   expect(pdfRequests.map(url => new URL(url).pathname)).toEqual(['/pdfs/kindergarten.pdf']);
 });
 
