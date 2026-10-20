@@ -35,9 +35,16 @@ MULTICULTURAL = {
 
 # Each separate lesson intentionally has no grade-wide PDF fallback.
 PDF_RULES = {
+    "grade-1": {"file": "1020-additions/공개수업용지도안(1학년).pdf", "classes": ["1-1", "1-2"]},
+    "grade-2": {"file": "1020-additions/공개수업용 지도안(2학년).pdf", "classes": ["2-1", "2-2", "2-3", "2-4"]},
     "grade-3": {"file": "2026 연구학교 공개보고회 수업안(3학년).pdf", "classes": ["3-2", "3-3", "3-4"]},
     "grade-4": {"file": "2026 연구학교 공개보고회 수업안(4학년).pdf", "classes": ["4-1", "4-2", "4-3", "4-4"]},
     "grade-5": {"file": "2026 연구학교 공개보고회 수업안(5학년).pdf", "classes": ["5-2", "5-3", "5-4", "5-5"]},
+    "grade-6-245": {"file": "1020-additions/2026 연구학교 공개보고회 수업안(6학년 2, 4, 5반).pdf", "classes": ["6-2", "6-4", "6-5"]},
+    "special-6-1": {"file": "1020-additions/2026 연구학교 공개보고회 수업안(6-1 영어- 건강 습관 보고서 쓰기).pdf", "classes": ["6-1"]},
+    "multicultural-red": {"file": "1020-additions/공개수업 지도안(다문화특별학급 1반)(빨강반).pdf", "classes": ["multicultural-red"]},
+    "multicultural-blue": {"file": "1020-additions/2026 연구학교 공개보고회 수업안(다문화특별학급 3반)(파랑반).pdf", "classes": ["multicultural-blue"]},
+    "kindergarten": {"file": "1020-additions/2026 연구학교 공개보고회 수업안(유치원).pdf", "classes": ["kindergarten-joint"]},
 }
 
 LENSES = {"참여", "강점", "협력", "표현", "발견"}

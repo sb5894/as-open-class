@@ -49,13 +49,14 @@ export interface Lesson {
   support: string | null;
   lenses: Lens[];
   lessonPlanId: string | null;
-  source: { classRow: RowSource | null; gradeRow: RowSource | null };
+  source: { classRow: RowSource | null; gradeRow: RowSource | null;
+    supplementalClassRow?: RowSource & { fields: string[] }; supplementalGradeRow?: RowSource & { fields: string[] } };
 }
 
 export interface LessonPlan { id: string; url: string; source: FileSource }
 export interface Catalog {
   schemaVersion: number;
-  sources: { workbook: FileSource; floorPlan: FileSource; decisions: string };
+  sources: { workbook: FileSource; floorPlan: FileSource; decisions: string; supplementalWorkbook?: FileSource };
   event: { name: string | null; date: string; time: string | null; address: string | null };
   buildings: Building[];
   spaces: Space[];

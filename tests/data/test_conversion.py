@@ -11,7 +11,7 @@ import openpyxl
 from openpyxl.utils.datetime import CALENDAR_MAC_1904, to_excel
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
-from convert_data import (CLASS_SHEET, DEFAULT_WORKBOOK, GRADE_SHEET, ROOT,
+from convert_data import (CLASS_SHEET, DEFAULT_WORKBOOK, GRADE_SHEET, ROOT, SUPPLEMENT_WORKBOOK,
                           class_targets, convert, normalize_class, output_files, reports, validate_catalog)
 from data_rules import PDF_RULES
 
@@ -20,6 +20,8 @@ class ConversionTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.original_hash = sha256(DEFAULT_WORKBOOK.read_bytes()).hexdigest()
+        cls.supplement_hash = sha256(SUPPLEMENT_WORKBOOK.read_bytes()).hexdigest()
+        cls.baseline, _, _ = convert(DEFAULT_WORKBOOK, supplement_workbook=None)
         cls.data, cls.pdfs, cls.missing = convert(DEFAULT_WORKBOOK)
         cls.lessons = {item["classId"]: item for item in cls.data["lessons"]}
         cls.classes = {item["id"]: item for item in cls.data["classes"]}
@@ -34,7 +36,17 @@ class ConversionTests(unittest.TestCase):
             edit(workbook)
             workbook.save(target)
             workbook.close()
-            return convert(target)
+            return convert(target, supplement_workbook=None)
+
+    def with_edited_supplement(self, edit):
+        (ROOT / "tmp").mkdir(exist_ok=True)
+        with tempfile.TemporaryDirectory(dir=ROOT / "tmp") as directory:
+            target = Path(directory) / "supplement.xlsx"
+            workbook = openpyxl.load_workbook(SUPPLEMENT_WORKBOOK)
+            edit(workbook)
+            workbook.save(target)
+            workbook.close()
+            return convert(DEFAULT_WORKBOOK, supplement_workbook=target)
 
     def test_excel_dates_and_text_labels(self):
         self.assertEqual(normalize_class(datetime(2026, 1, 1)), "1-1")
@@ -62,7 +74,7 @@ class ConversionTests(unittest.TestCase):
                 room = self.spaces[school_class["homeSpaceIds"][0]]
                 self.assertEqual((room["buildingId"], room["floor"]), expected_floors[school_class["grade"]])
 
-    def test_special_rooms_and_separate_pdf_absence(self):
+    def test_special_rooms_and_only_explicit_separate_pdf(self):
         expected = {"1-3": ("classroom-1-3", "rear", 2), "5-1": ("science-1", "main", 2),
                     "4-5": ("science-2", "main", 2), "6-1": ("english", "main", 4)}
         for class_id, (room_id, building, floor) in expected.items():
@@ -71,7 +83,7 @@ class ConversionTests(unittest.TestCase):
                 self.assertEqual(lesson["spaceIds"], [room_id])
                 room = self.spaces[room_id]
                 self.assertEqual((room["buildingId"], room["floor"]), (building, floor))
-                self.assertIsNone(lesson["lessonPlanId"])
+                self.assertEqual(lesson["lessonPlanId"], "special-6-1" if class_id == "6-1" else None)
                 self.assertIsNone(lesson["topic"])
                 self.assertIsNone(lesson["designFocus"])
         self.assertEqual(self.classes["3-1"]["homeSpaceIds"], ["classroom-3-1"])
@@ -83,10 +95,11 @@ class ConversionTests(unittest.TestCase):
         self.assertEqual(lesson["kind"], "special")
         self.assertEqual(lesson["spaceIds"], ["science-1"])
         self.assertEqual(self.classes["5-1"]["homeSpaceIds"], ["classroom-5-1"])
-        for field in ("gradeTheme", "topic", "designFocus", "commonObservation", "context", "observation", "support", "lessonPlanId"):
+        for field in ("gradeTheme", "topic", "designFocus", "commonObservation", "lessonPlanId"):
             self.assertIsNone(lesson[field])
-        self.assertEqual(lesson["lenses"], [])
-        self.assertEqual(lesson["source"], {"classRow": None, "gradeRow": None})
+        self.assertEqual(lesson["lenses"], ["표현", "강점"])
+        self.assertEqual(lesson["source"], {"classRow": None, "gradeRow": None,
+            "supplementalClassRow": {"sheet": CLASS_SHEET, "row": 55, "fields": ["context", "observation", "support", "lenses"]}})
         self.assertEqual(lesson["locationStatus"], "confirmed")
 
     def test_grade_six_topics_and_date_target(self):
@@ -130,21 +143,85 @@ class ConversionTests(unittest.TestCase):
         self.assertEqual(lesson["locationStatus"], "confirmed")
         self.assertEqual(self.spaces["kindergarten-public"]["name"], "유치원")
         self.assertEqual(self.spaces["kindergarten-public"]["floor"], 1)
-        for field in ("gradeTheme", "topic", "designFocus", "commonObservation", "context", "observation", "support", "lessonPlanId"):
+        for field in ("gradeTheme", "topic", "designFocus", "commonObservation", "context", "observation", "support"):
             self.assertIsNone(lesson[field])
         self.assertEqual(lesson["lenses"], [])
-        self.assertNotIn("public/pdfs/kindergarten.pdf", self.pdfs)
+        self.assertEqual(lesson["lessonPlanId"], "kindergarten")
+        self.assertIn("public/pdfs/kindergarten.pdf", self.pdfs)
 
     def test_no_invented_text_or_lenses_and_preserve_partial_text(self):
-        self.assertIsNone(self.lessons["1-1"]["topic"])
-        self.assertIsNone(self.lessons["5-2"]["context"])
+        self.assertEqual(self.lessons["1-1"]["topic"], "여러 나라 말과 몸짓으로 인사하며 알뜰 시장 놀이하기")
+        self.assertTrue(self.lessons["5-2"]["context"])
         self.assertEqual(self.lessons["2-3"]["lenses"], ["참여", "표현"])
-        self.assertEqual(self.lessons["4-3"]["lenses"], [])
-        self.assertEqual(self.lessons["multicultural-red"]["observation"], "한국어 표현에 어려움이 있는 다문화 학생들이")
+        self.assertEqual(self.lessons["4-3"]["lenses"], ["참여", "표현"])
+        self.assertEqual(self.lessons["multicultural-red"]["observation"], "학생이 자신의 강점을 활용해 소개할 내용을 구체화하고, 그림·핵심 낱말·한국어 문장을 연결하여 생각을 표현하는 모습")
         self.assertIsNone(self.lessons["multicultural-blue"]["topic"])
 
+    def test_supplement_uses_exact_class_text_without_touching_unrelated_topics_pdf_or_locations(self):
+        expected_rows = {"1-1": 9, "4-3": 32, "5-1": 55, "5-2": 38, "5-4": 40, "5-5": 41,
+                         "6-1": 57, "6-2": 46, "6-3": 47, "6-4": 48, "6-5": 49,
+                         "multicultural-red": 62, "multicultural-green": 63, "multicultural-blue": 64}
+        baseline = {lesson["classId"]: lesson for lesson in self.baseline["lessons"]}
+        workbook = openpyxl.load_workbook(SUPPLEMENT_WORKBOOK, data_only=False)
+        try:
+            sheet = workbook[CLASS_SHEET]
+            for class_id, lesson in self.lessons.items():
+                prior = baseline[class_id]
+                for field in ("topic", "gradeTheme", "designFocus", "commonObservation", "lessonPlanId", "spaceIds", "subject", "kind"):
+                    if class_id in ("1-1", "1-2") and field in ("topic", "designFocus", "commonObservation"):
+                        continue
+                    self.assertEqual(lesson[field], prior[field])
+                if class_id not in expected_rows:
+                    if class_id == "1-2":
+                        for field in ("context", "observation", "support", "lenses"):
+                            self.assertEqual(lesson[field], prior[field])
+                    else:
+                        self.assertEqual(lesson, prior)
+                    continue
+                row = expected_rows[class_id]
+                self.assertEqual(lesson["source"]["supplementalClassRow"]["row"], row)
+                for field, column in (("context", "B"), ("observation", "C"), ("support", "G")):
+                    value = sheet[f"{column}{row}"].value
+                    self.assertEqual(lesson[field], value.strip() if value else prior[field])
+                self.assertEqual(lesson["lenses"], [sheet[f"{col}{row}"].value for col in "DEF" if sheet[f"{col}{row}"].value] or prior["lenses"])
+            self.assertNotEqual(self.lessons["multicultural-red"]["observation"], baseline["multicultural-red"]["observation"])
+            self.assertEqual(self.data["sources"]["supplementalWorkbook"]["sha256"], self.supplement_hash)
+        finally:
+            workbook.close()
+
+    def test_supplement_grade_one_text_applies_only_to_ordinary_lessons(self):
+        workbook = openpyxl.load_workbook(SUPPLEMENT_WORKBOOK, data_only=False)
+        try:
+            sheet = workbook[GRADE_SHEET]
+            for class_id in ("1-1", "1-2"):
+                lesson = self.lessons[class_id]
+                for field, column in (("topic", "C"), ("designFocus", "D"), ("commonObservation", "E")):
+                    self.assertEqual(lesson[field], sheet[f"{column}7"].value.strip())
+                self.assertEqual(lesson["source"]["supplementalGradeRow"], {
+                    "sheet": GRADE_SHEET, "row": 7, "fields": ["topic", "designFocus", "commonObservation"]})
+            self.assertEqual([lesson["classId"] for lesson in self.lessons.values() if "supplementalGradeRow" in lesson["source"]], ["1-1", "1-2"])
+            for class_id in ("1-3", "5-1", "4-5", "6-1"):
+                for field in ("topic", "designFocus", "commonObservation"):
+                    self.assertIsNone(self.lessons[class_id][field])
+        finally:
+            workbook.close()
+
+    def test_empty_new_cells_preserve_old_values_and_invalid_supplement_is_rejected(self):
+        def blank(workbook):
+            sheet = workbook[CLASS_SHEET]
+            for col in "BCDEFG":
+                sheet[f"{col}10"] = None
+        data, _, _ = self.with_edited_supplement(blank)
+        prior = next(lesson for lesson in self.baseline["lessons"] if lesson["classId"] == "1-2")
+        lesson = next(lesson for lesson in data["lessons"] if lesson["classId"] == "1-2")
+        for field in ("context", "observation", "support", "lenses"):
+            self.assertEqual(lesson[field], prior[field])
+        self.assertNotIn("supplementalClassRow", lesson["source"])
+        with self.assertRaises(ValueError):
+            self.with_edited_supplement(lambda workbook: setattr(workbook[CLASS_SHEET]["A55"], "value", "3-1\n(과학)"))
+
     def test_pdf_bytes_and_allowed_class_mappings(self):
-        self.assertEqual(len(self.pdfs), 3)
+        self.assertEqual(len(self.pdfs), 10)
         for plan in self.data["lessonPlans"]:
             original = (ROOT / plan["source"]["path"]).read_bytes()
             self.assertEqual(self.pdfs["public" + plan["url"]], original)
@@ -154,6 +231,17 @@ class ConversionTests(unittest.TestCase):
             self.assertEqual(self.lessons[class_id]["lessonPlanId"], "grade-4")
         for class_id in ("5-2", "5-3", "5-4", "5-5"):
             self.assertEqual(self.lessons[class_id]["lessonPlanId"], "grade-5")
+        for plan_id, class_ids in {
+            "grade-1": ("1-1", "1-2"), "grade-2": ("2-1", "2-2", "2-3", "2-4"),
+            "grade-6-245": ("6-2", "6-4", "6-5"), "special-6-1": ("6-1",),
+            "multicultural-red": ("multicultural-red",), "multicultural-blue": ("multicultural-blue",),
+            "kindergarten": ("kindergarten-joint",),
+        }.items():
+            for class_id in class_ids:
+                with self.subTest(class_id=class_id):
+                    self.assertEqual(self.lessons[class_id]["lessonPlanId"], plan_id)
+        for class_id in ("1-3", "5-1", "4-5", "6-3", "multicultural-green"):
+            self.assertIsNone(self.lessons[class_id]["lessonPlanId"])
 
     def test_missing_pdf_file_removes_link_without_fallback(self):
         missing_rule = {**PDF_RULES["grade-3"], "file": "test-nonexistent-source.pdf"}
@@ -220,6 +308,7 @@ class ConversionTests(unittest.TestCase):
         again = convert(DEFAULT_WORKBOOK)
         self.assertEqual(output_files(self.data, self.pdfs, self.missing), output_files(*again))
         self.assertEqual(sha256(DEFAULT_WORKBOOK.read_bytes()).hexdigest(), self.original_hash)
+        self.assertEqual(sha256(SUPPLEMENT_WORKBOOK.read_bytes()).hexdigest(), self.supplement_hash)
 
 
 if __name__ == "__main__":

@@ -37,6 +37,11 @@ main:focus { outline: none; }
 .model-two-table tbody th { text-align: center; }
 .model-two-table img { display: block; width: 64px; max-width: 100%; height: auto; margin: 0 auto .2rem; }
 .model-two-table tbody th span { display: block; }
+.grade-focus table { width: 100%; border-collapse: collapse; }
+.grade-focus th, .grade-focus td { border: 1px solid #c5cec3; padding: .65rem .5rem; word-break: keep-all; }
+.grade-focus thead th { background: #f0f3eb; }
+.grade-focus tbody th { width: 30%; }
+.lesson-grade-focus { margin-top: -.5rem; }
 @media(max-width: 420px) { .model-two-table { font-size: .8125rem; } .model-two-table th, .model-two-table td { padding: .5rem .3rem; } }
 .event-schedule table { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: .875rem; line-height: 1.6; }
 .event-schedule caption { text-align: left; color: #59665e; margin-bottom: .75rem; }

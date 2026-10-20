@@ -7,6 +7,8 @@ test('model-two reference images and invitation emphasis remain readable on mobi
   await expect(page.locator('#event .event-facts strong')).toHaveText(['일시: 2026. 11. 11.(수) 12:50~16:00', '신청 기한: 2026. 10. 28.(수) 16:00까지']);
   await expect(page.locator('#event > p strong')).toHaveText('「상호문화적 (만남·배움·어울림) 이중언어 교육 프로그램 운영을 통한 미래 핵심역량 함양」');
   await expect(page.locator('.model-two h2')).toHaveText('만남·배움·어울림이란?');
+  await expect(page.locator('.grade-focus tbody tr')).toHaveText(['1~2학년놀이로 만나기', '3~4학년문화로 배우기', '5~6학년소통으로 어울리기']);
+  expect(await page.locator('.model-two').evaluate(node => node.nextElementSibling?.classList.contains('grade-focus'))).toBe(true);
   expect(await page.locator('.event-schedule').evaluate(node => node.nextElementSibling?.classList.contains('model-two'))).toBe(true);
   const modelLink = page.getByRole('link', { name: '만남·배움·어울림', exact: true });
   await expect(modelLink).toHaveCSS('color', 'rgb(24, 91, 170)');
@@ -43,7 +45,7 @@ test('model-two reference images and invitation emphasis remain readable on mobi
   await expect(page).toHaveURL(/\/register$/);
 });
 
-test('kindergarten selection reaches the server without fetching an old PDF', async ({ page }) => {
+test('kindergarten selection reaches the server and opens its supplied PDF', async ({ page }) => {
   const saved: RegistrationRecord[] = [];
   const api = createRegistrationApi({ isConfigured: () => true, append: async record => { saved.push(record); } });
   await page.route('**/api/registrations', async route => {
@@ -74,9 +76,9 @@ test('kindergarten selection reaches the server without fetching an old PDF', as
   const kindergarten = page.locator('#floor-1 svg a[data-space-id="kindergarten-public"]');
   await kindergarten.tap();
   await expect(page.locator('.location')).toHaveText('📍 본관 1층 유치원');
-  await expect(page.locator('.pdf-placeholder')).toHaveText('자료 업로드 예정');
+  await expect(page.locator('canvas')).toHaveAttribute('aria-label', '수업 지도안 1페이지');
   await expect(page.locator('main .text-placeholder')).toContainText(['자료 업로드 예정입니다.', '자료 업로드 예정입니다.', '자료 업로드 예정입니다.', '자료 업로드 예정입니다.']);
-  expect(pdfRequests).toEqual([]);
+  expect(pdfRequests.map(url => new URL(url).pathname)).toEqual(['/pdfs/kindergarten.pdf']);
 });
 
 test('new main-building facilities keep their placement, purpose and labels on mobile', async ({ page }) => {

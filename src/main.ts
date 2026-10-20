@@ -10,6 +10,7 @@ import { mountFloorGuide, mountParkingGuide } from './components/floor-guide';
 import { spaceHref } from './data/floor-plans';
 import { createEventSchedule } from './components/event-schedule';
 import { createModelTwo } from './components/model-two';
+import { createGradeFocus, createLessonGradeFocus } from './components/grade-focus';
 
 function card(title: string) {
   const node = el('section', undefined, 'card'); node.append(el('h2', title)); return node;
@@ -40,7 +41,7 @@ function invitation(main: HTMLElement) {
   }
   intro.append(research, el('p', '그동안의 연구 성과와 교육과정 운영 사례를 공유하는 공개보고회에 교육 관계자 여러분을 초대합니다.'), facts,
     el('p', '※ 참석 신청을 해주신 분의 소속 기관으로 출장 협조 공문을 보내 드릴 예정입니다.', 'note'));
-  main.append(hero, intro, createEventSchedule(), createModelTwo());
+  main.append(hero, intro, createEventSchedule(), createModelTwo(), createGradeFocus());
 }
 function guide(main: HTMLElement) {
   main.classList.add('page-guide');
@@ -52,6 +53,7 @@ async function detail(main: HTMLElement, lesson: Lesson, current: number) {
   const space = catalog.spaces.find(item => item.id === (validFrom ? from : lesson.spaceIds[0]))!;
   const building = catalog.buildings.find(item => item.id === space.buildingId)!;
   main.append(link(`← ${building.name} ${space.floor}층`, spaceHref(space.id), 'text-link'), el('p', lessonName(lesson), 'eyebrow'), el('h1', lesson.topic ?? '자료 업로드 예정입니다.'), el('p', location(lesson), 'location'));
+  const gradeFocus = createLessonGradeFocus(lesson); if (gradeFocus) main.append(gradeFocus);
   if (!lesson.spaceIds.includes(space.id)) {
     const notice = el('p', undefined, 'map-notice');
     notice.append(document.createTextNode(`${space.name}에서는 진행하지 않습니다.`), el('br'), document.createTextNode('실제 수업 장소는 '), el('strong', location(lesson).replace(/^📍 /, '')), document.createTextNode('입니다.'));

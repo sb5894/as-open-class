@@ -82,5 +82,61 @@
         "sha256":  "A7E15E1EE7A5FA274214083CA090367F04CB46CCF8F262C2ECE475B684FD645B",
         "bytes":  183478,
         "originalRetained":  false
+    },
+    {
+        "originalPath": "C:\\Users\\user\\Desktop\\공개보고회자료_끝나면걍삭제\\2026 연구학교 공개보고회 수업안(6-1 영어- 건강 습관 보고서 쓰기).pdf",
+        "currentPath": "materials/original/lesson-plans/1020-additions/2026 연구학교 공개보고회 수업안(6-1 영어- 건강 습관 보고서 쓰기).pdf",
+        "sha256": "64B4C5F0C4640EEAA9B7C45C17A812A2E69EF6FDDD9F2783093B856E595D6A6D",
+        "bytes": 161399,
+        "originalRetained": true
+    },
+    {
+        "originalPath": "C:\\Users\\user\\Desktop\\공개보고회자료_끝나면걍삭제\\2026 연구학교 공개보고회 수업안(6학년 2, 4, 5반).pdf",
+        "currentPath": "materials/original/lesson-plans/1020-additions/2026 연구학교 공개보고회 수업안(6학년 2, 4, 5반).pdf",
+        "sha256": "744FDDA3713B965130CF8202464038B47B4308BB300AEDC3632BED13211A7447",
+        "bytes": 211988,
+        "originalRetained": true
+    },
+    {
+        "originalPath": "C:\\Users\\user\\Desktop\\공개보고회자료_끝나면걍삭제\\2026 연구학교 공개보고회 수업안(다문화특별학급 3반)(파랑반).pdf",
+        "currentPath": "materials/original/lesson-plans/1020-additions/2026 연구학교 공개보고회 수업안(다문화특별학급 3반)(파랑반).pdf",
+        "sha256": "7DC6EC2B949E8EFDC137130A1F4BB5C7E248F78653EDA4047877DB99415D7601",
+        "bytes": 184688,
+        "originalRetained": true
+    },
+    {
+        "originalPath": "C:\\Users\\user\\Desktop\\공개보고회자료_끝나면걍삭제\\2026 연구학교 공개보고회 수업안(유치원).pdf",
+        "currentPath": "materials/original/lesson-plans/1020-additions/2026 연구학교 공개보고회 수업안(유치원).pdf",
+        "sha256": "4F1C150463E6827880979B6B54F67C18E59539AFFAA466427E76E44EF58EFEF1",
+        "bytes": 183479,
+        "originalRetained": true
+    },
+    {
+        "originalPath": "C:\\Users\\user\\Desktop\\공개보고회자료_끝나면걍삭제\\공개수업 지도안(다문화특별학급 1반)(빨강반).pdf",
+        "currentPath": "materials/original/lesson-plans/1020-additions/공개수업 지도안(다문화특별학급 1반)(빨강반).pdf",
+        "sha256": "6382D363C3FB2AAF6EBB31A877EF4C48AB961B2E4A254078AB09E1D93E510880",
+        "bytes": 221441,
+        "originalRetained": true
+    },
+    {
+        "originalPath": "C:\\Users\\user\\Desktop\\공개보고회자료_끝나면걍삭제\\공개수업용 지도안(2학년).pdf",
+        "currentPath": "materials/original/lesson-plans/1020-additions/공개수업용 지도안(2학년).pdf",
+        "sha256": "C882D00AF57C38F2FE7B36A411AE5787271839DE045139D582461B61C1B04DA0",
+        "bytes": 233285,
+        "originalRetained": true
+    },
+    {
+        "originalPath": "C:\\Users\\user\\Desktop\\공개보고회자료_끝나면걍삭제\\공개수업용지도안(1학년).pdf",
+        "currentPath": "materials/original/lesson-plans/1020-additions/공개수업용지도안(1학년).pdf",
+        "sha256": "2831686ACF7654FEB0B63DBAC1EAE5D1C71AF23A9DFABFF104461674DC6C9992",
+        "bytes": 213231,
+        "originalRetained": true
+    },
+    {
+        "originalPath": "C:/Users/user/Desktop/공개보고회자료_끝나면걍삭제/2026 공개보고회 준비(공개수업, 예산).xlsx",
+        "currentPath": "materials/original/curriculum/1020-additions/2026 공개보고회 준비(공개수업, 예산).xlsx",
+        "sha256": "FEB2225A97A7F43B9C771FE713F38B4A790567C3A714D8227FA336DCA77D5DF0",
+        "bytes": 25480,
+        "originalRetained": true
     }
 ]

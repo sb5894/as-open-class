@@ -294,5 +294,5 @@ test('building overview preserves straight classroom rows with complete common t
   await expect(page.locator('.lesson-choice strong').last()).toHaveText('유치원');
   await page.goto('/lessons/lesson-kindergarten-joint');
   await expect(page.getByRole('heading',{level:1})).toHaveText('자료 업로드 예정입니다.');
-  await expect(page.locator('.pdf-placeholder')).toHaveText('자료 업로드 예정');
+  await expect(page.locator('canvas')).toHaveAttribute('aria-label', '수업 지도안 1페이지');
 });

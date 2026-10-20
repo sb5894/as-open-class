@@ -24,6 +24,7 @@ from data_rules import (LENSES, MULTICULTURAL, PDF_RULES, PRIVATE_CLASSES, SPECI
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_WORKBOOK = ROOT / "materials/original/curriculum/2026 공개보고회 준비 수업정보(261015-2113).xlsx"
+SUPPLEMENT_WORKBOOK = ROOT / "materials/original/curriculum/1020-additions/2026 공개보고회 준비(공개수업, 예산).xlsx"
 FLOOR_PLAN = ROOT / "materials/original/floor-plans/안성초 도면.pdf"
 GRADE_SHEET = "공개수업(학년)"
 CLASS_SHEET = "공개수업(학급, 전담, 특별학급)"
@@ -117,7 +118,7 @@ def read_grade_topics(sheet):
     return candidates
 
 
-def read_class_rows(sheet):
+def read_class_rows(sheet, special_classes=WORKBOOK_SPECIAL_CLASSES):
     rows = {}
     section = None
     for row in range(1, sheet.max_row + 1):
@@ -146,7 +147,7 @@ def read_class_rows(sheet):
             class_id = info["id"]
         else:
             class_id = normalize_class(raw)
-            if (class_id in WORKBOOK_SPECIAL_CLASSES) != (section == "special"):
+            if (class_id in special_classes) != (section == "special"):
                 raise ValueError(f"별도 수업 구분이 결정 기록과 다릅니다: {class_id} (행 {row})")
         if class_id in rows:
             raise ValueError(f"학급 행이 중복됩니다: {class_id}")
@@ -218,7 +219,7 @@ def validate_catalog(data):
         raise ValueError("공개수업 누락 또는 한 학급에 여러 수업 연결")
 
 
-def convert(workbook_path):
+def convert(workbook_path, supplement_workbook=SUPPLEMENT_WORKBOOK):
     workbook_path = Path(workbook_path).resolve()
     if not workbook_path.is_relative_to(ROOT) or workbook_path.suffix.lower() != ".xlsx":
         raise ValueError("프로젝트 안의 .xlsx 파일 경로를 지정해 주세요.")
@@ -270,8 +271,44 @@ def convert(workbook_path):
             "lessonPlanId": plan_by_class.get(class_id),
             "source": {"classRow": row["source"] if row else None, "gradeRow": grade_topic["source"] if grade_topic else None},
         })
-    data = {"schemaVersion": 1, "sources": {"workbook": file_ref(workbook_path), "floorPlan": file_ref(FLOOR_PLAN),
-                                          "decisions": "docs/결정 기록.md"},
+    sources = {"workbook": file_ref(workbook_path), "floorPlan": file_ref(FLOOR_PLAN), "decisions": "docs/결정 기록.md"}
+    if supplement_workbook is not None:
+        supplement_workbook = Path(supplement_workbook).resolve()
+        if not supplement_workbook.is_relative_to(ROOT) or supplement_workbook.suffix.lower() != ".xlsx":
+            raise ValueError("추가 자료는 프로젝트 안의 .xlsx 파일이어야 합니다.")
+        workbook = openpyxl.load_workbook(supplement_workbook, data_only=False)
+        try:
+            supplement_rows = read_class_rows(workbook[CLASS_SHEET], special_classes=set(SPECIAL_LESSONS))
+            supplement_topics = read_grade_topics(workbook[GRADE_SHEET])
+        finally:
+            workbook.close()
+        expected_supplement = {item["id"] for item in spatial["classes"] if item["isPublic"] and item["id"] != "kindergarten-joint"}
+        if set(supplement_rows) != expected_supplement:
+            raise ValueError(f"추가 자료의 공개 학급 목록이 다릅니다. 누락={sorted(expected_supplement-set(supplement_rows))}, 추가={sorted(set(supplement_rows)-expected_supplement)}")
+        sources["supplementalWorkbook"] = file_ref(supplement_workbook)
+        for lesson in lessons:
+            if lesson["kind"] == "homeroom":
+                grade = next(item["grade"] for item in spatial["classes"] if item["id"] == lesson["classId"])
+                topic = choose_topic(lesson["classId"], grade, supplement_topics)
+                changed = []
+                for field in ("topic", "designFocus", "commonObservation"):
+                    if topic[field] and topic[field] != lesson[field]:
+                        lesson[field] = topic[field]
+                        changed.append(field)
+                if changed:
+                    lesson["source"]["supplementalGradeRow"] = {**topic["source"], "fields": changed}
+            row = supplement_rows.get(lesson["classId"])
+            if row is None:
+                continue
+            changed = []
+            for field in ("context", "observation", "support", "lenses"):
+                # Empty new cells never erase existing content; only explicit new text wins.
+                if row[field] and row[field] != lesson[field]:
+                    lesson[field] = row[field]
+                    changed.append(field)
+            if changed:
+                lesson["source"]["supplementalClassRow"] = {**row["source"], "fields": changed}
+    data = {"schemaVersion": 1, "sources": sources,
             "event": {"name": None, "date": "2026-11-11", "time": None, "address": None},
             **spatial, "lessons": lessons, "lessonPlans": lesson_plans,
             "excludedClasses": [{"classId": key, "reason": reason} for key, reason in PRIVATE_CLASSES.items()]}
@@ -298,7 +335,7 @@ def reports(data, missing_files):
               "| 수업 ID | 학급·수업 | 수업 주제 | 실제 참관 장소 | 장소 상태 | 지도안 | 엑셀 근거 |", "|---|---|---|---|---|---|---|"]
     missing = ["# 누락 자료와 확인할 사항", "", "자동 생성 문서입니다. 데이터의 미제공 텍스트·PDF는 `null`, 작성된 렌즈가 없으면 `[]`입니다.", "",
                "화면에서는 `src/components/placeholders.ts`를 사용합니다. 아래 ‘미제공’은 검토표용 표현입니다.", "",
-               "- 행사 세부 시간. 정식 행사명·주소는 사용자 확정 설정 `src/data/event.ts`와 결정 기록을 따름.", "- 유치원 공동 수업을 공개하며 새 텍스트·PDF 제공 전까지 기존 유치원 PDF를 연결하지 않음. 원본과 공간 기록은 보존.",
+               "- 행사 세부 시간. 정식 행사명·주소는 사용자 확정 설정 `src/data/event.ts`와 결정 기록을 따름.", "- 유치원 공동 수업은 본관 1층 유치원에서 공개함. 텍스트·PDF 제공 여부는 아래 표와 수업 연결표를 따르며 원본과 공간 기록은 보존.",
                "- 주차 진입 경로와 본관 중앙 출입구 현장 확인(가안).", "",
                "## 수업별 미제공 항목", "", "설계·공통 참관 포인트는 일반 학년 공통 수업에만 적용합니다. 별도·다문화·유치원에는 억지로 요구하지 않습니다.", "",
                "| 학급·수업 | 미제공 항목 |", "|---|---|"]
@@ -345,7 +382,9 @@ def reports(data, missing_files):
                 "- 3학년 PDF 1쪽에는 3-1의 언어·문화 경험 활용 계획이 있음. 현재 사용자 결정으로 3-1 체육은 비공개이며 원본 PDF는 변경하지 않음.",
                 "- 4학년 PDF 1쪽에는 4-5의 표현 지원 계획이 있음. 결정 기록/엑셀에서는 4-5 과학이 별도 수업임.",
                 "- 5학년 PDF 2쪽에는 5-1의 학급 설명이 있음. 현재 5-1 도덕은 본관 2층 1과학실의 별도 공개수업이며 기존 5학년 PDF를 연결하지 않음.",
-                "- 유치원 PDF에 주제 항목이 있어도 사용자 결정 전에는 사이트 수업 주제를 채우지 않음."]
+                ("- 유치원 지도안이 제공되어 해당 수업의 PDF로 연결함. PDF 연결만 반영하며 수업 설명 본문은 기존 엑셀 원문을 유지함."
+                 if by_class["kindergarten-joint"]["lessonPlanId"] else
+                 "- 유치원 지도안이 제공되지 않아 PDF 연결 없이 미제공 표시를 유지함.")]
     if missing_files:
         missing += ["", "## 기존 연결 규칙의 파일 누락", ""] + [f"- {name}" for name in missing_files]
     missing.append("")

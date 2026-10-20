@@ -9,7 +9,11 @@
       "path": "materials/original/floor-plans/안성초 도면.pdf",
       "sha256": "ce5729ffa56ee6d19e179ecb709cadd5fc8a719224b00723d89e2ac65e22cf4c"
     },
-    "decisions": "docs/결정 기록.md"
+    "decisions": "docs/결정 기록.md",
+    "supplementalWorkbook": {
+      "path": "materials/original/curriculum/1020-additions/2026 공개보고회 준비(공개수업, 예산).xlsx",
+      "sha256": "feb2225a97a7f43b9c771fe713f38b4a790567c3a714d8227fa336dca77d5df0"
+    }
   },
   "event": {
     "name": null,
@@ -874,14 +878,17 @@
       ],
       "locationStatus": "confirmed",
       "gradeTheme": "놀이로 만나기",
-      "topic": null,
-      "designFocus": null,
-      "commonObservation": null,
-      "context": null,
-      "observation": null,
+      "topic": "여러 나라 말과 몸짓으로 인사하며 알뜰 시장 놀이하기",
+      "designFocus": "배운 인사말을 시장 놀이에 활용하고, 친구에게 인사말을 배우며 말·카드·몸짓으로 참여하기",
+      "commonObservation": "서로 다른 말을 배우고, 말과 몸짓으로 반갑고 고마운 마음을 주고받으며 함께 놀이하기",
+      "context": "한국어 이해 수준의 차이가 크고, 같은 언어를 쓰는 친구끼리 어울리는 학급",
+      "observation": "자신의 언어로 친구에게 인사말을 알려 주고, 서로의 강점을 배우며 함께 놀이하는 모습",
       "support": null,
-      "lenses": [],
-      "lessonPlanId": null,
+      "lenses": [
+        "표현",
+        "강점"
+      ],
+      "lessonPlanId": "grade-1",
       "source": {
         "classRow": {
           "sheet": "공개수업(학급, 전담, 특별학급)",
@@ -890,6 +897,24 @@
         "gradeRow": {
           "sheet": "공개수업(학년)",
           "row": 7
+        },
+        "supplementalGradeRow": {
+          "sheet": "공개수업(학년)",
+          "row": 7,
+          "fields": [
+            "topic",
+            "designFocus",
+            "commonObservation"
+          ]
+        },
+        "supplementalClassRow": {
+          "sheet": "공개수업(학급, 전담, 특별학급)",
+          "row": 9,
+          "fields": [
+            "context",
+            "observation",
+            "lenses"
+          ]
         }
       }
     },
@@ -903,9 +928,9 @@
       ],
       "locationStatus": "confirmed",
       "gradeTheme": "놀이로 만나기",
-      "topic": null,
-      "designFocus": null,
-      "commonObservation": null,
+      "topic": "여러 나라 말과 몸짓으로 인사하며 알뜰 시장 놀이하기",
+      "designFocus": "배운 인사말을 시장 놀이에 활용하고, 친구에게 인사말을 배우며 말·카드·몸짓으로 참여하기",
+      "commonObservation": "서로 다른 말을 배우고, 말과 몸짓으로 반갑고 고마운 마음을 주고받으며 함께 놀이하기",
       "context": "적극적으로 표현하고자 하는 마음과 친구를 도와주고 싶은 마음이 강한 학급.",
       "observation": "서로 다른 언어로 활동에 참여해보려고 노력하고, 동시에 다른 친구을 배려하고 함께 참여하는 모습.",
       "support": null,
@@ -914,7 +939,7 @@
         "참여",
         "협력"
       ],
-      "lessonPlanId": null,
+      "lessonPlanId": "grade-1",
       "source": {
         "classRow": {
           "sheet": "공개수업(학급, 전담, 특별학급)",
@@ -923,6 +948,15 @@
         "gradeRow": {
           "sheet": "공개수업(학년)",
           "row": 7
+        },
+        "supplementalGradeRow": {
+          "sheet": "공개수업(학년)",
+          "row": 7,
+          "fields": [
+            "topic",
+            "designFocus",
+            "commonObservation"
+          ]
         }
       }
     },
@@ -973,7 +1007,7 @@
         "표현",
         "강점"
       ],
-      "lessonPlanId": null,
+      "lessonPlanId": "grade-2",
       "source": {
         "classRow": {
           "sheet": "공개수업(학급, 전담, 특별학급)",
@@ -1006,7 +1040,7 @@
         "협력",
         "표현"
       ],
-      "lessonPlanId": null,
+      "lessonPlanId": "grade-2",
       "source": {
         "classRow": {
           "sheet": "공개수업(학급, 전담, 특별학급)",
@@ -1038,7 +1072,7 @@
         "참여",
         "표현"
       ],
-      "lessonPlanId": null,
+      "lessonPlanId": "grade-2",
       "source": {
         "classRow": {
           "sheet": "공개수업(학급, 전담, 특별학급)",
@@ -1071,7 +1105,7 @@
         "협력",
         "표현"
       ],
-      "lessonPlanId": null,
+      "lessonPlanId": "grade-2",
       "source": {
         "classRow": {
           "sheet": "공개수업(학급, 전담, 특별학급)",
@@ -1258,10 +1292,13 @@
       "topic": "두근두근 국가유산, 어린이 작가 출판기념회",
       "designFocus": "국가유산에 담긴 삶과 문화를 탐구하고, 서로 다른 언어-문화적 경험과 강점을 연결하여 책으로 만들고 나누는 프로젝트",
       "commonObservation": "서로 다른 언어-문화적 경험과 강점을 활용하여 국가유산의 가치를 전하고 함께 소통하기",
-      "context": null,
+      "context": "한국어 및 이중언어 활용 능력에 따라 학습 참여도와 성취 수준에 차이가 큰 학급",
       "observation": "모국어 자료 조사, 핵심어 번역과 검수, 작품 설명과 갤러리 안내까지, 학생이 지닌 언어와 문화 경험을 배움에 연결하기",
       "support": null,
-      "lenses": [],
+      "lenses": [
+        "참여",
+        "표현"
+      ],
       "lessonPlanId": "grade-4",
       "source": {
         "classRow": {
@@ -1271,6 +1308,14 @@
         "gradeRow": {
           "sheet": "공개수업(학년)",
           "row": 10
+        },
+        "supplementalClassRow": {
+          "sheet": "공개수업(학급, 전담, 특별학급)",
+          "row": 32,
+          "fields": [
+            "context",
+            "lenses"
+          ]
         }
       }
     },
@@ -1350,14 +1395,27 @@
       "topic": null,
       "designFocus": null,
       "commonObservation": null,
-      "context": null,
-      "observation": null,
-      "support": null,
-      "lenses": [],
+      "context": "듣기와 읽기는 일부 가능하지만, 말하기와 쓰기에는 \n어려움을 겪는 이중언어 화자가 있는 학급",
+      "observation": "모국어로 의견 작성, 또래 번역가를 통한 토의",
+      "support": "활동지 번역 자료, 필요 시 또래 번역가",
+      "lenses": [
+        "표현",
+        "강점"
+      ],
       "lessonPlanId": null,
       "source": {
         "classRow": null,
-        "gradeRow": null
+        "gradeRow": null,
+        "supplementalClassRow": {
+          "sheet": "공개수업(학급, 전담, 특별학급)",
+          "row": 55,
+          "fields": [
+            "context",
+            "observation",
+            "support",
+            "lenses"
+          ]
+        }
       }
     },
     {
@@ -1373,10 +1431,14 @@
       "topic": "가면으로 떠나는 세계 여행",
       "designFocus": "세계 다양한 나라의 지리적·문화적 특징을 가면에 나타내고 공유하기",
       "commonObservation": "가면에 담긴 자연환경과 문화의 의미를 설명하고, 친구의 작품을 관찰·추론하며 서로 소통하기",
-      "context": null,
-      "observation": null,
+      "context": "다문화 학생의 한국어 및 모국어 능력 수준이 최상, 상, 중, 하로 다양하게 분포된 학급.\n학급 전반의 참여 의욕이 높고, 활동 중심 수업을 선호함.",
+      "observation": "번역기 및 또래 통역 등의 도움을 받아 자료를 준비·제작해온 다문화 학생의 참여 모습",
       "support": null,
-      "lenses": [],
+      "lenses": [
+        "참여",
+        "강점",
+        "표현"
+      ],
       "lessonPlanId": "grade-5",
       "source": {
         "classRow": {
@@ -1386,6 +1448,15 @@
         "gradeRow": {
           "sheet": "공개수업(학년)",
           "row": 11
+        },
+        "supplementalClassRow": {
+          "sheet": "공개수업(학급, 전담, 특별학급)",
+          "row": 38,
+          "fields": [
+            "context",
+            "observation",
+            "lenses"
+          ]
         }
       }
     },
@@ -1435,10 +1506,14 @@
       "topic": "가면으로 떠나는 세계 여행",
       "designFocus": "세계 다양한 나라의 지리적·문화적 특징을 가면에 나타내고 공유하기",
       "commonObservation": "가면에 담긴 자연환경과 문화의 의미를 설명하고, 친구의 작품을 관찰·추론하며 서로 소통하기",
-      "context": null,
-      "observation": null,
+      "context": "한국어가 서툴러 소극적인 러시아 이중언어 화자 3명과, 한국어가 서툴러도 노력하는 러시아 이중언어 화자 2명이 있는 학급.",
+      "observation": "번역기, 친구의 도움 등을 통해 자신의 가면에 담긴 지리·문화적 특징을 표현하고, 친구들과 함께 세계 음악에 맞춰 놀이에 참여하는 모습",
       "support": null,
-      "lenses": [],
+      "lenses": [
+        "참여",
+        "강점",
+        "표현"
+      ],
       "lessonPlanId": "grade-5",
       "source": {
         "classRow": {
@@ -1448,6 +1523,15 @@
         "gradeRow": {
           "sheet": "공개수업(학년)",
           "row": 11
+        },
+        "supplementalClassRow": {
+          "sheet": "공개수업(학급, 전담, 특별학급)",
+          "row": 40,
+          "fields": [
+            "context",
+            "observation",
+            "lenses"
+          ]
         }
       }
     },
@@ -1464,10 +1548,14 @@
       "topic": "가면으로 떠나는 세계 여행",
       "designFocus": "세계 다양한 나라의 지리적·문화적 특징을 가면에 나타내고 공유하기",
       "commonObservation": "가면에 담긴 자연환경과 문화의 의미를 설명하고, 친구의 작품을 관찰·추론하며 서로 소통하기",
-      "context": null,
-      "observation": null,
-      "support": null,
-      "lenses": [],
+      "context": "한국어가 서툴러 소극적인 러시아 이중언어 화자 2명, 한국어가 서툴러도 노력하는 러시아 이중언어 화자 2명, 한국어가 능숙하여 또래를 돕는 러시아 이중언어 화자 1명이 있는 학급.",
+      "observation": "번역 도구 및 또래 도움을 통해 자신의 가면에 담긴 지리·문화적 특징을 놀이 활동에서 표현하는 모습",
+      "support": "다양한 이중언어 보조 자료",
+      "lenses": [
+        "강점",
+        "협력",
+        "표현"
+      ],
       "lessonPlanId": "grade-5",
       "source": {
         "classRow": {
@@ -1477,6 +1565,16 @@
         "gradeRow": {
           "sheet": "공개수업(학년)",
           "row": 11
+        },
+        "supplementalClassRow": {
+          "sheet": "공개수업(학급, 전담, 특별학급)",
+          "row": 41,
+          "fields": [
+            "context",
+            "observation",
+            "support",
+            "lenses"
+          ]
         }
       }
     },
@@ -1493,17 +1591,30 @@
       "topic": null,
       "designFocus": null,
       "commonObservation": null,
-      "context": null,
-      "observation": null,
-      "support": null,
-      "lenses": [],
-      "lessonPlanId": null,
+      "context": "다문화 학생은 없으나 영어 과제 수행의 실력 차이가 있는 \n학급",
+      "observation": "번역 앱을 활용하여 글쓰기에 노력하는 모습",
+      "support": "Tablet, Worksheet",
+      "lenses": [
+        "참여",
+        "표현"
+      ],
+      "lessonPlanId": "special-6-1",
       "source": {
         "classRow": {
           "sheet": "공개수업(학급, 전담, 특별학급)",
           "row": 57
         },
-        "gradeRow": null
+        "gradeRow": null,
+        "supplementalClassRow": {
+          "sheet": "공개수업(학급, 전담, 특별학급)",
+          "row": 57,
+          "fields": [
+            "context",
+            "observation",
+            "support",
+            "lenses"
+          ]
+        }
       }
     },
     {
@@ -1519,11 +1630,15 @@
       "topic": "기후가 만든 삶, AI-3D로 만나다",
       "designFocus": "사회과에서 시작한 질문을 실과와 미술로 표현하는 '세계 기후 생활 갤러리' 프로젝트",
       "commonObservation": "모국어 자료 조사, 핵심어 번역과 검수, 작품 설명과 갤러리 안내까지, 학생이 지닌 언어와 문화 경험을 배움에 연결하기",
-      "context": null,
+      "context": "한국어 사용에 자신감이 있는 러시아 이중언어 화자와 한국어 사용과 수업에 다소 소극적인 중국어 이중언어 화자가 있는 학급",
       "observation": "모국어 자료 조사, 핵심어 번역과 검수, 작품 설명과 갤러리 안내까지, 학생이 지닌 언어와 문화 경험을 배움에 연결하기",
-      "support": null,
-      "lenses": [],
-      "lessonPlanId": null,
+      "support": "3D 프린팅 활용, 이중언어 병기 수업자료 제시",
+      "lenses": [
+        "참여",
+        "강점",
+        "표현"
+      ],
+      "lessonPlanId": "grade-6-245",
       "source": {
         "classRow": {
           "sheet": "공개수업(학급, 전담, 특별학급)",
@@ -1532,6 +1647,15 @@
         "gradeRow": {
           "sheet": "공개수업(학년)",
           "row": 12
+        },
+        "supplementalClassRow": {
+          "sheet": "공개수업(학급, 전담, 특별학급)",
+          "row": 46,
+          "fields": [
+            "context",
+            "support",
+            "lenses"
+          ]
         }
       }
     },
@@ -1548,10 +1672,14 @@
       "topic": "맞혀봐, 우리의 맛! - 쇼츠 퀴즈로 오가며 즐기기",
       "designFocus": "카자흐스탄 학생들과 일상,음악,음식 문화를 주고 받으며 서로의 문화를 이해하는 G.A.T.E 프로젝트",
       "commonObservation": "언어가 달라도 몸짓으로 음식 문화를 전하고 그 속에서 발견된 문화를 함께 나누기",
-      "context": null,
-      "observation": null,
-      "support": null,
-      "lenses": [],
+      "context": "이중언어 학생이 함께 하며 카자흐스탄 학교와 실시간으로 교류하는 학급",
+      "observation": "사진 카드·몸짓으로 쇼츠 퀴즈를 주고받고, 러시아어 배경 학생이 두 학교를 잇는 진행자로 참여하는 모습",
+      "support": "줌 실시간 연결, 통역 지원",
+      "lenses": [
+        "참여",
+        "강점",
+        "표현"
+      ],
       "lessonPlanId": null,
       "source": {
         "classRow": {
@@ -1561,6 +1689,16 @@
         "gradeRow": {
           "sheet": "공개수업(학년)",
           "row": 13
+        },
+        "supplementalClassRow": {
+          "sheet": "공개수업(학급, 전담, 특별학급)",
+          "row": 47,
+          "fields": [
+            "context",
+            "observation",
+            "support",
+            "lenses"
+          ]
         }
       }
     },
@@ -1577,11 +1715,15 @@
       "topic": "기후가 만든 삶, AI-3D로 만나다",
       "designFocus": "사회과에서 시작한 질문을 실과와 미술로 표현하는 '세계 기후 생활 갤러리' 프로젝트",
       "commonObservation": "모국어 자료 조사, 핵심어 번역과 검수, 작품 설명과 갤러리 안내까지, 학생이 지닌 언어와 문화 경험을 배움에 연결하기",
-      "context": null,
+      "context": "이중언어 학생이 언어적 장벽을 극복하고 열정적인 자기 표현과 참여가 가능한 학급.",
       "observation": "모국어 자료 조사, 핵심어 번역과 검수, 작품 설명과 갤러리 안내까지, 학생이 지닌 언어와 문화 경험을 배움에 연결하기",
-      "support": null,
-      "lenses": [],
-      "lessonPlanId": null,
+      "support": "3D 프린팅 활용, 이중언어 병기 수업자료 제시",
+      "lenses": [
+        "참여",
+        "협력",
+        "표현"
+      ],
+      "lessonPlanId": "grade-6-245",
       "source": {
         "classRow": {
           "sheet": "공개수업(학급, 전담, 특별학급)",
@@ -1590,6 +1732,15 @@
         "gradeRow": {
           "sheet": "공개수업(학년)",
           "row": 12
+        },
+        "supplementalClassRow": {
+          "sheet": "공개수업(학급, 전담, 특별학급)",
+          "row": 48,
+          "fields": [
+            "context",
+            "support",
+            "lenses"
+          ]
         }
       }
     },
@@ -1606,11 +1757,15 @@
       "topic": "기후가 만든 삶, AI-3D로 만나다",
       "designFocus": "사회과에서 시작한 질문을 실과와 미술로 표현하는 '세계 기후 생활 갤러리' 프로젝트",
       "commonObservation": "모국어 자료 조사, 핵심어 번역과 검수, 작품 설명과 갤러리 안내까지, 학생이 지닌 언어와 문화 경험을 배움에 연결하기",
-      "context": null,
+      "context": "이중언어 학생이 자신의 강점을 활용하여 적극적으로 수업에 참여가 가능한 학습",
       "observation": "모국어 자료 조사, 핵심어 번역과 검수, 작품 설명과 갤러리 안내까지, 학생이 지닌 언어와 문화 경험을 배움에 연결하기",
-      "support": null,
-      "lenses": [],
-      "lessonPlanId": null,
+      "support": "3D 프린팅 활용, 이중언어 병기 수업자료 제시",
+      "lenses": [
+        "참여",
+        "강점",
+        "표현"
+      ],
+      "lessonPlanId": "grade-6-245",
       "source": {
         "classRow": {
           "sheet": "공개수업(학급, 전담, 특별학급)",
@@ -1619,6 +1774,15 @@
         "gradeRow": {
           "sheet": "공개수업(학년)",
           "row": 12
+        },
+        "supplementalClassRow": {
+          "sheet": "공개수업(학급, 전담, 특별학급)",
+          "row": 49,
+          "fields": [
+            "context",
+            "support",
+            "lenses"
+          ]
         }
       }
     },
@@ -1635,21 +1799,30 @@
       "topic": null,
       "designFocus": null,
       "commonObservation": null,
-      "context": null,
-      "observation": "한국어 표현에 어려움이 있는 다문화 학생들이",
-      "support": null,
+      "context": "원적학급의 학교생활 경험은 풍부하지만, 이를 한국어로 구체적으로 설명하고 문장으로 표현하는 데 어려움이 있는 학급",
+      "observation": "학생이 자신의 강점을 활용해 소개할 내용을 구체화하고, 그림·핵심 낱말·한국어 문장을 연결하여 생각을 표현하는 모습",
+      "support": "원적학급 사진, 핵심낱말 카드 등",
       "lenses": [
         "참여",
         "강점",
         "표현"
       ],
-      "lessonPlanId": null,
+      "lessonPlanId": "multicultural-red",
       "source": {
         "classRow": {
           "sheet": "공개수업(학급, 전담, 특별학급)",
           "row": 62
         },
-        "gradeRow": null
+        "gradeRow": null,
+        "supplementalClassRow": {
+          "sheet": "공개수업(학급, 전담, 특별학급)",
+          "row": 62,
+          "fields": [
+            "context",
+            "observation",
+            "support"
+          ]
+        }
       }
     },
     {
@@ -1667,7 +1840,7 @@
       "commonObservation": null,
       "context": "문장으로 원만하게 말하나 쓰는 것을 어려워하는 학급",
       "observation": "자신의 생각을 문장틀에 맞추어 쓰기",
-      "support": null,
+      "support": "수준별 문장틀",
       "lenses": [
         "참여",
         "강점",
@@ -1679,7 +1852,14 @@
           "sheet": "공개수업(학급, 전담, 특별학급)",
           "row": 63
         },
-        "gradeRow": null
+        "gradeRow": null,
+        "supplementalClassRow": {
+          "sheet": "공개수업(학급, 전담, 특별학급)",
+          "row": 63,
+          "fields": [
+            "support"
+          ]
+        }
       }
     },
     {
@@ -1695,17 +1875,31 @@
       "topic": null,
       "designFocus": null,
       "commonObservation": null,
-      "context": null,
-      "observation": null,
-      "support": null,
-      "lenses": [],
-      "lessonPlanId": null,
+      "context": "문장 표현과 맞춤법에 어려움이 있는 학급",
+      "observation": "자신의 경험을 그림 일기로 표현하는 모습",
+      "support": "문장틀, 학교 행사 사진 등",
+      "lenses": [
+        "참여",
+        "발견",
+        "표현"
+      ],
+      "lessonPlanId": "multicultural-blue",
       "source": {
         "classRow": {
           "sheet": "공개수업(학급, 전담, 특별학급)",
           "row": 64
         },
-        "gradeRow": null
+        "gradeRow": null,
+        "supplementalClassRow": {
+          "sheet": "공개수업(학급, 전담, 특별학급)",
+          "row": 64,
+          "fields": [
+            "context",
+            "observation",
+            "support",
+            "lenses"
+          ]
+        }
       }
     },
     {
@@ -1725,7 +1919,7 @@
       "observation": null,
       "support": null,
       "lenses": [],
-      "lessonPlanId": null,
+      "lessonPlanId": "kindergarten",
       "source": {
         "classRow": null,
         "gradeRow": null
@@ -1733,6 +1927,22 @@
     }
   ],
   "lessonPlans": [
+    {
+      "id": "grade-1",
+      "url": "/pdfs/grade-1.pdf",
+      "source": {
+        "path": "materials/original/lesson-plans/1020-additions/공개수업용지도안(1학년).pdf",
+        "sha256": "2831686acf7654feb0b63dbac1eae5d1c71af23a9dfabff104461674dc6c9992"
+      }
+    },
+    {
+      "id": "grade-2",
+      "url": "/pdfs/grade-2.pdf",
+      "source": {
+        "path": "materials/original/lesson-plans/1020-additions/공개수업용 지도안(2학년).pdf",
+        "sha256": "c882d00af57c38f2fe7b36a411ae5787271839de045139d582461b61c1b04da0"
+      }
+    },
     {
       "id": "grade-3",
       "url": "/pdfs/grade-3.pdf",
@@ -1755,6 +1965,46 @@
       "source": {
         "path": "materials/original/lesson-plans/2026 연구학교 공개보고회 수업안(5학년).pdf",
         "sha256": "b64eda3972313a6867a19cede5624b508a6b8454864a9d83def6032e038758a7"
+      }
+    },
+    {
+      "id": "grade-6-245",
+      "url": "/pdfs/grade-6-245.pdf",
+      "source": {
+        "path": "materials/original/lesson-plans/1020-additions/2026 연구학교 공개보고회 수업안(6학년 2, 4, 5반).pdf",
+        "sha256": "744fdda3713b965130cf8202464038b47b4308bb300aedc3632bed13211a7447"
+      }
+    },
+    {
+      "id": "special-6-1",
+      "url": "/pdfs/special-6-1.pdf",
+      "source": {
+        "path": "materials/original/lesson-plans/1020-additions/2026 연구학교 공개보고회 수업안(6-1 영어- 건강 습관 보고서 쓰기).pdf",
+        "sha256": "64b4c5f0c4640eeaa9b7c45c17a812a2e69ef6fddd9f2783093b856e595d6a6d"
+      }
+    },
+    {
+      "id": "multicultural-red",
+      "url": "/pdfs/multicultural-red.pdf",
+      "source": {
+        "path": "materials/original/lesson-plans/1020-additions/공개수업 지도안(다문화특별학급 1반)(빨강반).pdf",
+        "sha256": "6382d363c3fb2aaf6ebb31a877ef4c48ab961b2e4a254078ab09e1d93e510880"
+      }
+    },
+    {
+      "id": "multicultural-blue",
+      "url": "/pdfs/multicultural-blue.pdf",
+      "source": {
+        "path": "materials/original/lesson-plans/1020-additions/2026 연구학교 공개보고회 수업안(다문화특별학급 3반)(파랑반).pdf",
+        "sha256": "7dc6ec2b949e8efdc137130a1f4bb5c7e248f78653eda4047877db99415d7601"
+      }
+    },
+    {
+      "id": "kindergarten",
+      "url": "/pdfs/kindergarten.pdf",
+      "source": {
+        "path": "materials/original/lesson-plans/1020-additions/2026 연구학교 공개보고회 수업안(유치원).pdf",
+        "sha256": "4f1c150463e6827880979b6b54f67c18e59539affaa466427e76e44ef58efef1"
       }
     }
   ],

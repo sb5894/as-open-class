@@ -121,6 +121,7 @@ test('invitation, guide, direct refresh, history and on-demand PDF controls', as
   await page.locator('svg a[data-space-id="classroom-3-2"]').tap();
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('우리 주변의 다양한 문화 조사하고 정리하기');
   await expect(page.locator('.location')).toHaveText('📍 신관 3층 3-2 교실');
+  await expect(page.locator('.lesson-grade-focus')).toHaveText('3~4학년 중점: 문화로 배우기');
   for (const name of ['학년 공통 주제', '수업 설계', '공통 참관 포인트']) await expect(page.getByRole('heading', { name, exact: true })).toHaveCount(0);
   await expect(page.locator('canvas')).toHaveAttribute('aria-label', '수업 지도안 1페이지');
   await expect(page.getByRole('button', { name: '다음 페이지' })).toBeEnabled();
