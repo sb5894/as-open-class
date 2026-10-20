@@ -29,10 +29,11 @@ main:focus { outline: none; }
 .model-two:focus { outline: none; }
 .model-two-table { width: 100%; table-layout: fixed; border-collapse: collapse; font-size: .875rem; line-height: 1.65; }
 .model-two-table caption { text-align: left; color: #59665e; margin-bottom: .75rem; }
-.model-two-table th, .model-two-table td { padding: .65rem .5rem; border: 1px solid #c5cec3; overflow-wrap: anywhere; }
+.model-two-table th, .model-two-table td { padding: .65rem .5rem; border: 1px solid #c5cec3; word-break: keep-all; overflow-wrap: normal; }
+.model-two-table td span { white-space: nowrap; }
 .model-two-table thead th { background: #f0f3eb; }
-.model-two-table thead th:first-child { width: 22%; }
-.model-two-table thead th:nth-child(2) { width: 34%; }
+.model-two-table thead th:first-child { width: 20%; }
+.model-two-table thead th:nth-child(2) { width: 38%; }
 .model-two-table tbody th { text-align: center; }
 .model-two-table img { display: block; width: 64px; max-width: 100%; height: auto; margin: 0 auto .2rem; }
 .model-two-table tbody th span { display: block; }

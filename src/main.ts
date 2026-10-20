@@ -106,6 +106,16 @@ document.addEventListener('click', event => {
   const anchor = (event.target as Element).closest('a[href]');
   if (!anchor || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || anchor.getAttribute('target')) return;
   const target = new URL(anchor.getAttribute('href')!, window.location.href);
+  if (anchor.classList.contains('model-two-link')) {
+    const description = document.getElementById('model-two');
+    if (description) {
+      event.preventDefault();
+      if (window.location.hash !== target.hash) history.pushState(null, '', target.href);
+      description.focus({ preventScroll: true });
+      description.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'start' });
+      return;
+    }
+  }
   if (target.origin !== window.location.origin || target.hash) return;
   event.preventDefault(); history.pushState(null, '', target.href); window.scrollTo(0, 0); render();
 });

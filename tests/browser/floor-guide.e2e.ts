@@ -161,8 +161,6 @@ test('building overview preserves straight classroom rows with complete common t
     if(building==='main') {
       const offices=page.locator('#floor-2 g.facility-room text');
       await expect(offices).toHaveText(['자치실','교무실']);
-      const widths=await page.locator('[data-space-id^="korean-"] rect').evaluateAll(nodes=>nodes.map(node=>Number(node.getAttribute('width'))));
-      expect(Math.max(...widths)-Math.min(...widths)).toBeLessThan(.01);
       const ev=await page.locator('#floor-2 .facility-elevator rect').evaluate(node=>({x:Number(node.getAttribute('x')),w:Number(node.getAttribute('width')),y:Number(node.getAttribute('y')),h:Number(node.getAttribute('height'))}));
       const leftStair=await page.locator('#floor-2 .facility-stairs[data-source-x="222"] rect').evaluate(node=>({x:Number(node.getAttribute('x')),w:Number(node.getAttribute('width')),y:Number(node.getAttribute('y'))}));
       expect(ev.x+ev.w/2).toBeCloseTo(leftStair.x+leftStair.w/2,5);
@@ -181,6 +179,8 @@ test('building overview preserves straight classroom rows with complete common t
       expect(Math.abs(koreanStrip.rooms[0].x - koreanStrip.start)).toBeLessThan(.01);
       expect(Math.abs(koreanStrip.rooms[3].x + koreanStrip.rooms[3].width - koreanStrip.end)).toBeLessThan(.01);
       for (const [index, room] of koreanStrip.rooms.entries()) {
+        const expectedWidth = (koreanStrip.end - koreanStrip.start) / 4 * [1.1, .9, .9, 1.1][index];
+        expect(Math.abs(room.width - expectedWidth)).toBeLessThan(.01);
         if (index) expect(Math.abs(room.x - koreanStrip.rooms[index - 1].x - koreanStrip.rooms[index - 1].width)).toBeLessThan(.01);
         expect(room.textFits).toBe(true);
         const lesson = getPublicLessons().find(item => item.spaceIds.includes(room.id));

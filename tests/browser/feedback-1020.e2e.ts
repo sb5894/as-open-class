@@ -29,6 +29,14 @@ test('model-two reference images and invitation emphasis remain readable on mobi
   for (const width of [320, 390, 430]) {
     await page.setViewportSize({ width, height: 740 });
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    expect(await page.locator('.model-two-table td').evaluateAll(cells => cells.every(cell => {
+      const bounds = cell.getBoundingClientRect();
+      return [...cell.querySelectorAll('span')].every(word => {
+        const range = document.createRange(); range.selectNodeContents(word);
+        const rects = [...range.getClientRects()];
+        return rects.length === 1 && rects[0].left >= bounds.left && rects[0].right <= bounds.right;
+      });
+    }))).toBe(true);
   }
   await page.screenshot({ path: `test-results/${test.info().project.name}-1020-home.png`, fullPage: true });
   await page.getByRole('link', { name: '참관 신청하기', exact: true }).tap();

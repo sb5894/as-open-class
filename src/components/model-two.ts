@@ -1,5 +1,14 @@
 import { el } from './ui';
 
+function descriptionCell(text: string) {
+  const cell = el('td');
+  text.split(' ').forEach((word, index) => {
+    if (index) cell.append(document.createTextNode(' '));
+    cell.append(el('span', word));
+  });
+  return cell;
+}
+
 /** Model 2 wording and images provided by the school on 2026-10-20. */
 export function createModelTwo() {
   const section = el('section', undefined, 'card model-two');
@@ -19,7 +28,7 @@ export function createModelTwo() {
     const step = el('tr'); step.setAttribute('aria-label', name);
     const image = el('img'); image.src = `/assets/model2/${asset}.png`; image.alt = ''; image.loading = 'lazy'; image.width = 183; image.height = 110;
     const principle = el('th'); principle.scope = 'row'; principle.append(image, el('span', name));
-    step.append(principle, el('td', summary), el('td', observation)); body.append(step);
+    step.append(principle, descriptionCell(summary), descriptionCell(observation)); body.append(step);
   }
   table.append(head, body); section.append(table);
   return section;
