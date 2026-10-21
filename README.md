@@ -22,7 +22,7 @@
 
 **정식 사이트: https://as-open-class.web.app/** · [신청하기](https://as-open-class.web.app/register) · [학교 둘러보기](https://as-open-class.web.app/guide). 2026-10-21 사용자 요청으로 검토한 최신 디자인과 버그 수정을 정식 Hosting에 반영했다. 이 주소에는 만료일이 없다.
 
-**GitHub:** https://github.com/sb5894/as-open-class. 2026-10-21 정식 배포의 최신 변경은 `design/home-green-preview` 브랜치를 따른다. 소스·문서·선별 웹 자료를 저장하며 비밀 설정·원본 자료·node_modules·빌드 결과는 Git에서 제외한다. 새 PC에서는 해당 브랜치를 체크아웃한 뒤 `npm.cmd ci`와 README의 Firebase/로컬 환경 설정을 따른다.
+**GitHub:** https://github.com/sb5894/as-open-class (`main`). 2026-10-21 정식 배포의 디자인·버그 수정과 작업 기록을 사용자 요청으로 `main`에 병합했다. 소스·문서·선별 웹 자료를 저장하며 비밀 설정·원본 자료·node_modules·빌드 결과는 Git에서 제외한다. 새 PC에서는 `main`을 체크아웃한 뒤 `npm.cmd ci`와 README의 Firebase/로컬 환경 설정을 따른다.
 
 `1차피드백(1019).pdf`와 후속 답변의 행사 소개·공유 일정표·등록 장소·직위·선택 문의·필수 개인정보 동의를 반영하고 임시 링크와 신청 함수를 배포했다. 검토 주소는 https://as-open-class--mobile-review-mmhal97i.web.app/ 이며 2026-10-27 00:07 KST 만료다. 타입/빌드·단위 76개·모바일 모의 36개와 배포본 두 브라우저 검토를 마쳤다. **시트 F1/J1/K1 헤더 갱신은 Chrome 연결 대기 중이다.** [최신 진행 현황](docs/진행%20현황.md)과 [피드백 검토표](docs/reviews/1차피드백-1019-검토.md)를 따른다.
 
