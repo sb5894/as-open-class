@@ -17,7 +17,7 @@ test('feedback schedule is shared and disclosure is independent of required cons
     await page.setViewportSize({ width, height: 740 });
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   }
-  await page.getByRole('link', { name: '참관 신청하기', exact: true }).tap();
+  await page.locator('.home-actions').getByRole('link', { name: '참관 신청하기', exact: true }).tap();
   expect(await page.locator('.event-schedule table').innerText()).toBe(schedule);
   await expect(page.locator('#event')).toHaveCount(0);
   await expect(page.getByLabel('담당 학년·교과', { exact: true })).toHaveCount(0);
@@ -41,7 +41,7 @@ test('feedback schedule is shared and disclosure is independent of required cons
   await expect(consent).toHaveAttribute('aria-invalid', 'true');
   expect(requests).toBe(0);
   expect(saved).toHaveLength(0);
-  const question = page.getByLabel('연구학교 운영과 관련하여 궁금한 점이 있으신가요? (선택)', { exact: true });
+  const question = page.getByLabel('연구학교 운영과 관련하여 궁금한 점이 있으신가요? (선택, 최대 2,000자)', { exact: true });
   await question.fill('운영 사례를 더 알고 싶습니다.\n자료 공유가 가능한가요?');
   await consent.check();
   await expect(consent).not.toHaveAttribute('aria-invalid');
@@ -53,12 +53,12 @@ test('feedback schedule is shared and disclosure is independent of required cons
   expect(registrationRow(saved[0]).slice(5)).toEqual(['장학사', '시험 신청자', '', '', '동의', '운영 사례를 더 알고 싶습니다.\n자료 공유가 가능한가요?']);
 });
 
-test('confirmed school map loads only on guide and route toggles on a narrow screen', async ({ page }) => {
+test('confirmed school map opens from home and route toggles on a narrow screen', async ({ page }) => {
   const requests: string[] = [];
   page.on('request', request => requests.push(request.url()));
   await page.goto('/');
-  expect(requests.some(url => /school-guide-v\d-.*\.webp/.test(url))).toBe(false);
-  await page.getByRole('link', { name: '보고회 둘러보기', exact: true }).tap();
+  expect(requests.some(url => /pdfjs|pdf-viewer|\.pdf(?:\?|$)|pdf\.worker/.test(url))).toBe(false);
+  await page.getByRole('link', { name: '학교·수업 안내', exact: true }).tap();
   const image = page.locator('.school-map img');
   await expect(image).toBeVisible();
   await expect.poll(() => image.evaluate(node => (node as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
@@ -73,11 +73,11 @@ test('confirmed school map loads only on guide and route toggles on a narrow scr
   expect(await page.locator('.map-staff-label').evaluate(node=>getComputedStyle(node).backgroundColor)).toBe(await page.locator('.school-map-static').first().evaluate(node=>getComputedStyle(node).backgroundColor));
   expect(await page.locator('.map-entrance-label').evaluate(node=>getComputedStyle(node).backgroundColor)).not.toBe(await page.locator('.map-parking-label').evaluate(node=>getComputedStyle(node).backgroundColor));
   expect(await page.locator('.map-parking-label').evaluate(node=>getComputedStyle(node).backgroundColor)).toBe(await page.locator('.map-route-label').evaluate(node=>getComputedStyle(node).backgroundColor));
-  await page.getByLabel('주차 진입 동선 보기').uncheck();
+  await page.getByLabel('정문 진입 동선 보기').uncheck();
   await expect(page.locator('.school-map-route')).toBeHidden();
   await expect(page.locator('.map-route-label')).toBeHidden();
   await expect(page.locator('.map-entrance-label')).toBeVisible();
-  await page.getByLabel('주차 진입 동선 보기').check();
+  await page.getByLabel('정문 진입 동선 보기').check();
   await expect(page.locator('.school-map-route')).toBeVisible();
   for (const width of [430, 390, 320]) {
     await page.setViewportSize({ width, height: 740 });
@@ -100,9 +100,9 @@ test('invitation, guide, direct refresh, history and on-demand PDF controls', as
   const requests: string[] = [];
   page.on('request', request => requests.push(request.url()));
   await page.goto('/');
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('2026 안성초등학교 정책연구학교 공개보고회 참관 신청');
-  await expect(page.locator('.brand')).toHaveText('안성초 공개보고회');
-  await expect(page.locator('.actions a')).toHaveText(['보고회 둘러보기', '참관 신청하기']);
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('서로의 언어와 문화가,함께의 배움으로');
+  await expect(page.locator('.brand')).toHaveText('안성초등학교2026 정책연구학교 공개보고회');
+  await expect(page.locator('.home-actions a')).toHaveText(['참관 신청하기↗', '학교·수업 안내→']);
   await expect(page.getByRole('link', { name: '행사 소개', exact: true })).toHaveCount(0);
   await expect(page.locator('#event')).toContainText('그동안의 연구 성과와 교육과정 운영 사례를 공유하는 공개보고회에 교육 관계자 여러분을 초대합니다.');
   await expect(page.locator('#event')).toContainText('일시: 2026. 11. 11.(수) 12:50~16:00');
@@ -113,7 +113,7 @@ test('invitation, guide, direct refresh, history and on-demand PDF controls', as
   await expect(page.locator('main')).not.toContainText('수업을 먼저 만나');
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   expect(requests.some(url => /pdfjs|pdf-viewer|\.pdf(?:\?|$)|pdf\.worker/.test(url))).toBe(false);
-  await page.getByRole('link', { name: '보고회 둘러보기', exact: true }).tap();
+  await page.getByRole('link', { name: '학교·수업 안내', exact: true }).tap();
   await expect(page).toHaveURL(/\/guide$/);
   await expect(page.locator('main')).not.toContainText('대표 수업');
   await page.reload();
@@ -161,10 +161,10 @@ test('registration validates choices, locks during submission and keeps inputs o
   for (const [name, value] of [['지역(시)', '연결시험'], ['소속교', '시험학교'], ['직위', '영어전담'], ['성함', '브라우저 시험']]) await page.getByLabel(name, { exact: true }).fill(value);
   await page.getByLabel('개인정보 수집·이용에 동의합니다. (필수)', { exact: true }).check();
   await page.locator('.preference-disclosure summary').tap();
-  const checks = page.locator('.lesson-choice input'); await checks.nth(1).tap(); await checks.nth(2).tap();
-  await expect(checks.nth(3)).toBeDisabled();
+  const checks = page.locator('.lesson-choice input'); await checks.nth(0).tap(); await checks.nth(1).tap();
+  await expect(checks.nth(2)).toBeDisabled();
   expect(await checks.count()).toBe(14);
-  await expect(page.locator('.lesson-choice strong')).toHaveText(['수석교사 · 1-3', '1학년', '2학년', '3학년', '4학년', '5학년', '6학년', '다문화특별학급 1반 (빨강)', '다문화특별학급 2반 (초록)', '다문화특별학급 3반 (파랑)', '5-1 도덕', '과학 전담 · 4-5', '영어 전담 · 6-1', '유치원']);
+  await expect(page.locator('.lesson-choice strong')).toHaveText(['1학년', '2학년', '3학년', '4학년', '5학년', '6학년', '다문화특별학급 1반 (빨강)', '다문화특별학급 2반 (초록)', '다문화특별학급 3반 (파랑)', '수석교사 · 1-3', '도덕 전담 · 5-1', '과학 전담 · 4-5', '영어 전담 · 6-1', '유치원']);
   await page.locator('fieldset').nth(1).screenshot({ path: `test-results/${test.info().project.name}-interest-options.png` });
   await expect(page.locator('legend').nth(1)).toHaveText('관심있는 수업 (선택, 최대 2개)');
   await expect(page.locator('main')).not.toContainText('희망 수업');
@@ -175,7 +175,7 @@ test('registration validates choices, locks during submission and keeps inputs o
   release();
   await expect(page.getByRole('button', { name: '다시 제출' })).toBeEnabled();
   await expect(page.getByLabel('성함', { exact: true })).toHaveValue('브라우저 시험');
-  await expect(checks.nth(1)).toBeChecked(); expect(requests).toBe(1);
+  await expect(checks.nth(0)).toBeChecked(); expect(requests).toBe(1);
   await page.getByRole('button', { name: '다시 제출' }).tap();
   await expect(page.getByRole('status')).toContainText('신청이 완료되었습니다.');
   expect(requests).toBe(2);
@@ -193,19 +193,19 @@ test('optional choices collapse, retain selections and explain the two-choice li
   await expect(page.getByRole('button', { name: '신청 제출' })).toBeVisible();
   await summary.tap();
   const checks = page.locator('.lesson-choice input');
+  await page.locator('.lesson-choice').nth(0).tap();
   await page.locator('.lesson-choice').nth(1).tap();
-  await page.locator('.lesson-choice').nth(2).tap();
   await expect(page.locator('#preference-count')).toContainText('바꾸려면 선택한 수업을 먼저 해제하세요.');
-  await expect(checks.nth(3)).toBeDisabled();
+  await expect(checks.nth(2)).toBeDisabled();
   await summary.tap();
   await expect(summary).toHaveText('수업 목록 보기 · 선택 2/2');
   await expect(page.getByText('선택한 수업: 1학년 / 2학년', { exact: true })).toBeVisible();
   await summary.tap();
-  await expect(checks.nth(1)).toBeChecked();
-  await checks.nth(1).tap();
-  await expect(checks.nth(3)).toBeEnabled();
+  await expect(checks.nth(0)).toBeChecked();
+  await checks.nth(0).tap();
+  await expect(checks.nth(2)).toBeEnabled();
   await expect(page.locator('#preference-count')).toHaveText('선택 1 / 2');
-  await checks.nth(3).tap();
+  await checks.nth(2).tap();
   await expect(page.getByText('선택한 수업: 2학년 / 3학년', { exact: true })).toBeVisible();
   await page.screenshot({ path: `test-results/${test.info().project.name}-ux-choices.png`, fullPage: true });
 });
@@ -403,7 +403,7 @@ test('continuous PDF controls keep page tops clear on narrow screens and cancel 
     await expect(toolbar).toContainText('175%');
     await expect(second.locator('canvas')).toHaveAttribute('data-rendered','true');
     await expect(page.locator('.pdf-viewer .error')).toHaveCount(0);
-    await page.getByRole('link',{name:'안성초 공개보고회',exact:true}).click();
+    await page.getByRole('link',{name:'안성초등학교 2026 정책연구학교 공개보고회',exact:true}).click();
     await expect(page).toHaveURL(/\/$/);
     expect(errors).toEqual([]);
   }
@@ -451,7 +451,7 @@ test('small mobile viewport keeps readable text and touch targets', async ({ pag
   expect(await page.evaluate(() => document.documentElement.scrollHeight > innerHeight)).toBe(true);
   await expect(page.getByRole('link',{name:'신청하기',exact:true})).toBeVisible();
   await expect(page.locator('.brand img')).toHaveJSProperty('naturalWidth',64);
-  for (const button of await page.locator('.actions .button').all()) {
+  for (const button of await page.locator('.home-actions .home-button').all()) {
     expect((await button.boundingBox())!.height).toBeGreaterThanOrEqual(44);
   }
   expect((await page.locator('.brand').boundingBox())!.height).toBeGreaterThanOrEqual(44);

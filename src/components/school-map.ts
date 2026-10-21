@@ -9,7 +9,7 @@ export function createSchoolMap() {
   const notice = el('p', '등록: 본관 1층 중앙현관 · 주차: 운동장', 'note');
   const control = el('label', undefined, 'map-route-control');
   const toggle = el('input'); toggle.type = 'checkbox'; toggle.checked = true;
-  control.append(toggle, document.createTextNode('주차 진입 동선 보기'));
+  control.append(toggle, document.createTextNode('정문 진입 동선 보기'));
   const frame = el('div', undefined, 'school-map-frame');
   frame.setAttribute('role', 'region');
   frame.setAttribute('aria-label', '학교 안내도');
@@ -33,8 +33,7 @@ export function createSchoolMap() {
     if(building) node.setAttribute('aria-label',place.label);
   }
   label('등록 장소:\n본관 1층 중앙현관', positions.entrance.point, 'map-entrance-label');
-  label('시청각실\n공개보고회장', [35, 24], 'map-event-label map-auditorium-label', '/guide/main/4');
-  label('소모임실\n자료 전시', [35, 34], 'map-event-label map-exhibition-label', '/guide/main/4');
+  label('시청각실: 공개보고회장', [50, 30.5], 'map-event-label map-auditorium-label', '/guide/main/4');
   label('교직원 전용\n주차장', [16, 83], 'school-map-static map-staff-label');
   const ns = 'http://www.w3.org/2000/svg';
   const route = document.createElementNS(ns, 'svg');
@@ -46,7 +45,7 @@ export function createSchoolMap() {
   arrow.setAttribute('points', '54.8,63 57,60 59.2,63');
   arrow.classList.add('route-arrow');
   route.append(path, arrow); map.append(route);
-  const routeLabel = label('주차 진입', [57, 91], 'map-route-label');
+  const routeLabel = label('정문 진입', [57, 91], 'map-route-label');
   toggle.addEventListener('change', () => { route.toggleAttribute('hidden', !toggle.checked); routeLabel.hidden = !toggle.checked; });
   frame.append(map);
   section.append(heading, notice, frame, control);

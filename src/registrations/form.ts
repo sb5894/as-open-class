@@ -12,7 +12,7 @@ export function mountRegistration(main: HTMLElement) {
   const fields = el('fieldset'); fields.append(el('legend', '신청자 정보'));
   const inputs: Record<string, HTMLInputElement> = {};
   const errors: Record<string, HTMLParagraphElement> = {};
-  for (const [key, label, max, hint] of [['city', '지역(시)', 80, '예: 안성시'], ['school', '소속교', 120, '예: 안성초등학교'], ['assignment', '직위', 120, '예: 교사, 교감, 교장, 장학사'], ['name', '성함', 80, '신청자 성함']] as const) {
+  for (const [key, label, max, hint] of [['city', '지역(시)', 80, '예: 안성시'], ['school', '소속교', 120, '예: 안성초등학교'], ['assignment', '직위', 120, '예: 교사, 교감, 교장, 장학사 등'], ['name', '성함', 80, '신청자 성함']] as const) {
     const wrapper = el('div', undefined, 'field');
     const labelNode = el('label', label); labelNode.htmlFor = `registration-${key}`;
     const input = el('input'); input.name = key; input.required = true; input.maxLength = max; input.placeholder = hint;
@@ -50,7 +50,12 @@ export function mountRegistration(main: HTMLElement) {
   disclosure.append(toggle); choices.append(selectionSummary, disclosure);
   const checks: HTMLInputElement[] = [];
   const lessons = getPublicLessons();
-  for (const option of interestOptions) {
+  // Presentation changes keep the deployed API's stable interest IDs intact.
+  const displayedOptions = interestOptions.filter(option => option.id !== 'lesson-1-3')
+    .map(option => option.id === 'lesson-5-1' ? { ...option, label: '도덕 전담 · 5-1' } : option);
+  const senior = interestOptions.find(option => option.id === 'lesson-1-3');
+  if (senior) displayedOptions.splice(displayedOptions.findIndex(option => option.id === 'lesson-multicultural-blue') + 1, 0, senior);
+  for (const option of displayedOptions) {
     const label = el('label', undefined, 'lesson-choice');
     const input = el('input'); input.type = 'checkbox'; input.name = 'lessonIds'; input.value = option.id; input.setAttribute('aria-describedby', count.id); checks.push(input);
     const topics = [...new Set(lessons.filter(lesson => option.lessonIds.includes(lesson.id)).map(lesson => lesson.topic).filter((topic): topic is string => !!topic))];
@@ -59,13 +64,11 @@ export function mountRegistration(main: HTMLElement) {
   }
   const additional = el('fieldset', undefined, 'registration-additional'); additional.append(el('legend', '문의 및 개인정보 동의'));
   const questionField = el('div', undefined, 'field');
-  const questionLabel = el('label', '연구학교 운영과 관련하여 궁금한 점이 있으신가요? (선택)');
+  const questionLabel = el('label', '연구학교 운영과 관련하여 궁금한 점이 있으신가요? (선택, 최대 2,000자)');
   const question = el('textarea'); question.id = 'registration-question'; question.name = 'question'; question.maxLength = 2000; question.rows = 4;
   questionLabel.htmlFor = question.id;
-  const questionHelp = el('p', '최대 2,000자까지 입력할 수 있습니다.', 'note'); questionHelp.id = `${question.id}-help`;
-  question.setAttribute('aria-describedby', questionHelp.id);
   const questionError = el('p', undefined, 'error field-error'); questionError.id = `${question.id}-error`; questionError.hidden = true;
-  questionField.append(questionLabel, questionHelp, question, questionError);
+  questionField.append(questionLabel, question, questionError);
   const privacy = el('details', undefined, 'privacy-disclosure');
   privacy.append(el('summary', '개인정보 수집·이용'));
   privacy.append(el('p', '‘안성초 정책연구학교 공개보고회’ 운영을 위해 신청자의 소속과 직위, 성명 등을 수집하고자 합니다. 개인정보 수집 및 이용에 동의하십니까?'));
@@ -88,8 +91,8 @@ export function mountRegistration(main: HTMLElement) {
     const input = key === 'question' ? question : consent;
     const error = key === 'question' ? questionError : consentError;
     error.textContent = message; error.hidden = !message;
-    if (message) { input.setAttribute('aria-invalid', 'true'); input.setAttribute('aria-describedby', key === 'question' ? `${questionHelp.id} ${error.id}` : error.id); }
-    else { input.removeAttribute('aria-invalid'); if (key === 'question') input.setAttribute('aria-describedby', questionHelp.id); else input.removeAttribute('aria-describedby'); }
+    if (message) { input.setAttribute('aria-invalid', 'true'); input.setAttribute('aria-describedby', error.id); }
+    else { input.removeAttribute('aria-invalid'); input.removeAttribute('aria-describedby'); }
   }
   function questionErrorMessage() {
     return question.value.length > question.maxLength || /[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f-\u009f]/.test(question.value) ? '2,000자 이내의 문의 내용을 입력해 주세요.' : '';
@@ -129,7 +132,7 @@ export function mountRegistration(main: HTMLElement) {
     const selected = checks.filter(item => item.checked).length;
     count.textContent = `선택 ${selected} / 2${selected === 2 ? ' — 최대 2개까지 선택할 수 있어요. 바꾸려면 선택한 수업을 먼저 해제하세요.' : ''}`;
     updateDisclosure();
-    selectionSummary.textContent = selected ? `선택한 수업: ${interestOptions.filter(option => checks.some(item => item.checked && item.value === option.id)).map(option => option.label).join(' / ')}` : '선택한 수업: 없음';
+    selectionSummary.textContent = selected ? `선택한 수업: ${displayedOptions.filter(option => checks.some(item => item.checked && item.value === option.id)).map(option => option.label).join(' / ')}` : '선택한 수업: 없음';
     checks.forEach(item => { item.disabled = selected >= 2 && !item.checked; });
   }));
   function updateDisclosure() {

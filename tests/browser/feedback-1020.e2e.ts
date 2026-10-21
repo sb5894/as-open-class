@@ -41,7 +41,7 @@ test('model-two reference images and invitation emphasis remain readable on mobi
     }))).toBe(true);
   }
   await page.screenshot({ path: `test-results/${test.info().project.name}-1020-home.png`, fullPage: true });
-  await page.getByRole('link', { name: '참관 신청하기', exact: true }).tap();
+  await page.locator('.home-actions').getByRole('link', { name: '참관 신청하기', exact: true }).tap();
   await expect(page).toHaveURL(/\/register$/);
 });
 
@@ -89,18 +89,18 @@ test('new main-building facilities keep their placement, purpose and labels on m
     await page.setViewportSize({ width, height: 740 });
     await page.goto('/guide');
     const auditorium = page.locator('.map-auditorium-label');
-    await expect(auditorium).toHaveText('시청각실\n공개보고회장');
+    await expect(auditorium).toHaveText('시청각실: 공개보고회장');
     const exhibition = page.locator('.map-exhibition-label');
-    await expect(exhibition).toHaveText('소모임실\n자료 전시');
+    await expect(exhibition).toHaveCount(0);
     await expect(auditorium).toHaveCSS('font-size', '11px');
-    await expect(exhibition).toHaveCSS('background-color', 'rgb(222, 208, 255)');
+    await expect(auditorium).toHaveCSS('background-color', 'rgb(222, 208, 255)');
     await expect(page.locator('.map-entrance-label')).toHaveText('등록 장소:\n본관 1층 중앙현관');
     const labelBounds = (await auditorium.boundingBox())!;
     const entrance = (await page.locator('.map-entrance-label').boundingBox())!;
     expect(labelBounds.x + labelBounds.width <= entrance.x || labelBounds.y + labelBounds.height <= entrance.y || entrance.y + entrance.height <= labelBounds.y).toBe(true);
-    const exhibitBounds = (await exhibition.boundingBox())!;
-    expect(labelBounds.y + labelBounds.height).toBeLessThan(exhibitBounds.y);
-    expect(exhibitBounds.y + exhibitBounds.height).toBeLessThan(entrance.y);
+    const mainBounds = (await page.getByRole('link', {name:'본관', exact:true}).boundingBox())!;
+    expect(labelBounds.y + labelBounds.height).toBeLessThan(mainBounds.y);
+    expect(mainBounds.y + mainBounds.height).toBeLessThan(entrance.y);
     await auditorium.tap();
     await expect(page).toHaveURL(/\/guide\/main\/4$/);
     await expect(page.locator('#floor-4 .plan-event-space')).toHaveCount(2);

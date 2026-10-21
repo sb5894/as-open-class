@@ -145,6 +145,7 @@ test('relocated classrooms lead to the real rooms; closed and general spaces do 
 });
 
 test('building overview preserves straight classroom rows with complete common topics below the drawing', async ({page}) => {
+  test.slow(); // Nine full building renders can exceed 30s on Windows WebKit.
   for (const width of [320,390,430]) for (const building of ['main','rear','new']) {
     await page.setViewportSize({width,height:740});
     await page.goto(`/guide/${building}`);

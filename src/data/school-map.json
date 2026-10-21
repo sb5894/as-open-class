@@ -5,7 +5,7 @@
   "note": "사용자 확정 주차 동선·본관 중앙 출입구를 반영한 안내도. 실측·축척·방위 좌표는 아님.",
   "places": [
     { "id": "new", "label": "신관", "point": [15, 52] },
-    { "id": "main", "label": "본관", "point": [50, 33] },
+    { "id": "main", "label": "본관", "point": [50, 39] },
     { "id": "rear", "label": "후관", "point": [57, 17] },
     { "id": "parking", "label": "운동장 주차장", "point": [53, 56] },
     { "id": "hall", "label": "강당", "point": [82, 78] }

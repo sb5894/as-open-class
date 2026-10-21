@@ -12,7 +12,7 @@
 
 ## 현재 준비된 것
 
-디자인 후속 작업은 [디자인 방향 및 인수인계](<docs/디자인 방향 및 인수인계.md>)와 [현재 기준 시안](docs/reviews/taste-home-hybrid-green.html)을 따른다. 초록 배경·흰 제목·살구색 상단 신청 버튼·진초록 고정 버튼·전체 Noto Sans KR가 현재 방향이며, 기존 본문 문구와 표 구성을 유지한다. 이는 운영 반영 전 시안으로, 폰트 성능 측정과 실제 앱 반영은 후속 작업이다.
+2026-10-21 디자인과 후속 수정·회귀 검사 결과를 정식 사이트에 반영했다. 초록 배경·흰 제목·살구색 상단 신청 버튼·진초록 고정 버튼, 웹 전체 Noto Sans KR 400·600·700을 사용하며 기존 본문 문구와 표를 유지한다. 최신 문구·공통 헤더·지도/신청 표시와 200% 글자 크기 표 넘침 보정은 실제 앱 소스를 따른다. [디자인 인수인계](<docs/디자인 방향 및 인수인계.md>)와 [독립 기준 시안](docs/reviews/taste-home-hybrid-green.html)은 비교 기록이며, 최신 구현·검증·배포 상태는 [진행 현황](docs/진행%20현황.md) 상단을 우선한다. 느린 네트워크 성능과 실제 휴대폰 검사는 후속 확인 항목이다.
 
 2026-10-20 추가 수업 자료: PDF 7개를 반별로 연결하여 기존 포함 지도안 10개를 제공한다. 최신 엑셀을 비교해 50개 필드를 갱신하고 학년별 중점을 메인 표/수업 상세 한 줄로 반영했다. 최신 검증과 배포 상태는 진행 현황 상단을 따른다.
 
@@ -20,9 +20,9 @@
 
 2026-10-20 저녁 피드백: 모델2 소개(만남·배움·어울림 원본 이미지 포함), 메인/신청 문구·간격, 시청각실/소모임실/이중언어센터 및 유치원 공개수업 안내를 반영했다. 현재 공개수업은 **29개**, 신청 선택지는 **14개**다. 유치원은 공동수업 하나로 공개하며 새 자료 제공 전까지 업로드 예정으로 표시한다. 최신 검증·배포 상태는 [진행 현황](docs/진행%20현황.md) 상단을 따른다.
 
-**정식 사이트: https://as-open-class.web.app/** · [신청하기](https://as-open-class.web.app/register) · [학교 둘러보기](https://as-open-class.web.app/guide). 2026-10-20 사용자 요청으로 정식 Hosting 배포와 배포본 두 브라우저 검증을 완료했다. 임시 채널과 달리 이 주소에는 만료일이 없다.
+**정식 사이트: https://as-open-class.web.app/** · [신청하기](https://as-open-class.web.app/register) · [학교 둘러보기](https://as-open-class.web.app/guide). 2026-10-21 사용자 요청으로 검토한 최신 디자인과 버그 수정을 정식 Hosting에 반영했다. 이 주소에는 만료일이 없다.
 
-**GitHub:** https://github.com/sb5894/as-open-class (`main`). 소스·문서·선별 웹 자료를 저장하며 비밀 설정·원본 자료·node_modules·빌드 결과는 Git에서 제외한다. 새 PC에서는 `npm.cmd ci` 후 README의 Firebase/로컬 환경 설정을 따른다.
+**GitHub:** https://github.com/sb5894/as-open-class. 2026-10-21 정식 배포의 최신 변경은 `design/home-green-preview` 브랜치를 따른다. 소스·문서·선별 웹 자료를 저장하며 비밀 설정·원본 자료·node_modules·빌드 결과는 Git에서 제외한다. 새 PC에서는 해당 브랜치를 체크아웃한 뒤 `npm.cmd ci`와 README의 Firebase/로컬 환경 설정을 따른다.
 
 `1차피드백(1019).pdf`와 후속 답변의 행사 소개·공유 일정표·등록 장소·직위·선택 문의·필수 개인정보 동의를 반영하고 임시 링크와 신청 함수를 배포했다. 검토 주소는 https://as-open-class--mobile-review-mmhal97i.web.app/ 이며 2026-10-27 00:07 KST 만료다. 타입/빌드·단위 76개·모바일 모의 36개와 배포본 두 브라우저 검토를 마쳤다. **시트 F1/J1/K1 헤더 갱신은 Chrome 연결 대기 중이다.** [최신 진행 현황](docs/진행%20현황.md)과 [피드백 검토표](docs/reviews/1차피드백-1019-검토.md)를 따른다.
 
@@ -46,6 +46,8 @@
 모바일 자동 검사: `npm.cmd run test:mobile`. 최초에는 `npx.cmd playwright install chromium webkit`이 필요하다. Chromium·WebKit 에뮬레이션이며 실제 Android/iPhone 확인과 구분한다. 외부 API 검증은 `VERIFY_LIVE_API=true`일 때만 실행하며 빈 입력 오류 응답만 확인하므로 시트에 행을 추가하지 않는다. 자동 검사 결과와 제한은 [진행 현황](<docs/진행 현황.md>)에 기록한다.
 
 ## 프로젝트 열기
+
+디자인 회귀 검사는 `tests/browser/design-regression.e2e.ts`에 포함한다. 큰 글자(200%)의 표 넘침, 글꼴 실패 시 공통 탐색/본문 바로가기, 수석·도덕 선택 ID와 문의 오류 연결을 검사하며 신청 응답은 모의 처리한다. 임시 배포본에서도 이 파일을 실행할 수 있다. PowerShell에서 `PLAYWRIGHT_BASE_URL` 환경 변수에 검토 주소를 지정하면 로컬 개발 서버를 시작하지 않는다. Windows WebKit의 테스트 인증서 저장소 문제를 만난 경우에만 `PLAYWRIGHT_IGNORE_HTTPS_ERRORS=true`로 검사 컨텍스트를 설정한다. 앱이나 배포본의 HTTPS 설정을 바꾸는 옵션은 아니다.
 
 - Codex와 Claude Code 모두 이 폴더를 프로젝트 루트로 사용한다.
 - VS Code에서는 이 폴더의 `as-open-class.code-workspace`를 열어도 된다.

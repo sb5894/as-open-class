@@ -18,7 +18,7 @@ try {
         cornerAlpha: ctx.getImageData(0, 0, 1, 1).data[3] };
     }, { data, width });
     if (!result.url.startsWith('data:image/webp;')) throw new Error('WebP encoding unavailable');
-    const path = `public/assets/maps/school-guide-v1-${width}.webp`;
+    const path = `materials/derived/maps/school-guide-v1-${width}.webp`;
     await writeFile(path, Buffer.from(result.url.split(',')[1], 'base64'));
     console.log(JSON.stringify({ path, width, height: result.height,
       bytes: (await stat(path)).size, cornerAlpha: result.cornerAlpha }));

@@ -1,5 +1,9 @@
 ﻿import './styles.css';
 import { catalog, getPublicLessons, getLessonPlan, getRelocatedLessonsFromSpace, type Lesson } from './data/catalog';
+import './home.css';
+import '@fontsource/noto-sans-kr/400.css';
+import '@fontsource/noto-sans-kr/600.css';
+import '@fontsource/noto-sans-kr/700.css';
 import { event } from './data/event';
 import { createMaterialText, createPdfPlaceholder } from './components/placeholders';
 import { el, link, lessonName, location } from './components/ui';
@@ -20,11 +24,38 @@ let dispose: (() => void) | undefined;
 let version = 0;
 function invitation(main: HTMLElement) {
   main.classList.add('page-home');
-  const hero = el('header', undefined, 'hero');
-  hero.append(el('p', '2026. 11. 11. 수요일', 'eyebrow'), el('h1', '2026 안성초등학교 정책연구학교 공개보고회 참관 신청'));
-  const actions = el('div', undefined, 'actions');
-  actions.append(link('보고회 둘러보기', '/guide', 'button secondary'), link('참관 신청하기', '/register'));
-  hero.append(actions);
+  const hero = el('section', undefined, 'home-hero');
+  hero.setAttribute('aria-labelledby', 'invitation-title');
+  const art = el('div', undefined, 'home-hero-art'); art.setAttribute('aria-hidden', 'true');
+  for (const position of ['a', 'b', 'c']) art.append(el('div', undefined, `home-orbit ${position}`));
+  const heroContent = el('div', undefined, 'home-wrap');
+  const eventName = el('p', undefined, 'home-event-name');
+  eventName.append(el('span', '2026 안성초등학교'), document.createTextNode('다문화교육 정책연구학교 공개보고회'));
+  const title = el('h1'); title.id = 'invitation-title';
+  title.append(document.createTextNode('서로의 언어와 문화가,'), el('br'), document.createTextNode('함께의 배움으로'));
+  const copy = el('p', undefined, 'home-hero-copy');
+  copy.append(el('span', '다양한 언어와 문화가 배움의 자원이 되고,'), el('span', '모두의 강점이 함께 자라는 교실.'));
+  const invitationText = el('p', '안성초의 연구와 실천을 나누는 자리에 초대합니다.', 'home-invitation');
+  function action(text: string, href: string, variant: string, arrow: string) {
+    const button = link(text, href, `home-button ${variant}`);
+    const icon = el('span', arrow, 'home-arrow'); icon.setAttribute('aria-hidden', 'true');
+    button.append(icon); return button;
+  }
+  const actions = el('div', undefined, 'home-actions');
+  actions.append(action('참관 신청하기', '/register', 'home-apply', '↗'), action('학교·수업 안내', '/guide', 'home-guide', '→'));
+  heroContent.append(eventName, title, copy, invitationText, actions,
+    el('p', '신청 전에도 수업 안내와 지도안을 자유롭게 볼 수 있습니다.', 'home-footnote'));
+  hero.append(art, heroContent);
+  const essentials = el('dl', undefined, 'home-essentials home-wrap'); essentials.setAttribute('aria-label', '행사 핵심 정보');
+  for (const [label, value, detail] of [
+    ['행사 일시', '2026. 11. 11. 수', '12:50–16:00'],
+    ['행사 장소', '안성초등학교', '경기도 안성시 혜산로 13'],
+    ['참관 신청 마감', '10. 28. 수 · 16:00까지', ''],
+  ]) {
+    const item = el('div', undefined, 'home-essential');
+    const description = el('dd', value); if (detail) description.append(el('small', detail));
+    item.append(el('dt', label), description); essentials.append(item);
+  }
   const intro = card('행사 소개'); intro.id = 'event';
   const research = el('p');
   const theme = el('strong');
@@ -41,7 +72,12 @@ function invitation(main: HTMLElement) {
   }
   intro.append(research, el('p', '그동안의 연구 성과와 교육과정 운영 사례를 공유하는 공개보고회에 교육 관계자 여러분을 초대합니다.'), facts,
     el('p', '※ 참석 신청을 해주신 분의 소속 기관으로 출장 협조 공문을 보내 드릴 예정입니다.', 'note'));
-  main.append(hero, intro, createEventSchedule(), createModelTwo(), createGradeFocus());
+  const content = el('div', undefined, 'home-content');
+  content.append(intro, createEventSchedule(), createModelTwo(), createGradeFocus());
+  const dock = el('aside', undefined, 'home-mobile-dock'); dock.setAttribute('aria-label', '참관 신청 바로가기');
+  const deadline = el('div', '참관 신청 마감', 'home-dock-deadline'); deadline.append(el('strong', '10. 28. 수 · 16:00'));
+  dock.append(deadline, action('참관 신청하기', '/register', 'home-dock-apply', '↗'));
+  main.append(hero, essentials, content, dock);
 }
 function guide(main: HTMLElement) {
   main.classList.add('page-guide');
@@ -87,13 +123,16 @@ async function detail(main: HTMLElement, lesson: Lesson, current: number) {
 }
 function render() {
   dispose?.(); dispose = undefined; const current = ++version;
-  const nav = el('nav', undefined, 'site-nav'); nav.setAttribute('aria-label', '주 메뉴');
-  const brand=link('안성초 공개보고회','/','brand');
-  const logo=el('img'); logo.src='/assets/brand/anseong-logo-64.webp'; logo.alt=''; logo.width=24; logo.height=24;
-  brand.prepend(logo);
-  nav.append(brand, link('신청하기', '/register', 'nav-link'), link('둘러보기', '/guide', 'nav-link'));
-  const main = el('main', undefined, 'page'); main.tabIndex = -1; app.replaceChildren(nav, main);
   const path = window.location.pathname.replace(/\/$/, '') || '/';
+  const nav = el('nav', undefined, 'site-nav'); nav.setAttribute('aria-label', '주 메뉴');
+  const brand=link('','/','brand');
+  const logo=el('img'); logo.src='/assets/brand/anseong-logo-64.webp'; logo.alt=''; logo.width=24; logo.height=24;
+  const name = el('span', '안성초등학교'); name.append(el('small', '2026 정책연구학교 공개보고회'));
+  brand.append(logo, name);
+  nav.append(brand, link('신청하기', '/register', 'nav-link'), link('둘러보기', '/guide', 'nav-link'));
+  const main = el('main', undefined, 'page'); main.id = 'main'; main.tabIndex = -1;
+  const skip = link('본문 바로가기', '#main', 'skip-link');
+  app.replaceChildren(skip, nav, main);
   const floorRoute = path.match(/^\/guide\/(main|rear|new)(?:\/([1-4]))?$/);
   const lesson = getPublicLessons().find(item => path === `/lessons/${item.id}`);
   if (path === '/') invitation(main);
