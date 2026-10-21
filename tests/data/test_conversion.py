@@ -13,7 +13,7 @@ from openpyxl.utils.datetime import CALENDAR_MAC_1904, to_excel
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
 from convert_data import (CLASS_SHEET, DEFAULT_WORKBOOK, GRADE_SHEET, ROOT, SUPPLEMENT_WORKBOOK,
                           class_targets, convert, normalize_class, output_files, reports, validate_catalog)
-from data_rules import PDF_RULES
+from data_rules import PDF_RULES, TEXT_OVERRIDES
 
 
 class ConversionTests(unittest.TestCase):
@@ -83,8 +83,8 @@ class ConversionTests(unittest.TestCase):
                 self.assertEqual(lesson["spaceIds"], [room_id])
                 room = self.spaces[room_id]
                 self.assertEqual((room["buildingId"], room["floor"]), (building, floor))
-                self.assertEqual(lesson["lessonPlanId"], "special-6-1" if class_id == "6-1" else None)
-                self.assertIsNone(lesson["topic"])
+                self.assertEqual(lesson["lessonPlanId"], f"special-{class_id}" if class_id in ("6-1", "4-5") else None)
+                self.assertEqual(lesson["topic"], TEXT_OVERRIDES.get(class_id, {}).get("topic"))
                 self.assertIsNone(lesson["designFocus"])
         self.assertEqual(self.classes["3-1"]["homeSpaceIds"], ["classroom-3-1"])
         self.assertEqual(self.spaces["classroom-3-1"]["buildingId"], "new")
@@ -196,10 +196,12 @@ class ConversionTests(unittest.TestCase):
         for class_id, topic in {
             "multicultural-red": "우리 반을 글과 그림으로 소개하기",
             "multicultural-blue": "자신의 경험을 그림일기로 표현하기",
-            "kindergarten-joint": "함께 가을 열매를 수확하는 협동 게임.",
+            "kindergarten-joint": "함께 가을 열매를 수확하는 협동 게임",
+            "multicultural-green": "우리 반을 글과 그림으로 소개하기",
+            "6-1": "나의 건강 습관 보고서 쓰기",
+            "4-5": "기후 변화 현상의 예를 알고 인간 활동과의 관련성 설명하기",
         }.items():
             self.assertEqual(self.lessons[class_id]["topic"], topic)
-        self.assertIsNone(self.lessons["multicultural-green"]["topic"])
         self.assertEqual(self.lessons["6-1"]["context"], "다문화 학생은 없으나 영어 과제 수행의 실력 차이가 있는 학급")
         for field in ("context", "observation", "support"):
             self.assertIsNone(self.lessons["kindergarten-joint"][field])
@@ -217,7 +219,8 @@ class ConversionTests(unittest.TestCase):
                     "sheet": GRADE_SHEET, "row": 7, "fields": ["topic", "designFocus", "commonObservation"]})
             self.assertEqual([lesson["classId"] for lesson in self.lessons.values() if "supplementalGradeRow" in lesson["source"]], ["1-1", "1-2"])
             for class_id in ("1-3", "5-1", "4-5", "6-1"):
-                for field in ("topic", "designFocus", "commonObservation"):
+                self.assertEqual(self.lessons[class_id]["topic"], TEXT_OVERRIDES.get(class_id, {}).get("topic"))
+                for field in ("designFocus", "commonObservation"):
                     self.assertIsNone(self.lessons[class_id][field])
         finally:
             workbook.close()
@@ -237,7 +240,7 @@ class ConversionTests(unittest.TestCase):
             self.with_edited_supplement(lambda workbook: setattr(workbook[CLASS_SHEET]["A55"], "value", "3-1\n(과학)"))
 
     def test_pdf_bytes_and_allowed_class_mappings(self):
-        self.assertEqual(len(self.pdfs), 10)
+        self.assertEqual(len(self.pdfs), 11)
         for plan in self.data["lessonPlans"]:
             original = (ROOT / plan["source"]["path"]).read_bytes()
             self.assertEqual(self.pdfs["public" + plan["url"]], original)
@@ -250,13 +253,14 @@ class ConversionTests(unittest.TestCase):
         for plan_id, class_ids in {
             "grade-1": ("1-1", "1-2"), "grade-2": ("2-1", "2-2", "2-3", "2-4"),
             "grade-6-245": ("6-2", "6-4", "6-5"), "special-6-1": ("6-1",),
-            "multicultural-red": ("multicultural-red",), "multicultural-blue": ("multicultural-blue",),
+            "special-4-5": ("4-5",),
+            "multicultural-red": ("multicultural-red", "multicultural-green"), "multicultural-blue": ("multicultural-blue",),
             "kindergarten": ("kindergarten-joint",),
         }.items():
             for class_id in class_ids:
                 with self.subTest(class_id=class_id):
                     self.assertEqual(self.lessons[class_id]["lessonPlanId"], plan_id)
-        for class_id in ("1-3", "5-1", "4-5", "6-3", "multicultural-green"):
+        for class_id in ("1-3", "5-1", "6-3"):
             self.assertIsNone(self.lessons[class_id]["lessonPlanId"])
 
     def test_missing_pdf_file_removes_link_without_fallback(self):

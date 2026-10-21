@@ -1362,7 +1362,7 @@
       ],
       "locationStatus": "confirmed",
       "gradeTheme": null,
-      "topic": null,
+      "topic": "기후 변화 현상의 예를 알고 인간 활동과의 관련성 설명하기",
       "designFocus": null,
       "commonObservation": null,
       "context": "한국어 이해 및 소통 능력에 수준 차이가 큰 학급",
@@ -1373,7 +1373,7 @@
         "표현",
         "발견"
       ],
-      "lessonPlanId": null,
+      "lessonPlanId": "special-4-5",
       "source": {
         "classRow": {
           "sheet": "공개수업(학급, 전담, 특별학급)",
@@ -1588,7 +1588,7 @@
       ],
       "locationStatus": "confirmed",
       "gradeTheme": null,
-      "topic": null,
+      "topic": "나의 건강 습관 보고서 쓰기",
       "designFocus": null,
       "commonObservation": null,
       "context": "다문화 학생은 없으나 영어 과제 수행의 실력 차이가 있는 학급",
@@ -1835,7 +1835,7 @@
       ],
       "locationStatus": "confirmed",
       "gradeTheme": null,
-      "topic": null,
+      "topic": "우리 반을 글과 그림으로 소개하기",
       "designFocus": null,
       "commonObservation": null,
       "context": "문장으로 원만하게 말하나 쓰는 것을 어려워하는 학급",
@@ -1846,7 +1846,7 @@
         "강점",
         "표현"
       ],
-      "lessonPlanId": null,
+      "lessonPlanId": "multicultural-red",
       "source": {
         "classRow": {
           "sheet": "공개수업(학급, 전담, 특별학급)",
@@ -1912,7 +1912,7 @@
       ],
       "locationStatus": "confirmed",
       "gradeTheme": null,
-      "topic": "함께 가을 열매를 수확하는 협동 게임.",
+      "topic": "함께 가을 열매를 수확하는 협동 게임",
       "designFocus": null,
       "commonObservation": null,
       "context": null,
@@ -1981,6 +1981,14 @@
       "source": {
         "path": "materials/original/lesson-plans/1020-additions/2026 연구학교 공개보고회 수업안(6-1 영어- 건강 습관 보고서 쓰기).pdf",
         "sha256": "64b4c5f0c4640eeaa9b7c45c17a812a2e69ef6fddd9f2783093b856e595d6a6d"
+      }
+    },
+    {
+      "id": "special-4-5",
+      "url": "/pdfs/special-4-5.pdf",
+      "source": {
+        "path": "materials/original/lesson-plans/1021-additions/2026 연구학교 공개보고회 수업안(4학년, 과학, 기후 변화와 우리 생활, 발견·강점·협력·표현).pdf",
+        "sha256": "1689c69d50f629de28680fb286c8596667193e64927805c086950cc232aa3b27"
       }
     },
     {

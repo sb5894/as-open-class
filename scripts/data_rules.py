@@ -42,7 +42,8 @@ PDF_RULES = {
     "grade-5": {"file": "2026 연구학교 공개보고회 수업안(5학년).pdf", "classes": ["5-2", "5-3", "5-4", "5-5"]},
     "grade-6-245": {"file": "1020-additions/2026 연구학교 공개보고회 수업안(6학년 2, 4, 5반).pdf", "classes": ["6-2", "6-4", "6-5"]},
     "special-6-1": {"file": "1020-additions/2026 연구학교 공개보고회 수업안(6-1 영어- 건강 습관 보고서 쓰기).pdf", "classes": ["6-1"]},
-    "multicultural-red": {"file": "1020-additions/공개수업 지도안(다문화특별학급 1반)(빨강반).pdf", "classes": ["multicultural-red"]},
+    "special-4-5": {"file": "1021-additions/2026 연구학교 공개보고회 수업안(4학년, 과학, 기후 변화와 우리 생활, 발견·강점·협력·표현).pdf", "classes": ["4-5"]},
+    "multicultural-red": {"file": "1020-additions/공개수업 지도안(다문화특별학급 1반)(빨강반).pdf", "classes": ["multicultural-red", "multicultural-green"]},
     "multicultural-blue": {"file": "1020-additions/2026 연구학교 공개보고회 수업안(다문화특별학급 3반)(파랑반).pdf", "classes": ["multicultural-blue"]},
     "kindergarten": {"file": "1020-additions/2026 연구학교 공개보고회 수업안(유치원).pdf", "classes": ["kindergarten-joint"]},
 }
@@ -50,11 +51,14 @@ PDF_RULES = {
 LENSES = {"참여", "강점", "협력", "표현", "발견"}
 PRIVATE_CLASSES = {"3-1": "체육 — 비공개"}
 
-# Explicit user wording; never propagate a multicultural class topic to other classes.
+# Explicit user wording; red/green share a topic and PDF by the 2026-10-21 decision.
 TEXT_OVERRIDES = {
+    "6-1": {"topic": "나의 건강 습관 보고서 쓰기"},
+    "4-5": {"topic": "기후 변화 현상의 예를 알고 인간 활동과의 관련성 설명하기"},
     "multicultural-red": {"topic": "우리 반을 글과 그림으로 소개하기"},
+    "multicultural-green": {"topic": "우리 반을 글과 그림으로 소개하기"},
     "multicultural-blue": {"topic": "자신의 경험을 그림일기로 표현하기"},
-    "kindergarten-joint": {"topic": "함께 가을 열매를 수확하는 협동 게임."},
+    "kindergarten-joint": {"topic": "함께 가을 열매를 수확하는 협동 게임"},
 }
 
 # Preserve validation of the unchanged 261015 workbook before applying later decisions.

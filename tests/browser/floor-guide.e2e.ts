@@ -23,7 +23,7 @@ test('main first floor marks the confirmed lower central entrance for registrati
   await expect(floor).not.toContainText('서고');
   await expect(floor.locator('svg a[data-space-id="kindergarten-public"]')).toHaveCount(1);
   await expect(floor.locator('svg a:not([data-space-id="kindergarten-public"])')).toHaveCount(0);
-  await expect(floor.locator('.floor-topic p')).toHaveText('함께 가을 열매를 수확하는 협동 게임.');
+  await expect(floor.locator('.floor-topic p')).toHaveText('함께 가을 열매를 수확하는 협동 게임');
   for (const width of [320, 390, 430]) {
     await page.setViewportSize({ width, height: 740 });
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
@@ -294,6 +294,6 @@ test('building overview preserves straight classroom rows with complete common t
   await expect(page.locator('.lesson-choice')).toHaveCount(14);
   await expect(page.locator('.lesson-choice strong').last()).toHaveText('유치원');
   await page.goto('/lessons/lesson-kindergarten-joint');
-  await expect(page.getByRole('heading',{level:1})).toHaveText('함께 가을 열매를 수확하는 협동 게임.');
+  await expect(page.getByRole('heading',{level:1})).toHaveText('함께 가을 열매를 수확하는 협동 게임');
   await expect(page.locator('canvas').first()).toHaveAttribute('aria-label', '수업 지도안 1페이지');
 });

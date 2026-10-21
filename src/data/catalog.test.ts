@@ -42,7 +42,7 @@ describe("guide and preference data use the same public lessons", () => {
     const lesson = lessons[0];
     expect(lesson.classId).toBe('kindergarten-joint');
     expect(lesson.locationStatus).toBe('confirmed');
-    expect(lesson.topic).toBe('함께 가을 열매를 수확하는 협동 게임.');
+    expect(lesson.topic).toBe('함께 가을 열매를 수확하는 협동 게임');
     for (const key of ['context', 'observation', 'support'] as const) expect(lesson[key]).toBeNull();
     expect(lesson.lenses).toEqual([]);
     expect(getLessonPlan(lesson)?.url).toBe('/pdfs/kindergarten.pdf');
@@ -51,7 +51,7 @@ describe("guide and preference data use the same public lessons", () => {
   });
 
   it("provides no PDF request target for missing separate plans", () => {
-    for (const classId of ["1-3", "5-1", "4-5", "6-3", "multicultural-green"]) {
+    for (const classId of ["1-3", "5-1", "6-3"]) {
       const lesson = catalog.lessons.find(item => item.classId === classId)!;
       expect(lesson.lessonPlanId).toBeNull();
       expect(getLessonPlan(lesson)).toBeNull();
@@ -60,13 +60,13 @@ describe("guide and preference data use the same public lessons", () => {
     expect(getLessonPlan(regular)?.url).toBe("/pdfs/grade-3.pdf");
   });
 
-  it('connects all ten explicitly provided plans only to their intended classes', () => {
-    expect(catalog.lessonPlans).toHaveLength(10);
+  it('connects all eleven explicitly provided plans only to their intended classes', () => {
+    expect(catalog.lessonPlans).toHaveLength(11);
     const mappings: Record<string, string[]> = {
       'grade-1': ['1-1', '1-2'], 'grade-2': ['2-1', '2-2', '2-3', '2-4'],
       'grade-3': ['3-2', '3-3', '3-4'], 'grade-4': ['4-1', '4-2', '4-3', '4-4'],
       'grade-5': ['5-2', '5-3', '5-4', '5-5'], 'grade-6-245': ['6-2', '6-4', '6-5'],
-      'special-6-1': ['6-1'], 'multicultural-red': ['multicultural-red'],
+      'special-6-1': ['6-1'], 'special-4-5': ['4-5'], 'multicultural-red': ['multicultural-red', 'multicultural-green'],
       'multicultural-blue': ['multicultural-blue'], kindergarten: ['kindergarten-joint'],
     };
     for (const [planId, classIds] of Object.entries(mappings)) {
@@ -102,7 +102,9 @@ describe("guide and preference data use the same public lessons", () => {
   it('uses the exact user topics per class and keeps the English class context on one line', () => {
     expect(catalog.lessons.find(lesson => lesson.classId === 'multicultural-red')?.topic).toBe('우리 반을 글과 그림으로 소개하기');
     expect(catalog.lessons.find(lesson => lesson.classId === 'multicultural-blue')?.topic).toBe('자신의 경험을 그림일기로 표현하기');
-    expect(catalog.lessons.find(lesson => lesson.classId === 'multicultural-green')?.topic).toBeNull();
+    expect(catalog.lessons.find(lesson => lesson.classId === 'multicultural-green')?.topic).toBe('우리 반을 글과 그림으로 소개하기');
+    expect(catalog.lessons.find(lesson => lesson.classId === '6-1')?.topic).toBe('나의 건강 습관 보고서 쓰기');
+    expect(catalog.lessons.find(lesson => lesson.classId === '4-5')?.topic).toBe('기후 변화 현상의 예를 알고 인간 활동과의 관련성 설명하기');
     expect(catalog.lessons.find(lesson => lesson.classId === '6-1')?.context).toBe('다문화 학생은 없으나 영어 과제 수행의 실력 차이가 있는 학급');
   });
 
@@ -117,7 +119,8 @@ describe("guide and preference data use the same public lessons", () => {
     expect(catalog.lessons.filter(lesson => lesson.source.supplementalGradeRow)).toHaveLength(2);
     for (const classId of ['1-3', '5-1', '4-5', '6-1']) {
       const lesson = catalog.lessons.find(item => item.classId === classId)!;
-      for (const field of ['topic', 'designFocus', 'commonObservation'] as const) expect(lesson[field]).toBeNull();
+      for (const field of ['designFocus', 'commonObservation'] as const) expect(lesson[field]).toBeNull();
+      if (classId === '1-3' || classId === '5-1') expect(lesson.topic).toBeNull();
     }
   });
 });

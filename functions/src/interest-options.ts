@@ -17,11 +17,11 @@ export const interestOptions: InterestOption[] = [
     return {
       id: `grade-${grade}`,
       label: `${grade}학년`,
-      lessonIds: lessons.filter(lesson => lesson.id.startsWith(`lesson-${grade}-`) && !special.has(lesson.id)).map(lesson => lesson.id),
+      lessonIds: lessons.filter(lesson => lesson.id.startsWith(`lesson-${grade}-`) && !special.has(lesson.id) && lesson.id !== 'lesson-6-3').map(lesson => lesson.id),
     };
   }),
-  individual('lesson-multicultural-red', '다문화특별학급 1반 (빨강)'),
-  individual('lesson-multicultural-green', '다문화특별학급 2반 (초록)'),
+  individual('lesson-6-3', '6-3'),
+  { id: 'multicultural-red-green', label: '다문화특별학급 빨강·초록반', lessonIds: ['lesson-multicultural-red', 'lesson-multicultural-green'] },
   individual('lesson-multicultural-blue', '다문화특별학급 3반 (파랑)'),
   individual('lesson-5-1', '5-1 도덕'),
   individual('lesson-4-5', '과학 전담 · 4-5'),

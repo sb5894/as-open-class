@@ -43,7 +43,7 @@ test('grade focus stays visible for separate lessons and is absent for non-grade
 });
 
 test('class-specific titles and optional sections follow the latest display instructions', async ({ page }) => {
-  for (const [id, topic] of [['lesson-multicultural-red', '우리 반을 글과 그림으로 소개하기'], ['lesson-multicultural-blue', '자신의 경험을 그림일기로 표현하기'], ['lesson-kindergarten-joint', '함께 가을 열매를 수확하는 협동 게임.']]) {
+  for (const [id, topic] of [['lesson-multicultural-red', '우리 반을 글과 그림으로 소개하기'], ['lesson-multicultural-blue', '자신의 경험을 그림일기로 표현하기'], ['lesson-kindergarten-joint', '함께 가을 열매를 수확하는 협동 게임']]) {
     await page.goto(`/lessons/${id}`);
     await expect(page.locator('h1')).toHaveText(topic);
   }

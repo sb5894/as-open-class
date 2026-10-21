@@ -64,6 +64,22 @@ describe("registration validation uses the converted public lessons", () => {
     for (const lessonIds of [['grade-7'], ['grade-1', 'grade-1'], ['grade-1', 'grade-2', 'grade-3']]) expect(validateRegistration({ ...valid, lessonIds }).valid).toBe(false);
     expect(registrationRow({ ...record, lessonIds: ['grade-4', 'lesson-1-3'] })[7]).toBe('lesson-1-3 / grade-4');
   });
+  it('stores merged red/green as one interest and separates 6-3 without dropping legacy choices', async () => {
+    expect(interestOptions.find(option => option.id === 'grade-6')!.lessonIds).toEqual(['lesson-6-2', 'lesson-6-4', 'lesson-6-5']);
+    expect(interestOptions.find(option => option.id === 'lesson-6-3')!.lessonIds).toEqual(['lesson-6-3']);
+    expect(interestOptions.find(option => option.id === 'multicultural-red-green')!.lessonIds).toEqual(['lesson-multicultural-red', 'lesson-multicultural-green']);
+    for (const id of ['lesson-multicultural-red', 'lesson-multicultural-green']) {
+      expect(interestOptions.some(option => option.id === id)).toBe(false);
+      expect(validateRegistration({...valid, lessonIds:[id]}).valid).toBe(true);
+    }
+    const append = vi.fn(async (saved: RegistrationRecord) => {
+      expect(registrationRow(saved).slice(7, 9)).toEqual(['lesson-6-3 / multicultural-red-green', '6-3 / 다문화특별학급 빨강·초록반']);
+    });
+    const api = createRegistrationApi({isConfigured:()=>true, append});
+    expect((await api(req({...valid, lessonIds:['multicultural-red-green', 'lesson-6-3']}))).status).toBe(201);
+    expect(append).toHaveBeenCalledOnce();
+    expect(validateRegistration({...valid, lessonIds:['grade-6', 'lesson-6-3']}).valid).toBe(true);
+  });
   it("matches the guide list including special, multicultural and kindergarten lessons", () => {
     expect(publicLessons.map(item => item.id)).toEqual(getPublicLessons(catalog).map(item => item.id));
     expect(publicLessons).toHaveLength(29);

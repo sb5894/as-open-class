@@ -4,8 +4,8 @@ import type { RegistrationField, RegistrationInput, RegistrationResponse } from 
 import { interestOptions } from './interest-options.js';
 
 export const publicLessons: ReadonlyArray<{ id: string; label: string }> = lessons;
-// Legacy class IDs stay valid; new grade IDs are stored without expanding a grade into class choices.
-const lessonLabels = new Map([...publicLessons, ...interestOptions.filter(option => option.id.startsWith('grade-'))].map(lesson => [lesson.id, lesson.label]));
+// Preserve legacy class labels; grade and shared-class interests are stored as selected.
+const lessonLabels = new Map([...publicLessons, ...interestOptions.filter(option => !publicLessons.some(lesson => lesson.id === option.id))].map(lesson => [lesson.id, lesson.label]));
 const orderedIds = [...new Set([...interestOptions.map(option => option.id), ...publicLessons.map(lesson => lesson.id)])];
 const textLimits = { city: 80, school: 120, assignment: 120, name: 80 } as const;
 

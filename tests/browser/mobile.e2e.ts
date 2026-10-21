@@ -164,7 +164,7 @@ test('registration validates choices, locks during submission and keeps inputs o
   const checks = page.locator('.lesson-choice input'); await checks.nth(0).tap(); await checks.nth(1).tap();
   await expect(checks.nth(2)).toBeDisabled();
   expect(await checks.count()).toBe(14);
-  await expect(page.locator('.lesson-choice strong')).toHaveText(['1학년', '2학년', '3학년', '4학년', '5학년', '6학년', '다문화특별학급 1반 (빨강)', '다문화특별학급 2반 (초록)', '다문화특별학급 3반 (파랑)', '수석교사 · 1-3', '도덕 전담 · 5-1', '과학 전담 · 4-5', '영어 전담 · 6-1', '유치원']);
+  await expect(page.locator('.lesson-choice strong')).toHaveText(['1학년', '2학년', '3학년', '4학년', '5학년', '6학년', '6-3', '다문화특별학급 빨강·초록반', '다문화특별학급 3반 (파랑)', '수석교사 · 1-3', '도덕 전담 · 5-1', '과학 전담 · 4-5', '영어 전담 · 6-1', '유치원']);
   await page.locator('fieldset').nth(1).screenshot({ path: `test-results/${test.info().project.name}-interest-options.png` });
   await expect(page.locator('legend').nth(1)).toHaveText('관심있는 수업 (선택, 최대 2개)');
   await expect(page.locator('main')).not.toContainText('희망 수업');
