@@ -125,8 +125,13 @@ function mountResponsivePlan(region: HTMLElement, plan: FloorPlan, selected?: st
       ...rooms.flatMap(room => [room.x, room.x + room.width]),
       ...(passage ? [passage.x, passage.x + passage.width] : []),
     ])].sort((a,b)=>a-b);
-    const reserved = rooms.filter(room=>(!equalClassrooms || (!room.spaceId && room.y>=166)) && !(plan.buildingId==='main' && plan.floor===2 && room.label==='교장실'))
-      .map(room=>({x:room.x,width:room.width,minimum:room.spaceId?17:room.kind==='elevator'?28:room.kind==='stairs'?18:44}));
+    // The upper Korean classrooms already share the custom E/V-to-stair span below;
+    // reserving their source widths again would push the science rooms off-screen.
+    const reserved = rooms.filter(room=>(!equalClassrooms || (!room.spaceId && room.y>=166)) && !korean.includes(room) && !(plan.buildingId==='main' && plan.floor===2 && room.label==='교장실'))
+      .map(room=>({x:room.x,width:room.width,minimum:
+        plan.buildingId === 'main' && plan.floor === 2 && ['science-1','science-2'].includes(room.spaceId ?? '') ? 44
+        : room.spaceId ? 17 : room.kind === 'elevator' ? 28 : room.kind === 'stairs' ? 18
+        : plan.buildingId === 'main' && plan.floor === 2 ? 24 : 44}));
     if (passage) reserved.push(passage);
     if (blueGap) reserved.push(blueGap);
     const spans = edges.slice(0,-1).map((left,index)=>{
@@ -168,11 +173,13 @@ function mountResponsivePlan(region: HTMLElement, plan: FloorPlan, selected?: st
       const status=!room.spaceId && room.kind==='room'?'closed':roomStatus(room.spaceId);
       const lessons=room.spaceId?getLessonsAtSpace(room.spaceId):[];
       const fullName=room.kind==='elevator'?'E/V':room.label.replace(/\n/g,' ');
+      const scienceClass = plan.buildingId === 'main' && plan.floor === 2
+        ? room.spaceId === 'science-1' ? '5-1' : room.spaceId === 'science-2' ? '4-5' : '' : '';
       const eventSpace = plan.buildingId === 'main' && plan.floor === 4 && ['공간드림\n(소모임실)', '시청각실'].includes(room.label);
       const languageCenter = plan.buildingId === 'main' && plan.floor === 3 && room.label === '이중언어\n센터';
       const purpose = eventSpace ? room.label === '시청각실' ? '공개보고회장' : '자료 전시' : '';
       const state={public:'공개수업',relocated:'장소 이동 안내',closed:'비공개',general:'일반 공간'}[status];
-      const accessible=eventSpace ? `${room.label === '시청각실' ? '시청각실' : '소모임실'} · ${purpose}` : languageCenter ? '이중언어센터 · 일반 공간' : `${fullName} · ${state}${lessons.length?' · '+lessons.map(lesson=>lesson.topic??MISSING_TEXT).join(' / '):''}`;
+      const accessible=eventSpace ? `${room.label === '시청각실' ? '시청각실' : '소모임실'} · ${purpose}` : languageCenter ? '이중언어센터 · 일반 공간' : `${fullName}${scienceClass ? ` (${scienceClass})` : ''} · ${state}${lessons.length?' · '+lessons.map(lesson=>lesson.topic??MISSING_TEXT).join(' / '):''}`;
       const node=room.spaceId?svgEl('a',{href:classroomHref(room.spaceId),'data-space-id':room.spaceId}):svgEl('g',{});
       node.setAttribute('class',`plan-room plan-${status} facility-${room.kind}${selected && selected===room.spaceId?' plan-selected':''}${eventSpace ? ' plan-event-space' : ''}${languageCenter ? ' plan-language-center' : ''}`);
       node.setAttribute('data-source-x',String(room.x));node.setAttribute('data-source-y',String(room.y));
@@ -220,7 +227,7 @@ function mountResponsivePlan(region: HTMLElement, plan: FloorPlan, selected?: st
       const compact=room.spaceId?.startsWith('korean-instructor-')?'':eventSpace && room.label !== '시청각실' ? '소모임실' : fullName;
       const relocated=room.spaceId?getRelocatedLessonsFromSpace(room.spaceId)[0]:undefined;
       const destination=relocated?catalog.spaces.find(space=>space.id===relocated.spaceIds[0]):undefined;
-      const label=room.kind==='stairs'?'':compact+(destination?`\n📍${destination.name}`:'')+(purpose ? `\n${purpose}` : '');
+      const label=room.kind==='stairs'?'':compact+(scienceClass ? `\n(${scienceClass})` : '')+(destination?`\n📍${destination.name}`:'')+(purpose ? `\n${purpose}` : '');
       let size=room.spaceId?13:11, lineHeight=size+3;
       function wrapLabel() {
         measure.font=`${room.spaceId?'700 ':''}${size}px system-ui`;
@@ -236,6 +243,17 @@ function mountResponsivePlan(region: HTMLElement, plan: FloorPlan, selected?: st
         return lines;
       }
       let lines = wrapLabel();
+      // Keep the science-room class suffix intact on narrow mobile drawings.
+      if (scienceClass) {
+        while ((lines.length * lineHeight > rh - 4 || measure.measureText(compact).width > rw - 4 || measure.measureText(`(${scienceClass})`).width > rw - 4) && size > 10) {
+          size--; lineHeight = size + 3; lines = wrapLabel();
+        }
+      }
+      if (korean.includes(room)) {
+        while ((rw < size + 3 || lines.length * lineHeight > rh - 4) && size > 11) {
+          size--; lineHeight = size + 3; lines = wrapLabel();
+        }
+      }
       // Keep the relocated 6-1 destination readable after adding the exhibition room.
       if (plan.buildingId === 'main' && plan.floor === 4 && destination) {
         while (lines.length * lineHeight > rh - 4 && size > 11) {

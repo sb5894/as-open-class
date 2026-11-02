@@ -53,8 +53,18 @@ PDF_RULES = {
 LENSES = {"참여", "강점", "협력", "표현", "발견"}
 PRIVATE_CLASSES = {"3-1": "체육 — 비공개"}
 
-# Explicit user wording; red/green share a topic and PDF by the 2026-10-21 decision.
+# Explicit user wording and uploaded PDF learning topics; red/green retain their shared topic.
 TEXT_OVERRIDES = {
+    "1-3": {
+        "topic": "‘시장놀이’를 하기 위한 인사말 배우기", "lenses": ["참여", "표현"],
+        "context": "다양한 나라의 인사말(안녕하세요, 감사합니다)을 놀이를 통해 배우는 수업",
+        "observation": "다른 언어로 활동에 참여해보려고 노력하고, 친구를 배려하며 함께 놀이에 참여하는 모습",
+    },
+    "5-1": {"topic": "개인의 자유와 전체의 평등 중 무엇이 옳은지 생각하기"},
+    "5-2": {"topic": "언어 전문가 부스에서 만나는 다양한 말과 소통"},
+    "5-3": {"topic": "언어 전문가 부스에서 만나는 다양한 말과 소통"},
+    "5-4": {"topic": "언어 전문가 부스에서 만나는 다양한 말과 소통"},
+    "5-5": {"topic": "언어 전문가 부스에서 만나는 다양한 말과 소통"},
     "6-1": {"topic": "나의 건강 습관 보고서 쓰기"},
     "4-5": {"topic": "기후 변화 현상의 예를 알고 인간 활동과의 관련성 설명하기"},
     "multicultural-red": {"topic": "우리 반을 글과 그림으로 소개하기"},

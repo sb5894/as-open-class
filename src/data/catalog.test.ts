@@ -79,7 +79,8 @@ describe("guide and preference data use the same public lessons", () => {
   it('keeps the new moral lesson separate from old science and grade-wide materials', () => {
     const lesson = getLessonsAtSpace('science-1')[0];
     expect(lesson).toMatchObject({id:'lesson-5-1', subject:'도덕', kind:'special', spaceIds:['science-1']});
-    for (const key of ['gradeTheme', 'topic', 'designFocus', 'commonObservation'] as const) expect(lesson[key]).toBeNull();
+    for (const key of ['gradeTheme', 'designFocus', 'commonObservation'] as const) expect(lesson[key]).toBeNull();
+    expect(lesson.topic).toBe('개인의 자유와 전체의 평등 중 무엇이 옳은지 생각하기');
     expect(getLessonPlan(lesson)?.url).toBe('/pdfs/special-5-1.pdf');
     expect(lesson.observation).toBe('모국어로 의견 작성, 또래 번역가를 통한 토의');
     expect(lesson.support).toBe('활동지 번역 자료, 필요 시 또래 번역가');
@@ -93,11 +94,11 @@ describe("guide and preference data use the same public lessons", () => {
     expect(red.source.supplementalClassRow).toMatchObject({row:62, fields:['context','observation','support']});
     expect(catalog.lessons.filter(lesson => lesson.source.supplementalClassRow)).toHaveLength(14);
     expect(catalog.sources.supplementalWorkbook?.path).toBe('materials/original/curriculum/1020-additions/2026 공개보고회 준비(공개수업, 예산).xlsx');
-    expect(catalog.lessons.find(lesson => lesson.classId === '1-3')?.context).toBeNull();
+    expect(catalog.lessons.find(lesson => lesson.classId === '1-3')?.context).toBe('다양한 나라의 인사말(안녕하세요, 감사합니다)을 놀이를 통해 배우는 수업');
   });
 
   it("keeps missing values separate from presentation wording", () => {
-    expect(catalog.lessons.find(item => item.classId === "1-3")?.topic).toBeNull();
+    expect(catalog.lessons.find(item => item.classId === "1-3")?.support).toBeNull();
     expect(JSON.stringify(catalog)).not.toContain("자료 업로드 예정");
   });
 
@@ -122,7 +123,7 @@ describe("guide and preference data use the same public lessons", () => {
     for (const classId of ['1-3', '5-1', '4-5', '6-1']) {
       const lesson = catalog.lessons.find(item => item.classId === classId)!;
       for (const field of ['designFocus', 'commonObservation'] as const) expect(lesson[field]).toBeNull();
-      if (classId === '1-3' || classId === '5-1') expect(lesson.topic).toBeNull();
+      if (classId === '1-3' || classId === '5-1') expect(lesson.topic).toBeTruthy();
     }
   });
 });

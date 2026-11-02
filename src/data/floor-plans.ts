@@ -134,5 +134,12 @@ export function getFloorTopics(plan: FloorPlan) {
   for (const group of groups.values()) {
     if (/^\d학년$/.test(group.label)) group.label += ` · ${group.classIds.join('·')}`;
   }
-  return [...groups.values()];
+  const result = [...groups.values()];
+  if (plan.buildingId === 'main' && plan.floor === 2) {
+    // Topic reading order is independent of the original physical room order.
+    const order = ['multicultural-red', 'multicultural-green', 'multicultural-blue', '5-1', '4-5'];
+    const rank = (classId: string) => { const index = order.indexOf(classId); return index < 0 ? order.length : index; };
+    result.sort((a, b) => rank(a.classIds[0]) - rank(b.classIds[0]));
+  }
+  return result;
 }

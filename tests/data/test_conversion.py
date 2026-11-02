@@ -95,8 +95,9 @@ class ConversionTests(unittest.TestCase):
         self.assertEqual(lesson["kind"], "special")
         self.assertEqual(lesson["spaceIds"], ["science-1"])
         self.assertEqual(self.classes["5-1"]["homeSpaceIds"], ["classroom-5-1"])
-        for field in ("gradeTheme", "topic", "designFocus", "commonObservation"):
+        for field in ("gradeTheme", "designFocus", "commonObservation"):
             self.assertIsNone(lesson[field])
+        self.assertEqual(lesson["topic"], TEXT_OVERRIDES["5-1"]["topic"])
         self.assertEqual(lesson["lessonPlanId"], "special-5-1")
         self.assertEqual(lesson["lenses"], ["표현", "강점"])
         self.assertEqual(lesson["source"], {"classRow": None, "gradeRow": None,
