@@ -4,7 +4,7 @@ import { createRegistrationApi, registrationRow } from '../../functions/src/regi
 test('updated topics render with the intended shared and science PDFs', async ({ page }) => {
   test.slow();
   for (const [id, topic, pdf] of [
-    ['lesson-4-5', '기후 변화 현상의 예를 알고 인간 활동과의 관련성 설명하기', 'special-4-5'],
+    ['lesson-4-5', '기후 변화 현상의 예시 알기', 'special-4-5'],
     ['lesson-6-1', '나의 건강 습관 보고서 쓰기', 'special-6-1'],
     ['lesson-multicultural-red', '우리 반을 글과 그림으로 소개하기', 'multicultural-red'],
     ['lesson-multicultural-green', '우리 반을 글과 그림으로 소개하기', 'multicultural-red'],

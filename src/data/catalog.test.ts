@@ -107,7 +107,7 @@ describe("guide and preference data use the same public lessons", () => {
     expect(catalog.lessons.find(lesson => lesson.classId === 'multicultural-blue')?.topic).toBe('자신의 경험을 그림일기로 표현하기');
     expect(catalog.lessons.find(lesson => lesson.classId === 'multicultural-green')?.topic).toBe('우리 반을 글과 그림으로 소개하기');
     expect(catalog.lessons.find(lesson => lesson.classId === '6-1')?.topic).toBe('나의 건강 습관 보고서 쓰기');
-    expect(catalog.lessons.find(lesson => lesson.classId === '4-5')?.topic).toBe('기후 변화 현상의 예를 알고 인간 활동과의 관련성 설명하기');
+    expect(catalog.lessons.find(lesson => lesson.classId === '4-5')?.topic).toBe('기후 변화 현상의 예시 알기');
     expect(catalog.lessons.find(lesson => lesson.classId === '6-1')?.context).toBe('다문화 학생은 없으나 영어 과제 수행의 실력 차이가 있는 학급');
   });
 

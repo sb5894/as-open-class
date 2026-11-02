@@ -12,7 +12,7 @@ const ack = { data: { spreadsheetId: config.spreadsheetId, updates: { updatedRow
 
 describe("registration validation uses the converted public lessons", () => {
   it('omits locations from sheet preferences while retaining class and subject names', () => {
-    for (const [id, label] of [['lesson-1-1', '1-1'], ['lesson-1-3', '1-3 수석교사 일반'], ['lesson-5-1', '5-1 도덕'], ['lesson-4-5', '4-5 과학'], ['lesson-6-1', '6-1 영어'], ['grade-3', '3학년']]) {
+    for (const [id, label] of [['lesson-1-1', '1-1'], ['lesson-1-3', '1-3 수석교사'], ['lesson-5-1', '5-1 도덕'], ['lesson-4-5', '4-5 과학'], ['lesson-6-1', '6-1 영어'], ['grade-3', '3학년']]) {
       const row = registrationRow({ ...record, lessonIds: [id] });
       expect(row[7]).toBe(id);
       expect(row[8]).toBe(label);

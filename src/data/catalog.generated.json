@@ -964,7 +964,7 @@
       "id": "lesson-1-3",
       "classId": "1-3",
       "kind": "special",
-      "subject": "수석교사 일반",
+      "subject": "수석교사",
       "spaceIds": [
         "classroom-1-3"
       ],
@@ -1365,7 +1365,7 @@
       ],
       "locationStatus": "confirmed",
       "gradeTheme": null,
-      "topic": "기후 변화 현상의 예를 알고 인간 활동과의 관련성 설명하기",
+      "topic": "기후 변화 현상의 예시 알기",
       "designFocus": null,
       "commonObservation": null,
       "context": "한국어 이해 및 소통 능력에 수준 차이가 큰 학급",

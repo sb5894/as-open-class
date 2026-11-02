@@ -201,7 +201,7 @@ class ConversionTests(unittest.TestCase):
             "kindergarten-joint": "함께 가을 열매를 수확하는 협동 게임",
             "multicultural-green": "우리 반을 글과 그림으로 소개하기",
             "6-1": "나의 건강 습관 보고서 쓰기",
-            "4-5": "기후 변화 현상의 예를 알고 인간 활동과의 관련성 설명하기",
+            "4-5": "기후 변화 현상의 예시 알기",
         }.items():
             self.assertEqual(self.lessons[class_id]["topic"], topic)
         self.assertEqual(self.lessons["6-1"]["context"], "다문화 학생은 없으나 영어 과제 수행의 실력 차이가 있는 학급")

@@ -21,7 +21,7 @@ CLASSROOM_ROWS = [
 ]
 
 SPECIAL_LESSONS = {
-    "1-3": {"subject": "수석교사 일반", "roomId": "classroom-1-3"},
+    "1-3": {"subject": "수석교사", "roomId": "classroom-1-3"},
     "5-1": {"subject": "도덕", "roomId": "science-1"},
     "4-5": {"subject": "과학", "roomId": "science-2"},
     "6-1": {"subject": "영어", "roomId": "english"},
@@ -66,7 +66,7 @@ TEXT_OVERRIDES = {
     "5-4": {"topic": "언어 전문가 부스에서 만나는 다양한 말과 소통"},
     "5-5": {"topic": "언어 전문가 부스에서 만나는 다양한 말과 소통"},
     "6-1": {"topic": "나의 건강 습관 보고서 쓰기"},
-    "4-5": {"topic": "기후 변화 현상의 예를 알고 인간 활동과의 관련성 설명하기"},
+    "4-5": {"topic": "기후 변화 현상의 예시 알기"},
     "multicultural-red": {"topic": "우리 반을 글과 그림으로 소개하기"},
     "multicultural-green": {"topic": "우리 반을 글과 그림으로 소개하기"},
     "multicultural-blue": {"topic": "자신의 경험을 그림일기로 표현하기"},
