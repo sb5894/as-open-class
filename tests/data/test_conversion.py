@@ -83,7 +83,7 @@ class ConversionTests(unittest.TestCase):
                 self.assertEqual(lesson["spaceIds"], [room_id])
                 room = self.spaces[room_id]
                 self.assertEqual((room["buildingId"], room["floor"]), (building, floor))
-                self.assertEqual(lesson["lessonPlanId"], f"special-{class_id}" if class_id in ("6-1", "4-5") else None)
+                self.assertEqual(lesson["lessonPlanId"], f"special-{class_id}")
                 self.assertEqual(lesson["topic"], TEXT_OVERRIDES.get(class_id, {}).get("topic"))
                 self.assertIsNone(lesson["designFocus"])
         self.assertEqual(self.classes["3-1"]["homeSpaceIds"], ["classroom-3-1"])
@@ -95,8 +95,9 @@ class ConversionTests(unittest.TestCase):
         self.assertEqual(lesson["kind"], "special")
         self.assertEqual(lesson["spaceIds"], ["science-1"])
         self.assertEqual(self.classes["5-1"]["homeSpaceIds"], ["classroom-5-1"])
-        for field in ("gradeTheme", "topic", "designFocus", "commonObservation", "lessonPlanId"):
+        for field in ("gradeTheme", "topic", "designFocus", "commonObservation"):
             self.assertIsNone(lesson[field])
+        self.assertEqual(lesson["lessonPlanId"], "special-5-1")
         self.assertEqual(lesson["lenses"], ["표현", "강점"])
         self.assertEqual(lesson["source"], {"classRow": None, "gradeRow": None,
             "supplementalClassRow": {"sheet": CLASS_SHEET, "row": 55, "fields": ["context", "observation", "support", "lenses"]}})
@@ -240,7 +241,7 @@ class ConversionTests(unittest.TestCase):
             self.with_edited_supplement(lambda workbook: setattr(workbook[CLASS_SHEET]["A55"], "value", "3-1\n(과학)"))
 
     def test_pdf_bytes_and_allowed_class_mappings(self):
-        self.assertEqual(len(self.pdfs), 11)
+        self.assertEqual(len(self.pdfs), 13)
         for plan in self.data["lessonPlans"]:
             original = (ROOT / plan["source"]["path"]).read_bytes()
             self.assertEqual(self.pdfs["public" + plan["url"]], original)
@@ -253,14 +254,14 @@ class ConversionTests(unittest.TestCase):
         for plan_id, class_ids in {
             "grade-1": ("1-1", "1-2"), "grade-2": ("2-1", "2-2", "2-3", "2-4"),
             "grade-6-245": ("6-2", "6-4", "6-5"), "special-6-1": ("6-1",),
-            "special-4-5": ("4-5",),
+            "special-4-5": ("4-5",), "special-1-3": ("1-3",), "special-5-1": ("5-1",),
             "multicultural-red": ("multicultural-red", "multicultural-green"), "multicultural-blue": ("multicultural-blue",),
             "kindergarten": ("kindergarten-joint",),
         }.items():
             for class_id in class_ids:
                 with self.subTest(class_id=class_id):
                     self.assertEqual(self.lessons[class_id]["lessonPlanId"], plan_id)
-        for class_id in ("1-3", "5-1", "6-3"):
+        for class_id in ("6-3",):
             self.assertIsNone(self.lessons[class_id]["lessonPlanId"])
 
     def test_missing_pdf_file_removes_link_without_fallback(self):

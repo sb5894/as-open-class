@@ -20,7 +20,8 @@ test('latest class descriptions appear in the intended lesson without changing i
     if (fields.includes('lenses')) await expect(page.locator('.lens-button')).toHaveText(lesson.lenses);
     if (lesson.id === 'lesson-5-1') {
       await expect(page.locator('.location')).toHaveText('📍 본관 2층 1과학실');
-      await expect(page.locator('.pdf-placeholder')).toHaveText('자료 업로드 예정');
+      await expect(page.locator('.pdf-placeholder')).toHaveCount(0);
+      await expect(page.locator('.pdf-page canvas').first()).toHaveAttribute('aria-label', '수업 지도안 1페이지');
     }
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   }

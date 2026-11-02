@@ -51,7 +51,7 @@ describe("guide and preference data use the same public lessons", () => {
   });
 
   it("provides no PDF request target for missing separate plans", () => {
-    for (const classId of ["1-3", "5-1", "6-3"]) {
+    for (const classId of ["6-3"]) {
       const lesson = catalog.lessons.find(item => item.classId === classId)!;
       expect(lesson.lessonPlanId).toBeNull();
       expect(getLessonPlan(lesson)).toBeNull();
@@ -60,12 +60,13 @@ describe("guide and preference data use the same public lessons", () => {
     expect(getLessonPlan(regular)?.url).toBe("/pdfs/grade-3.pdf");
   });
 
-  it('connects all eleven explicitly provided plans only to their intended classes', () => {
-    expect(catalog.lessonPlans).toHaveLength(11);
+  it('connects all thirteen explicitly provided plans only to their intended classes', () => {
+    expect(catalog.lessonPlans).toHaveLength(13);
     const mappings: Record<string, string[]> = {
       'grade-1': ['1-1', '1-2'], 'grade-2': ['2-1', '2-2', '2-3', '2-4'],
       'grade-3': ['3-2', '3-3', '3-4'], 'grade-4': ['4-1', '4-2', '4-3', '4-4'],
       'grade-5': ['5-2', '5-3', '5-4', '5-5'], 'grade-6-245': ['6-2', '6-4', '6-5'],
+      'special-1-3': ['1-3'], 'special-5-1': ['5-1'],
       'special-6-1': ['6-1'], 'special-4-5': ['4-5'], 'multicultural-red': ['multicultural-red', 'multicultural-green'],
       'multicultural-blue': ['multicultural-blue'], kindergarten: ['kindergarten-joint'],
     };
@@ -78,7 +79,8 @@ describe("guide and preference data use the same public lessons", () => {
   it('keeps the new moral lesson separate from old science and grade-wide materials', () => {
     const lesson = getLessonsAtSpace('science-1')[0];
     expect(lesson).toMatchObject({id:'lesson-5-1', subject:'도덕', kind:'special', spaceIds:['science-1']});
-    for (const key of ['gradeTheme', 'topic', 'designFocus', 'commonObservation', 'lessonPlanId'] as const) expect(lesson[key]).toBeNull();
+    for (const key of ['gradeTheme', 'topic', 'designFocus', 'commonObservation'] as const) expect(lesson[key]).toBeNull();
+    expect(getLessonPlan(lesson)?.url).toBe('/pdfs/special-5-1.pdf');
     expect(lesson.observation).toBe('모국어로 의견 작성, 또래 번역가를 통한 토의');
     expect(lesson.support).toBe('활동지 번역 자료, 필요 시 또래 번역가');
     expect(lesson.lenses).toEqual(['표현', '강점']);
