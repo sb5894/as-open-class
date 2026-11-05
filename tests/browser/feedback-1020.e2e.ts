@@ -3,8 +3,10 @@ import { createRegistrationApi, type RegistrationRecord, registrationRow } from 
 
 test('model-two reference images and invitation emphasis remain readable on mobile', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('#event .event-facts > li')).toHaveCount(4);
-  await expect(page.locator('#event .event-facts strong')).toHaveText(['일시: 2026. 11. 11.(수) 12:50~16:00', '신청 기한: 2026. 10. 28.(수) 16:00까지']);
+  await expect(page.locator('#event .event-facts > li')).toHaveCount(3);
+  await expect(page.locator('#event .event-facts strong')).toHaveText(['일시: 2026. 11. 11.(수) 12:50~16:00']);
+  await expect(page.locator('main')).not.toContainText('신청 기한');
+  await expect(page.locator('main')).not.toContainText('참관 신청 마감');
   await expect(page.locator('#event > p strong')).toHaveText('「상호문화적 (만남·배움·어울림) 이중언어 교육 프로그램 운영을 통한 미래 핵심역량 함양」');
   await expect(page.locator('.model-two h2')).toHaveText('만남·배움·어울림이란?');
   await expect(page.locator('.grade-focus tbody tr')).toHaveText(['1~2학년놀이로 만나기', '3~4학년문화로 배우기', '5~6학년소통으로 어울리기']);
@@ -53,9 +55,8 @@ test('kindergarten selection reaches the server and opens its supplied PDF', asy
     await route.fulfill({ status: result.status, json: result.body });
   });
   await page.goto('/register');
-  const deadline = page.locator('main > .registration-deadline');
-  await expect(deadline).toHaveText('신청 기한: 2026. 10. 28.(수) 16:00까지');
-  expect(await deadline.evaluate(node => node.previousElementSibling?.tagName)).toBe('H1');
+  await expect(page.locator('.registration-deadline')).toHaveCount(0);
+  await expect(page.locator('main')).not.toContainText('신청 기한');
   for (const [label, value] of [['지역(시)', '안성'], ['소속교', '시험학교'], ['직위', '교사'], ['성함', '유치원 선택 시험']]) await page.getByLabel(label, { exact: true }).fill(value);
   await page.getByLabel('직위', { exact: true }).focus();
   await expect(page.getByLabel('직위', { exact: true })).toHaveCSS('outline-color', 'rgb(121, 99, 165)');

@@ -50,7 +50,7 @@ function invitation(main: HTMLElement) {
   for (const [label, value, detail] of [
     ['행사 일시', '2026. 11. 11. 수', '12:50–16:00'],
     ['행사 장소', '안성초등학교', '경기도 안성시 혜산로 13'],
-    ['참관 신청 마감', '10. 28. 수 · 16:00까지', ''],
+
   ]) {
     const item = el('div', undefined, 'home-essential');
     const description = el('dd', value); if (detail) description.append(el('small', detail));
@@ -66,7 +66,7 @@ function invitation(main: HTMLElement) {
     ['일시: 2026. 11. 11.(수) 12:50~16:00', true],
     ['장소: 안성초등학교 (등록: 본관 1층 중앙현관)', false],
     ['내용: 공개수업 → 전체보고 → 사후협의', false],
-    ['신청 기한: 2026. 10. 28.(수) 16:00까지', true],
+
   ] as const) {
     const item = el('li'); item.append(bold ? el('strong', text) : document.createTextNode(text)); facts.append(item);
   }
@@ -75,8 +75,7 @@ function invitation(main: HTMLElement) {
   const content = el('div', undefined, 'home-content');
   content.append(intro, createEventSchedule(), createModelTwo(), createGradeFocus());
   const dock = el('aside', undefined, 'home-mobile-dock'); dock.setAttribute('aria-label', '참관 신청 바로가기');
-  const deadline = el('div', '참관 신청 마감', 'home-dock-deadline'); deadline.append(el('strong', '10. 28. 수 · 16:00'));
-  dock.append(deadline, action('참관 신청하기', '/register', 'home-dock-apply', '↗'));
+  dock.append(action('참관 신청하기', '/register', 'home-dock-apply', '↗'));
   main.append(hero, essentials, content, dock);
 }
 function guide(main: HTMLElement) {

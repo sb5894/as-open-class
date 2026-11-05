@@ -147,7 +147,7 @@ a.plan-room:hover rect, a.plan-room:focus-visible rect, .plan-selected rect { st
 .lens-button[aria-expanded="true"] { border-color: currentColor; box-shadow: 0 0 0 2px #243d3a; }
 .lens-explanation { margin-top: .65rem; padding: 1rem; background: #f0f5ec; border-radius: .5rem; line-height: 1.7; }
 .lens-explanation p { margin: .4rem 0 0; }
-.registration-deadline { font-size: .875rem; margin: -1rem 0 1rem; }
+
 .registration-preferences { margin-bottom: 2rem; }
 .registration-preferences > legend { margin-bottom: .35rem; }
 .preference-help { font-size: .875rem; margin-top: 0; }

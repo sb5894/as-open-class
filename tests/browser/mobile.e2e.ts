@@ -107,7 +107,8 @@ test('invitation, guide, direct refresh, history and on-demand PDF controls', as
   await expect(page.locator('#event')).toContainText('그동안의 연구 성과와 교육과정 운영 사례를 공유하는 공개보고회에 교육 관계자 여러분을 초대합니다.');
   await expect(page.locator('#event')).toContainText('일시: 2026. 11. 11.(수) 12:50~16:00');
   await expect(page.locator('#event')).toContainText('등록: 본관 1층 중앙현관');
-  await expect(page.locator('#event')).toContainText('신청 기한: 2026. 10. 28.(수) 16:00까지');
+  await expect(page.locator('main')).not.toContainText('신청 기한');
+  await expect(page.locator('main')).not.toContainText('참관 신청 마감');
   await expect(page.locator('main')).not.toContainText('정식 행사명');
   await expect(page.locator('main')).not.toContainText('행사 시간');
   await expect(page.locator('main')).not.toContainText('수업을 먼저 만나');

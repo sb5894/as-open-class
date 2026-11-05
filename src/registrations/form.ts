@@ -6,7 +6,7 @@ import { createRegistrationSubmission } from './client';
 import { createEventSchedule } from '../components/event-schedule';
 
 export function mountRegistration(main: HTMLElement) {
-  main.append(el('h1', '참관 신청'), el('p', '신청 기한: 2026. 10. 28.(수) 16:00까지', 'note registration-deadline'), createEventSchedule());
+  main.append(el('h1', '참관 신청'), createEventSchedule());
   const form = el('form', undefined, 'card');
   form.noValidate = true;
   const fields = el('fieldset'); fields.append(el('legend', '신청자 정보'));
