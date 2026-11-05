@@ -41,12 +41,13 @@ PDF_RULES = {
     "grade-4": {"file": "2026 연구학교 공개보고회 수업안(4학년).pdf", "classes": ["4-1", "4-2", "4-3", "4-4"]},
     "grade-5": {"file": "1102-additions/2026 연구학교 공개보고회 수업안(5학년, 국어).pdf", "classes": ["5-2", "5-3", "5-4", "5-5"]},
     "grade-6-245": {"file": "1020-additions/2026 연구학교 공개보고회 수업안(6학년 2, 4, 5반).pdf", "classes": ["6-2", "6-4", "6-5"]},
+    "grade-6-3": {"file": "1105-additions/2026 연구학교 공개보고회 수업안(6학년, 체육 실과 - 맞혀봐! 우리의 맛 - 춤으로 소개하는 한국 음식, 참여, 표현, 협력).pdf", "classes": ["6-3"]},
     "special-6-1": {"file": "1020-additions/2026 연구학교 공개보고회 수업안(6-1 영어- 건강 습관 보고서 쓰기).pdf", "classes": ["6-1"]},
     "special-1-3": {"file": "1102-additions/2026 상호문화적 “배움” 일반교과 수업안(1-3, 통합, 여러나라의 인사말, 참여·표현).pdf", "classes": ["1-3"]},
     "special-5-1": {"file": "1102-additions/2026 상호문화적[배움]일반교과 수업안(5학년, 도덕, 개인의 자유와 전체의 평등 간의 마찰, 표현 강점).pdf", "classes": ["5-1"]},
     "special-4-5": {"file": "1102-additions/2026 연구학교 공개보고회 수업안(4학년, 과학, 기후 변화와 우리 생활, 발견·강점·표현)(수정).pdf", "classes": ["4-5"]},
     "multicultural-red": {"file": "1102-additions/공개수업 지도안(다문화특별학급 1반)(제출용)(수정).pdf", "classes": ["multicultural-red", "multicultural-green"]},
-    "multicultural-blue": {"file": "1020-additions/2026 연구학교 공개보고회 수업안(다문화특별학급 3반)(파랑반).pdf", "classes": ["multicultural-blue"]},
+    "multicultural-blue": {"file": "1105-additions/2026 연구학교 공개보고회 수업(다문화특별학급 3반) (수정).pdf", "classes": ["multicultural-blue"]},
     "kindergarten": {"file": "1020-additions/2026 연구학교 공개보고회 수업안(유치원).pdf", "classes": ["kindergarten-joint"]},
 }
 
@@ -66,10 +67,17 @@ TEXT_OVERRIDES = {
     "5-4": {"topic": "언어 전문가 부스에서 만나는 다양한 말과 소통"},
     "5-5": {"topic": "언어 전문가 부스에서 만나는 다양한 말과 소통"},
     "6-1": {"topic": "나의 건강 습관 보고서 쓰기"},
+    "6-3": {
+        "topic": "맞혀봐! 우리의 맛 — 춤으로 소개하는 한국 음식", "subject": "체육 · 실과",
+        "context": "이중언어 학생이 함께하며 카자흐스탄 학교와 국제교류 프로젝트를 진행하는 학급",
+        "observation": "한국 음식의 재료와 조리 순서를 살펴보고, 친구들과 네 가지 조리 동작을 연결하여 춤으로 표현하는 모습",
+        "support": "웹앱 「맞혀봐! 우리의 맛」, 태블릿, 러시아어 안내, 사진과 짧은 동작 영상",
+        "lenses": ["참여", "협력", "표현"],
+    },
     "4-5": {"topic": "기후 변화 현상의 예시 알기"},
     "multicultural-red": {"topic": "우리 반을 글과 그림으로 소개하기"},
     "multicultural-green": {"topic": "우리 반을 글과 그림으로 소개하기"},
-    "multicultural-blue": {"topic": "자신의 경험을 그림일기로 표현하기"},
+    "multicultural-blue": {"topic": "자신의 경험을 그림일기로 표현하기", "subject": "국어"},
     "kindergarten-joint": {"topic": "함께 가을 열매를 수확하는 협동 게임"},
 }
 

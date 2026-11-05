@@ -50,22 +50,23 @@ describe("guide and preference data use the same public lessons", () => {
     expect(catalog.lessonPlans.some(item=>item.id==='kindergarten')).toBe(true);
   });
 
-  it("provides no PDF request target for missing separate plans", () => {
-    for (const classId of ["6-3"]) {
-      const lesson = catalog.lessons.find(item => item.classId === classId)!;
-      expect(lesson.lessonPlanId).toBeNull();
-      expect(getLessonPlan(lesson)).toBeNull();
-    }
+  it("connects 6-3 to its own new plan without using the other sixth-grade plan", () => {
+    const lesson = catalog.lessons.find(item => item.classId === '6-3')!;
+    expect(lesson).toMatchObject({subject:'체육 · 실과', topic:'맞혀봐! 우리의 맛 — 춤으로 소개하는 한국 음식', lessonPlanId:'grade-6-3'});
+    expect(lesson.lenses).toEqual(['참여', '협력', '표현']);
+    expect(getLessonPlan(lesson)?.url).toBe('/pdfs/grade-6-3.pdf');
+    expect(getLessonPlan({...lesson, lessonPlanId:null})).toBeNull();
     const regular = catalog.lessons.find(item => item.classId === "3-2")!;
     expect(getLessonPlan(regular)?.url).toBe("/pdfs/grade-3.pdf");
   });
 
-  it('connects all thirteen explicitly provided plans only to their intended classes', () => {
-    expect(catalog.lessonPlans).toHaveLength(13);
+  it('connects all fourteen explicitly provided plans only to their intended classes', () => {
+    expect(catalog.lessonPlans).toHaveLength(14);
     const mappings: Record<string, string[]> = {
       'grade-1': ['1-1', '1-2'], 'grade-2': ['2-1', '2-2', '2-3', '2-4'],
       'grade-3': ['3-2', '3-3', '3-4'], 'grade-4': ['4-1', '4-2', '4-3', '4-4'],
       'grade-5': ['5-2', '5-3', '5-4', '5-5'], 'grade-6-245': ['6-2', '6-4', '6-5'],
+      'grade-6-3': ['6-3'],
       'special-1-3': ['1-3'], 'special-5-1': ['5-1'],
       'special-6-1': ['6-1'], 'special-4-5': ['4-5'], 'multicultural-red': ['multicultural-red', 'multicultural-green'],
       'multicultural-blue': ['multicultural-blue'], kindergarten: ['kindergarten-joint'],
@@ -105,6 +106,7 @@ describe("guide and preference data use the same public lessons", () => {
   it('uses the exact user topics per class and keeps the English class context on one line', () => {
     expect(catalog.lessons.find(lesson => lesson.classId === 'multicultural-red')?.topic).toBe('우리 반을 글과 그림으로 소개하기');
     expect(catalog.lessons.find(lesson => lesson.classId === 'multicultural-blue')?.topic).toBe('자신의 경험을 그림일기로 표현하기');
+    expect(catalog.lessons.find(lesson => lesson.classId === 'multicultural-blue')?.subject).toBe('국어');
     expect(catalog.lessons.find(lesson => lesson.classId === 'multicultural-green')?.topic).toBe('우리 반을 글과 그림으로 소개하기');
     expect(catalog.lessons.find(lesson => lesson.classId === '6-1')?.topic).toBe('나의 건강 습관 보고서 쓰기');
     expect(catalog.lessons.find(lesson => lesson.classId === '4-5')?.topic).toBe('기후 변화 현상의 예시 알기');

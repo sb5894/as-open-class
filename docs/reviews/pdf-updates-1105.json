@@ -1,0 +1,84 @@
+{
+  "date": "2026-11-05",
+  "files": [
+    {
+      "id": "grade-6-3",
+      "source": "G:\\공유 드라이브\\2026학년도 안성초등학교\\★2026 정책연구학교 최종보고서 및 공개보고회\\03. 모델3_교실의 특성을 반영하는 수업 실행\\공개수업용\\2026 연구학교 공개보고회 수업안(6학년, 체육 실과 - 맞혀봐! 우리의 맛 - 춤으로 소개하는 한국 음식, 참여, 표현, 협력).pdf",
+      "preservedOriginal": "materials/original/lesson-plans/1105-additions/2026 연구학교 공개보고회 수업안(6학년, 체육 실과 - 맞혀봐! 우리의 맛 - 춤으로 소개하는 한국 음식, 참여, 표현, 협력).pdf",
+      "publicPath": "public/pdfs/grade-6-3.pdf",
+      "bytes": 236018,
+      "sha256": "36e308b244f40c7267345dcc0be96230709570843e659c16ab2934c72c44b1cb",
+      "pages": 3,
+      "classes": [
+        "6-3"
+      ]
+    },
+    {
+      "id": "multicultural-blue",
+      "source": "G:\\공유 드라이브\\2026학년도 안성초등학교\\★2026 정책연구학교 최종보고서 및 공개보고회\\03. 모델3_교실의 특성을 반영하는 수업 실행\\공개수업용\\2026 연구학교 공개보고회 수업(다문화특별학급 3반) (수정).pdf",
+      "preservedOriginal": "materials/original/lesson-plans/1105-additions/2026 연구학교 공개보고회 수업(다문화특별학급 3반) (수정).pdf",
+      "publicPath": "public/pdfs/multicultural-blue.pdf",
+      "bytes": 188262,
+      "sha256": "3adfee4b897f978c6da74a44ff41cf0733dd73eacddf9b031a74b8ca5c651ea8",
+      "pages": 3,
+      "classes": [
+        "multicultural-blue"
+      ]
+    }
+  ],
+  "lessonChanges": [
+    {
+      "lessonId": "lesson-6-3",
+      "fields": {
+        "subject": {
+          "before": null,
+          "after": "체육 · 실과"
+        },
+        "topic": {
+          "before": "맞혀봐, 우리의 맛! - 쇼츠 퀴즈로 오가며 즐기기",
+          "after": "맞혀봐! 우리의 맛 — 춤으로 소개하는 한국 음식"
+        },
+        "context": {
+          "before": "이중언어 학생이 함께 하며 카자흐스탄 학교와 실시간으로 교류하는 학급",
+          "after": "이중언어 학생이 함께하며 카자흐스탄 학교와 국제교류 프로젝트를 진행하는 학급"
+        },
+        "observation": {
+          "before": "사진 카드·몸짓으로 쇼츠 퀴즈를 주고받고, 러시아어 배경 학생이 두 학교를 잇는 진행자로 참여하는 모습",
+          "after": "한국 음식의 재료와 조리 순서를 살펴보고, 친구들과 네 가지 조리 동작을 연결하여 춤으로 표현하는 모습"
+        },
+        "support": {
+          "before": "줌 실시간 연결, 통역 지원",
+          "after": "웹앱 「맞혀봐! 우리의 맛」, 태블릿, 러시아어 안내, 사진과 짧은 동작 영상"
+        },
+        "lenses": {
+          "before": [
+            "참여",
+            "강점",
+            "표현"
+          ],
+          "after": [
+            "참여",
+            "협력",
+            "표현"
+          ]
+        },
+        "lessonPlanId": {
+          "before": null,
+          "after": "grade-6-3"
+        }
+      }
+    },
+    {
+      "lessonId": "lesson-multicultural-blue",
+      "fields": {
+        "subject": {
+          "before": null,
+          "after": "국어"
+        }
+      }
+    }
+  ],
+  "publicPdfCount": 14,
+  "registration": "remains open; no API or records changed",
+  "checks": "No test suites or browser review per user request; deployment build only"
+}

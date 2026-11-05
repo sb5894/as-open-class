@@ -107,7 +107,9 @@ class ConversionTests(unittest.TestCase):
     def test_grade_six_topics_and_date_target(self):
         for class_id in ("6-2", "6-4", "6-5"):
             self.assertEqual(self.lessons[class_id]["topic"], "기후가 만든 삶, AI-3D로 만나다")
-        self.assertEqual(self.lessons["6-3"]["topic"], "맞혀봐, 우리의 맛! - 쇼츠 퀴즈로 오가며 즐기기")
+        self.assertEqual(self.lessons["6-3"]["topic"], "맞혀봐! 우리의 맛 — 춤으로 소개하는 한국 음식")
+        self.assertEqual(self.lessons["6-3"]["subject"], "체육 · 실과")
+        self.assertEqual(self.lessons["6-3"]["lenses"], ["참여", "협력", "표현"])
 
     def test_exception_notes_are_not_topic_targets(self):
         for note in ("1-3 수석교사 수업 별도", "3-1 과학 별도", "4-5 과학 별도", "5-1 체육(비공개)"):
@@ -185,10 +187,13 @@ class ConversionTests(unittest.TestCase):
                 for field, column in (("context", "B"), ("observation", "C"), ("support", "G")):
                     value = sheet[f"{column}{row}"].value
                     expected = value.strip() if value else prior[field]
+                    if field in TEXT_OVERRIDES.get(class_id, {}):
+                        expected = TEXT_OVERRIDES[class_id][field]
                     if class_id == "6-1" and field == "context" and expected:
                         expected = " ".join(expected.splitlines()).replace("  ", " ")
                     self.assertEqual(lesson[field], expected)
-                self.assertEqual(lesson["lenses"], [sheet[f"{col}{row}"].value for col in "DEF" if sheet[f"{col}{row}"].value] or prior["lenses"])
+                expected_lenses = TEXT_OVERRIDES.get(class_id, {}).get("lenses", [sheet[f"{col}{row}"].value for col in "DEF" if sheet[f"{col}{row}"].value] or prior["lenses"])
+                self.assertEqual(lesson["lenses"], expected_lenses)
             self.assertNotEqual(self.lessons["multicultural-red"]["observation"], baseline["multicultural-red"]["observation"])
             self.assertEqual(self.data["sources"]["supplementalWorkbook"]["sha256"], self.supplement_hash)
         finally:
@@ -242,7 +247,7 @@ class ConversionTests(unittest.TestCase):
             self.with_edited_supplement(lambda workbook: setattr(workbook[CLASS_SHEET]["A55"], "value", "3-1\n(과학)"))
 
     def test_pdf_bytes_and_allowed_class_mappings(self):
-        self.assertEqual(len(self.pdfs), 13)
+        self.assertEqual(len(self.pdfs), 14)
         for plan in self.data["lessonPlans"]:
             original = (ROOT / plan["source"]["path"]).read_bytes()
             self.assertEqual(self.pdfs["public" + plan["url"]], original)
@@ -255,6 +260,7 @@ class ConversionTests(unittest.TestCase):
         for plan_id, class_ids in {
             "grade-1": ("1-1", "1-2"), "grade-2": ("2-1", "2-2", "2-3", "2-4"),
             "grade-6-245": ("6-2", "6-4", "6-5"), "special-6-1": ("6-1",),
+            "grade-6-3": ("6-3",),
             "special-4-5": ("4-5",), "special-1-3": ("1-3",), "special-5-1": ("5-1",),
             "multicultural-red": ("multicultural-red", "multicultural-green"), "multicultural-blue": ("multicultural-blue",),
             "kindergarten": ("kindergarten-joint",),
@@ -262,8 +268,7 @@ class ConversionTests(unittest.TestCase):
             for class_id in class_ids:
                 with self.subTest(class_id=class_id):
                     self.assertEqual(self.lessons[class_id]["lessonPlanId"], plan_id)
-        for class_id in ("6-3",):
-            self.assertIsNone(self.lessons[class_id]["lessonPlanId"])
+
 
     def test_missing_pdf_file_removes_link_without_fallback(self):
         missing_rule = {**PDF_RULES["grade-3"], "file": "test-nonexistent-source.pdf"}
@@ -282,13 +287,13 @@ class ConversionTests(unittest.TestCase):
             sheet["B10"] = "추가 자료의 학급 설명"
             sheet.insert_rows(9)
             # Insert inside the data area; later header merged ranges are not relied on.
-            workbook[GRADE_SHEET]["C13"] = "새로운 6-3 수업 주제"
+            workbook[GRADE_SHEET]["C12"] = "새로운 6학년 기후 수업 주제"
         data, _, _ = self.with_edited_copy(edit)
         lessons = {item["classId"]: item for item in data["lessons"]}
         self.assertEqual(lessons["1-2"]["context"], "추가 자료의 학급 설명")
         self.assertEqual(lessons["1-2"]["source"]["classRow"]["row"], 11)
-        self.assertEqual(lessons["6-3"]["topic"], "새로운 6-3 수업 주제")
-        self.assertEqual(lessons["6-2"]["topic"], self.lessons["6-2"]["topic"])
+        self.assertEqual(lessons["6-2"]["topic"], "새로운 6학년 기후 수업 주제")
+        self.assertEqual(lessons["6-3"]["topic"], TEXT_OVERRIDES["6-3"]["topic"])
 
     def test_date_epoch_1904_is_normalized(self):
         def edit(workbook):

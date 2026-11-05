@@ -34,10 +34,10 @@ for (const update of updates) {
   });
 }
 
-test('the unrelated missing 6-3 plan remains missing without a PDF fallback', async ({ page }) => {
-  const pdfs: string[] = [];
-  page.on('request', request => { if (new URL(request.url()).pathname.endsWith('.pdf')) pdfs.push(request.url()); });
+test('6-3 now uses its November 5 plan instead of a missing-material placeholder', async ({ page }) => {
+  await page.route('**/api/**', route => route.abort());
   await page.goto('/lessons/lesson-6-3');
-  await expect(page.locator('.pdf-placeholder')).toHaveText('자료 업로드 예정');
-  expect(pdfs).toEqual([]);
+  await expect(page.locator('h1')).toHaveText('맞혀봐! 우리의 맛 — 춤으로 소개하는 한국 음식');
+  await expect(page.locator('.pdf-placeholder')).toHaveCount(0);
+  await expect(page.getByRole('link', {name:'PDF 새 탭에서 열기'})).toHaveAttribute('href', '/pdfs/grade-6-3.pdf');
 });
